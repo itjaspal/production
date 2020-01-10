@@ -1,0 +1,121 @@
+<div class="container-fluid no-breadcrumbs">
+  
+    <mat-card> 
+      <mat-card-title>
+        <h6>ข้อมูลสินค้า</h6>
+      </mat-card-title>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-6 col-lg-3">
+            <small>รหัสสินค้า</small>
+            <dd>SLS7CHI GC35</dd>
+          </div>
+          <div class="col-6 col-lg-4">
+            <small>รายละเอียดสินค้า</small>
+            <dd>SEALY BED STEAD CHIC CARRERA D.DAPHNIE/GR_3.5'</dd>
+          </div>
+          <div class="col-6 col-lg-4">
+            <small>รหัสบาร์โค้ด</small>
+            <dd>8852012198723</dd>
+          </div>
+          <div class="col-6 col-lg-3">
+            <small>คลังสินค้า</small>
+            <dd>FG-Bedding - HO(K.M.19)</dd>
+          </div>
+          <div class="col-6 col-lg-1">
+              <small>Location</small>
+              <dd>B170103</dd>
+          </div>
+          <div class="col-6 col-lg-1">
+              <small>จำนวนสินค้า</small>
+              <dd>3</dd>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card> 
+    <br />
+    <br />
+   
+    <mat-card>
+  
+      <mat-card-title>
+        <h6>รายละเอียดข้อมูล Pcs Barcode</h6>
+      </mat-card-title>
+  
+      <mat-card-content> 
+       <div class="row card-table-body" >
+          <!-- Row 1-->
+          <div class="col-8 col-lg-1">
+              <small>ลำดับ</small>
+              <dd>1</dd>
+          </div>
+          <div class="col-8 col-lg-2">
+              <small>Pcs Barcode
+                  <button mat-icon-button [matMenuTriggerFor]="appMenu5">
+                      <mat-icon class="material-icons">more_horiz</mat-icon>
+                  </button>
+              </small>  
+              <dd>140518357</dd>
+         </div>
+         <div class="col-12">
+              <hr />
+         </div>  
+
+          <!-- Row 2-->
+          <div class="col-8 col-lg-1">
+              <small>ลำดับ</small>
+              <dd>2</dd>
+          </div>
+          <div class="col-8 col-lg-2">
+              <small>Pcs Barcode
+                  <button mat-icon-button [matMenuTriggerFor]="appMenu5">
+                      <mat-icon class="material-icons">more_horiz</mat-icon>
+                  </button>
+              </small>  
+              <dd>200819192</dd>
+         </div>
+         <div class="col-12">
+              <hr />
+         </div> 
+
+          <!-- Row 3-->
+          <div class="col-8 col-lg-1">
+              <small>ลำดับ</small>
+              <dd>3</dd>
+          </div>
+          <div class="col-8 col-lg-2">
+              <small>Pcs Barcode
+                  <button mat-icon-button [matMenuTriggerFor]="appMenu5">
+                      <mat-icon class="material-icons">more_horiz</mat-icon>
+                  </button>
+              </small>  
+              <dd>210718291</dd>
+         </div>
+         <div class="col-12">
+              <hr />
+         </div> 
+       
+
+          <mat-menu #appMenu5="matMenu">
+              <button mat-menu-item [routerLink]="['/pcsHistory']" action>
+                <mat-icon class="material-icons">search</mat-icon> <span>รายละเอียด Pcs Barcode</span>
+              </button>
+         </mat-menu> 
+
+      </div>
+  
+  
+      <div class="form-action">
+          <button mat-raised-button class="btn-w-md" type="button" (click)="close()">
+           <mat-icon class="material-icons">close</mat-icon> ปิด
+          </button>
+        </div>
+    </mat-card-content>
+   </mat-card>
+  
+     
+   
+  
+  
+  
+  </div>
