@@ -142,14 +142,15 @@ import { MenuUpdateComponent } from './master-menu/menu-update/menu-update.compo
 import { MenuViewComponent } from './master-menu/menu-view/menu-view.component';
 import { MenuService } from './_service/menu.service';
 import { StockService } from './_service/stock.service';
-import { StockBalanceComponent } from './stock/stock-balance/stock-balance.component';
-import { StockInquiryComponent } from './Stock/stock-inquiry/stock-inquiry.component';
-import { PcsHistoryComponent } from './Stock/pcs-history/pcs-history.component';
-import { DocumentDetailComponent } from './Stock/document-detail/document-detail.component';
-import { StockLocationComponent } from './Stock/stock-location/stock-location.component';
-import { PcsDetailComponent } from './Stock/pcs-detail/pcs-detail.component';
-import { StockBalancesComponent } from './Stock/stock-balances/stock-balances.component';
-import { StockLedgerComponent } from './Stock/stock-ledger/stock-ledger.component';
+import { DefaultPrinterComponent } from './default-printer/default-printer.component';
+import { ScanTagComponent } from './scan-tag/scan-tag/scan-tag.component';
+import { PrintTagComponent } from './scan-tag/print-tag/print-tag.component';
+import { DispalyJobComponent } from './display-job/dispaly-job/dispaly-job.component';
+import { ViewSpecComponent } from './view-spec/view-spec/view-spec.component';
+import { ScanInprocessComponent } from './scan-inprocess/scan-inprocess/scan-inprocess.component';
+import { ScanSendComponent } from './scan-send/scan-send/scan-send.component';
+
+
 
 
 
@@ -315,14 +316,15 @@ import { StockLedgerComponent } from './Stock/stock-ledger/stock-ledger.componen
     MenuSearchComponent,
     MenuUpdateComponent,
     MenuViewComponent,
-    StockBalanceComponent,
-    StockInquiryComponent,
-    PcsHistoryComponent,
-    DocumentDetailComponent,
-    StockLocationComponent,
-    PcsDetailComponent,
-    StockBalancesComponent,
-    StockLedgerComponent
+    DefaultPrinterComponent,
+    ScanTagComponent,
+    PrintTagComponent,
+    DispalyJobComponent,
+    ViewSpecComponent,
+    ScanInprocessComponent,
+    ScanSendComponent,
+
+  
   
     
   ],
