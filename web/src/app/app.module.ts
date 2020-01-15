@@ -149,6 +149,7 @@ import { DispalyJobComponent } from './display-job/dispaly-job/dispaly-job.compo
 import { ViewSpecComponent } from './view-spec/view-spec/view-spec.component';
 import { ScanInprocessComponent } from './scan-inprocess/scan-inprocess/scan-inprocess.component';
 import { ScanSendComponent } from './scan-send/scan-send/scan-send.component';
+import { HomeAutoComponent } from './home-auto/home-auto.component';
 
 
 
@@ -323,6 +324,7 @@ import { ScanSendComponent } from './scan-send/scan-send/scan-send.component';
     ViewSpecComponent,
     ScanInprocessComponent,
     ScanSendComponent,
+    HomeAutoComponent,
 
   
   

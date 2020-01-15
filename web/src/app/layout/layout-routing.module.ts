@@ -96,7 +96,7 @@ const routes: Routes = [
       { path: 'menu/update/:menuFunctionId', component: MenuUpdateComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/menu" } },
       { path: 'menu/view/:menuFunctionId', component: MenuViewComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/menu" } },
 
-      { path: 'stock', component: StockBalanceComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/stock" } },
+      //{ path: 'stock', component: StockBalanceComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/stock" } },
 
       { path: '**', redirectTo: 'home', pathMatch: 'full' },
     ]
