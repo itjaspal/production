@@ -87,10 +87,10 @@
       <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.122.19.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Oracle.ManagedDataAccess.19.3.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+      <HintPath>..\packages\Oracle.ManagedDataAccess.19.6.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.122.19.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Oracle.ManagedDataAccess.EntityFramework.19.3.0\lib\net45\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
+      <HintPath>..\packages\Oracle.ManagedDataAccess.EntityFramework.19.6.0\lib\net45\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="SinaptIQPKCS7, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SinaptIQPKCS7.1.0.1\lib\SinaptIQPKCS7.dll</HintPath>
@@ -258,6 +258,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Controllers\AuthenController.cs" />
     <Compile Include="Controllers\DropdownlistController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
@@ -267,9 +268,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="Interfaces\IDropdownlistService.cs" />
     <Compile Include="Interfaces\IStockService.cs" />
+    <Compile Include="Models\department.cs" />
     <Compile Include="Models\ic_mast.cs" />
+    <Compile Include="Models\mps_det_in_process.cs" />
+    <Compile Include="Models\mps_det_in_process_det.cs" />
+    <Compile Include="Models\mps_det_in_process_his.cs" />
+    <Compile Include="Models\mps_det_wc.cs" />
     <Compile Include="Models\pdbrnd_mast.cs" />
     <Compile Include="Models\pdcolor_mast.cs" />
     <Compile Include="Models\pddsgn_mast.cs" />
@@ -277,11 +284,20 @@
     <Compile Include="Models\pdmodel_mast.cs" />
     <Compile Include="Models\pdsize_mast.cs" />
     <Compile Include="Models\pdtype_mast.cs" />
+    <Compile Include="Models\pd_mapp_user_mac.cs" />
+    <Compile Include="Models\su_menu.cs" />
+    <Compile Include="Models\su_role.cs" />
+    <Compile Include="Models\su_role_menu.cs" />
+    <Compile Include="Models\su_user.cs" />
+    <Compile Include="Models\su_user_entity.cs" />
+    <Compile Include="Models\su_user_role.cs" />
+    <Compile Include="ModelViews\AuthenticationView.cs" />
     <Compile Include="ModelViews\CommonResponseView.cs" />
     <Compile Include="ModelViews\CommonSearchView.cs" />
     <Compile Include="ModelViews\Dropdownlist.cs" />
     <Compile Include="ModelViews\StockView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\DropdownlistService.cs" />
     <Compile Include="Services\StockService.cs" />
     <Compile Include="Util\DataIgnoreAttribute.cs" />
@@ -331,7 +347,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Unity.Mvc3.README.txt" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

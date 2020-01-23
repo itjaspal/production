@@ -11,6 +11,7 @@ D:\Angular\Project\production\WebApi\api\api\bin\EntityFramework.IndexingExtensi
 D:\Angular\Project\production\WebApi\api\api\bin\EntityFramework.SqlServer.dll
 D:\Angular\Project\production\WebApi\api\api\bin\ExcelDataReader.dll
 D:\Angular\Project\production\WebApi\api\api\bin\ICSharpCode.SharpZipLib.dll
+D:\Angular\Project\production\WebApi\api\api\bin\log4net.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.AI.Agent.Intercept.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.AI.DependencyCollector.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.AI.PerfCounterCollector.dll
@@ -25,7 +26,6 @@ D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.Practices.Unity.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.Web.Infrastructure.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Newtonsoft.Json.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Oracle.ManagedDataAccess.dll
-D:\Angular\Project\production\WebApi\api\api\bin\Oracle.ManagedDataAccess.EntityFramework.dll
 D:\Angular\Project\production\WebApi\api\api\bin\SinaptIQPKCS7.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Spire.License.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Spire.Pdf.dll
@@ -60,6 +60,7 @@ D:\Angular\Project\production\WebApi\api\api\bin\ExcelDataReader.pdb
 D:\Angular\Project\production\WebApi\api\api\bin\ExcelDataReader.xml
 D:\Angular\Project\production\WebApi\api\api\bin\ICSharpCode.SharpZipLib.pdb
 D:\Angular\Project\production\WebApi\api\api\bin\ICSharpCode.SharpZipLib.xml
+D:\Angular\Project\production\WebApi\api\api\bin\log4net.xml
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.Practices.ServiceLocation.pdb
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.Practices.ServiceLocation.xml
@@ -87,9 +88,8 @@ D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.AI.DependencyCollecto
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.AI.ServerTelemetryChannel.xml
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.AI.WindowsServer.xml
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.AI.Web.xml
-D:\Angular\Project\production\WebApi\api\api\obj\Debug\api.csprojResolveAssemblyReference.cache
 D:\Angular\Project\production\WebApi\api\api\obj\Debug\api.csproj.CoreCompileInputs.cache
 D:\Angular\Project\production\WebApi\api\api\obj\Debug\api.dll
 D:\Angular\Project\production\WebApi\api\api\obj\Debug\api.pdb
-D:\Angular\Project\production\WebApi\api\api\bin\log4net.dll
-D:\Angular\Project\production\WebApi\api\api\bin\log4net.xml
+D:\Angular\Project\production\WebApi\api\api\obj\Debug\api.csprojResolveAssemblyReference.cache
+D:\Angular\Project\production\WebApi\api\api\bin\Oracle.ManagedDataAccess.EntityFramework.dll
