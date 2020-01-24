@@ -114,7 +114,22 @@ namespace api.Controllers
         {
             try
             {
-                var result = ddlSvc.GetDdlProductColor();
+                var result = ddlSvc.GetDdlMobilePrnt();
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+            }
+        }
+
+        [Route("dropdownlist/getDdlMobilePrnt")]
+        public HttpResponseMessage getDdlMobilePrnt()
+        {
+            try
+            {
+                var result = ddlSvc.GetDdlMobilePrnt();
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }

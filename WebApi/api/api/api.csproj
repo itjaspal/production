@@ -129,6 +129,7 @@
     <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
@@ -259,6 +260,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AuthenController.cs" />
+    <Compile Include="Controllers\DefaultPrinterController.cs" />
     <Compile Include="Controllers\DropdownlistController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
@@ -269,7 +271,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IAuthenticationService.cs" />
+    <Compile Include="Interfaces\IDefaultPrinterService.cs" />
     <Compile Include="Interfaces\IDropdownlistService.cs" />
+    <Compile Include="Interfaces\IJobMachineService.cs" />
     <Compile Include="Interfaces\IStockService.cs" />
     <Compile Include="Models\department.cs" />
     <Compile Include="Models\ic_mast.cs" />
@@ -291,14 +295,19 @@
     <Compile Include="Models\su_user.cs" />
     <Compile Include="Models\su_user_entity.cs" />
     <Compile Include="Models\su_user_role.cs" />
+    <Compile Include="Models\whmobileprnt_ctl.cs" />
     <Compile Include="ModelViews\AuthenticationView.cs" />
     <Compile Include="ModelViews\CommonResponseView.cs" />
     <Compile Include="ModelViews\CommonSearchView.cs" />
+    <Compile Include="ModelViews\DefaultPrinterView.cs" />
     <Compile Include="ModelViews\Dropdownlist.cs" />
+    <Compile Include="ModelViews\JobMachineView.cs" />
     <Compile Include="ModelViews\StockView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
+    <Compile Include="Services\DefaultPrinterService.cs" />
     <Compile Include="Services\DropdownlistService.cs" />
+    <Compile Include="Services\JobMachineService.cs" />
     <Compile Include="Services\StockService.cs" />
     <Compile Include="Util\DataIgnoreAttribute.cs" />
     <Compile Include="Util\DataNameAttribute.cs" />

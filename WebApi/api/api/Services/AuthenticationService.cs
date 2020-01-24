@@ -29,12 +29,25 @@ namespace api.Services
                     .Include("user_mac")
                     .Where(z => z.USER_ID == username)
                     .SingleOrDefault();
-                
+
                 //su_user user = ctx.user.SqlQuery("Select a.USER_ID , a.USER_NAME , a.USER_PASSWORD , a.DEPT_CODE , a.ACTIVE , b.DEPT_NAMET , c.MC_CODE , c.STATUS from su_user a , department b , pd_mapp_user_mac c  where a.dept_code=b.dept_code and a.user_id=c.user_id and a.user_id = :param1", new OracleParameter("param1", username)).SingleOrDefault();
 
                 //department dept = ctx.departments.SqlQuery("select DEPT_CODE , DEPT_NAMET from department where dept_code = :param1", new OracleParameter("param1", user.DEPT_CODE)).SingleOrDefault();
 
                 //pd_mapp_user_mac user_mac = ctx.user_mac.SqlQuery("select USER_ID , MC_CODE , STATUS from pd_mapp_user_mac where user_id = :param1", new OracleParameter("param1", user.USER_ID)).SingleOrDefault();
+
+                whmobileprnt_ctl whmobileprnt = ctx.mobileprnt_ctl
+                   .Where(z => z.DEFAULT_NO == user.user_mac.MC_CODE).SingleOrDefault();
+
+                string def_printer = null;
+                if (whmobileprnt == null)
+                {
+                    def_printer = "";
+                }
+                else
+                {
+                    def_printer = whmobileprnt.SERIES_NO;
+                }
 
                 if (user == null)
                 {
@@ -60,6 +73,7 @@ namespace api.Services
                     }
                 }
 
+                
                 AuthenticationData data = new AuthenticationData()
                 {
                     username = user.USER_ID,
@@ -67,6 +81,7 @@ namespace api.Services
                     dept_code = user.DEPT_CODE,
                     department = user.departments,
                     user_mac = user.user_mac,
+                    def_printer = def_printer,
                     statusId = user.ACTIVE,
                     menuGroups = new List<ModelViews.menuFunctionGroupView>(),
                 };

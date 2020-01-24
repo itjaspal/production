@@ -143,9 +143,9 @@ namespace api.Services
         }
 
         public List<Dropdownlist> GetDdlProductType()
+        {
+            using (var ctx = new ConXContext())
             {
-                using (var ctx = new ConXContext())
-                {
                     List<Dropdownlist> ddl = ctx.pdtype
                         .Where(z => z.STATUS == "A")
                         .OrderBy(z => z.PDTYPE_CODE)
@@ -157,8 +157,26 @@ namespace api.Services
                         })
                         .ToList();
                     return ddl;
-                }
             }
+        }
+
+        public List<Dropdownlist> GetDdlMobilePrnt()
+        {
+            using (var ctx = new ConXContext())
+            {
+                List<Dropdownlist> ddl = ctx.mobileprnt_ctl
+                    .Where(z => z.GRP_TYPE == "SPRING")
+                    .OrderBy(z => z.PRNT_POINT_NAME)
+                    .Select(x => new Dropdownlist()
+                    {
+
+                        key = x.SERIES_NO,
+                        value = x.SERIES_NO + " - " + x.PRNT_POINT_NAME,
+                    })
+                    .ToList();
+                return ddl;
+            }
+        }
 
 
 

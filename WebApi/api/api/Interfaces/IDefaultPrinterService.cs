@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace api.Interfaces
 {
-    interface IAuthenticationService
+    interface IDefaultPrinterService
     {
-        AuthenticationData login(string username, string password);
-        List<menuFunctionGroupView> getUserRole(string userId);
+        GetDefaultPrinterView GetInfo(string code);
+        void SetDefault(DefaultPrinterView model);
     }
 }

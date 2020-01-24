@@ -41,12 +41,18 @@ namespace api.DataAccess
         public DbSet<su_user_role> user_role { get; set; }
         public DbSet<su_role_menu> role_menu { get; set; }
         public DbSet<pd_mapp_user_mac> user_mac { get; set; }
-        //public DbSet<su_user_entity> user_entity { get; set; }
-        //public DbSet<mps_det_wc> mps_wc { get; set; }
-        //public DbSet<mps_det_in_process> mps_in_process { get; set; }
-        //public DbSet<mps_det_in_process_det> mps_in_process_det { get; set; }
-        //public DbSet<mps_det_in_process_his> mps_in_process_his { get; set; }
+        public DbSet<whmobileprnt_ctl> mobileprnt_ctl { get; set; }
+        public DbSet<mps_det_wc> mps_wc { get; set; }
+        public DbSet<mps_det_in_process> mps_in_process { get; set; }
+        public DbSet<mps_det_in_process_det> mps_in_process_det { get; set; }
+        public DbSet<mps_det_in_process_his> mps_in_process_his { get; set; }
 
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<whmobileprnt_ctl>().HasKey(t => new { t.SERIES_NO, t.GRP_TYPE });
+
+        }
 
     }
 }

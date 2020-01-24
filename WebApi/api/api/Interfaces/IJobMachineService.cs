@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace api.Interfaces
 {
-    interface IAuthenticationService
+    interface IJobMachineService
     {
-        AuthenticationData login(string username, string password);
-        List<menuFunctionGroupView> getUserRole(string userId);
+        CommonSearchView<JobMachineView> Search(JobMachineSearchView model);
     }
 }
