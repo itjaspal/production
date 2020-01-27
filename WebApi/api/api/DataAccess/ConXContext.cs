@@ -37,7 +37,7 @@ namespace api.DataAccess
         public DbSet<department> departments { get; set; }
         public DbSet<su_user> user { get; set; }
         public DbSet<su_role> role { get; set; }
-        public DbSet<su_menu> menu { get; set; }
+        public DbSet<su_menu> job { get; set; }
         public DbSet<su_user_role> user_role { get; set; }
         public DbSet<su_role_menu> role_menu { get; set; }
         public DbSet<pd_mapp_user_mac> user_mac { get; set; }
@@ -46,6 +46,9 @@ namespace api.DataAccess
         public DbSet<mps_det_in_process> mps_in_process { get; set; }
         public DbSet<mps_det_in_process_det> mps_in_process_det { get; set; }
         public DbSet<mps_det_in_process_his> mps_in_process_his { get; set; }
+        public DbSet<auth_function> auth { get; set; }
+        public DbSet<mps_mast> mps_mast { get; set; }
+        public DbSet<pd_jit_schedule_ctl> jit_schedule_ctl { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

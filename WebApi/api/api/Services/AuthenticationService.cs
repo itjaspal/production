@@ -39,7 +39,12 @@ namespace api.Services
                 whmobileprnt_ctl whmobileprnt = ctx.mobileprnt_ctl
                    .Where(z => z.DEFAULT_NO == user.user_mac.MC_CODE).SingleOrDefault();
 
+                auth_function auth = ctx.auth
+                   .Where(z => z.USER_ID == user.USER_ID && z.FUNCTION_ID == "PDOPTM_WEB").SingleOrDefault();
+
                 string def_printer = null;
+                string wc_code = null;
+
                 if (whmobileprnt == null)
                 {
                     def_printer = "";
@@ -49,9 +54,24 @@ namespace api.Services
                     def_printer = whmobileprnt.SERIES_NO;
                 }
 
+                if (auth == null)
+                {
+                    wc_code = "";
+                }
+                else
+                {
+                    wc_code = auth.DEPT_CODE;
+                }
+
+
+
                 if (user == null)
                 {
                     throw new Exception("รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง / ไมได้กำนหด Machine");
+                }
+                else if (auth == null)
+                {
+                    throw new Exception("ยังไมได้กำนหด หน่วยงาน");
                 }
                 else
                 {
@@ -82,6 +102,7 @@ namespace api.Services
                     department = user.departments,
                     user_mac = user.user_mac,
                     def_printer = def_printer,
+                    def_wc_code = wc_code,
                     statusId = user.ACTIVE,
                     menuGroups = new List<ModelViews.menuFunctionGroupView>(),
                 };
@@ -103,7 +124,7 @@ namespace api.Services
             using (var ctx = new ConXContext())
             {
                 //List<su_user_role> user_role = ctx.user_role.SqlQuery("Select USER_ID , ROLE_ID ,ACTIVE  from su_user_role where user_id = :param1", new OracleParameter("param1", userId)).ToList();
-               List<su_menu> menu = ctx.menu.SqlQuery("select  LEVEL , MENU_ID, MENU_NAME , MENU_TYPE, LINK_NAME , MAIN_MENU from su_menu where EXISTS   (select MENU_ID  from su_role_menu  WHERE MENU_ID= SU_MENU.MENU_ID AND EXISTS (select role_id from su_user_role  WHERE ROLE_ID= SU_ROLE_MENU.ROLE_ID  and user_id = :param1)) CONNECT BY PRIOR MENU_ID = MAIN_MENU START WITH  menu_id ='WEBKST0000' ORDER BY MENU_ID", new OracleParameter("param1", userId)).ToList();
+               List<su_menu> menu = ctx.job.SqlQuery("select  LEVEL , MENU_ID, MENU_NAME , MENU_TYPE, LINK_NAME , MAIN_MENU from su_menu where EXISTS   (select MENU_ID  from su_role_menu  WHERE MENU_ID= SU_MENU.MENU_ID AND EXISTS (select role_id from su_user_role  WHERE ROLE_ID= SU_ROLE_MENU.ROLE_ID  and user_id = :param1)) CONNECT BY PRIOR MENU_ID = MAIN_MENU START WITH  menu_id ='MOB0000000' ORDER BY MENU_ID", new OracleParameter("param1", userId)).ToList();
                 
                List<menuFunctionView> functionViews = new List<menuFunctionView>();
 
@@ -141,7 +162,7 @@ namespace api.Services
 
                     };
 
-                    if (x.MENU_TYPE == "M" && x.MENU_ID != "WEBKST0000")
+                    if (x.MENU_TYPE == "M" && x.MENU_ID != "MOB0000000")
                     {
                         groupView.Add(view);
                     }

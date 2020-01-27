@@ -263,6 +263,7 @@
     <Compile Include="Controllers\DefaultPrinterController.cs" />
     <Compile Include="Controllers\DropdownlistController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JobMachineController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="DataAccess\ConXContext.cs" />
     <Compile Include="DataAccess\MyDbConfiguration.cs" />
@@ -275,12 +276,14 @@
     <Compile Include="Interfaces\IDropdownlistService.cs" />
     <Compile Include="Interfaces\IJobMachineService.cs" />
     <Compile Include="Interfaces\IStockService.cs" />
+    <Compile Include="Models\auth_function.cs" />
     <Compile Include="Models\department.cs" />
     <Compile Include="Models\ic_mast.cs" />
     <Compile Include="Models\mps_det_in_process.cs" />
     <Compile Include="Models\mps_det_in_process_det.cs" />
     <Compile Include="Models\mps_det_in_process_his.cs" />
     <Compile Include="Models\mps_det_wc.cs" />
+    <Compile Include="Models\mps_mast.cs" />
     <Compile Include="Models\pdbrnd_mast.cs" />
     <Compile Include="Models\pdcolor_mast.cs" />
     <Compile Include="Models\pddsgn_mast.cs" />
@@ -288,6 +291,7 @@
     <Compile Include="Models\pdmodel_mast.cs" />
     <Compile Include="Models\pdsize_mast.cs" />
     <Compile Include="Models\pdtype_mast.cs" />
+    <Compile Include="Models\pd_jit_schedule_ctl.cs" />
     <Compile Include="Models\pd_mapp_user_mac.cs" />
     <Compile Include="Models\su_menu.cs" />
     <Compile Include="Models\su_role.cs" />

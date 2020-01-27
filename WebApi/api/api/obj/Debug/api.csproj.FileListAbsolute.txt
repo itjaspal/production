@@ -26,6 +26,7 @@ D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.Practices.Unity.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.Web.Infrastructure.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Newtonsoft.Json.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Oracle.ManagedDataAccess.dll
+D:\Angular\Project\production\WebApi\api\api\bin\Oracle.ManagedDataAccess.EntityFramework.dll
 D:\Angular\Project\production\WebApi\api\api\bin\SinaptIQPKCS7.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Spire.License.dll
 D:\Angular\Project\production\WebApi\api\api\bin\Spire.Pdf.dll
@@ -92,4 +93,3 @@ D:\Angular\Project\production\WebApi\api\api\obj\Debug\api.csproj.CoreCompileInp
 D:\Angular\Project\production\WebApi\api\api\obj\Debug\api.dll
 D:\Angular\Project\production\WebApi\api\api\obj\Debug\api.pdb
 D:\Angular\Project\production\WebApi\api\api\obj\Debug\api.csprojResolveAssemblyReference.cache
-D:\Angular\Project\production\WebApi\api\api\bin\Oracle.ManagedDataAccess.EntityFramework.dll

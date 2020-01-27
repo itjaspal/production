@@ -19,6 +19,7 @@ namespace api.ModelViews
         public string dept_code { get; set; }
         public string statusId { get; set; }
         public string def_printer { get; set; }
+        public string def_wc_code { get; set; }
         public virtual department department { get; set; }
         public virtual pd_mapp_user_mac user_mac { get; set; }
         

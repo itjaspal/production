@@ -9,6 +9,8 @@ namespace api.Interfaces
 {
     interface IJobMachineService
     {
-        CommonSearchView<JobMachineView> Search(JobMachineSearchView model);
+        JobMachineView SearchCurrent(JobMachineSearchView model);
+        JobMachineView SearchPending(JobMachineSearchView model);
+        JobMachineView SearchForward(JobMachineSearchView model);
     }
 }
