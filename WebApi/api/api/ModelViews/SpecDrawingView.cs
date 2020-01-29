@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace api.ModelViews
+{
+    public class SpecDrawingView
+    {
+        public int pageIndex { get; set; }
+        public int itemPerPage { get; set; }
+        public int totalItem { get; set; }
+        public string prod_code { get; set; }
+        public string prod_name { get; set; }
+        public string model_desc { get; set; }
+        public string spring_type { get; set; }
+        public string size_desc { get; set; }
+        public string drawing_path { get; set; }
+        public string drawing_name { get; set; }
+        public List<RawMatListView> datas { get; set; }
+    }
+
+    public class RawMatListView
+    {
+        
+        public string rm_code { get; set; }
+        public string rm_name { get; set; }
+        public string short_name { get; set; }
+        public string uom_code { get; set; }
+        public int unit_qty { get; set; }
+    }
+
+    public class SpecDrawingSearchView
+    {
+        public int pageIndex { get; set; }
+        public int itemPerPage { get; set; }
+        public string pcs_barcode { get; set; }
+        
+        
+    }
+
+
+}

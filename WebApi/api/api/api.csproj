@@ -275,8 +275,10 @@
     <Compile Include="Interfaces\IDefaultPrinterService.cs" />
     <Compile Include="Interfaces\IDropdownlistService.cs" />
     <Compile Include="Interfaces\IJobMachineService.cs" />
+    <Compile Include="Interfaces\ISpecDrawingService.cs" />
     <Compile Include="Interfaces\IStockService.cs" />
     <Compile Include="Models\auth_function.cs" />
+    <Compile Include="Models\bm_basic_mast.cs" />
     <Compile Include="Models\department.cs" />
     <Compile Include="Models\ic_mast.cs" />
     <Compile Include="Models\mps_det_in_process.cs" />
@@ -290,6 +292,7 @@
     <Compile Include="Models\pdgrp_mast.cs" />
     <Compile Include="Models\pdmodel_mast.cs" />
     <Compile Include="Models\pdsize_mast.cs" />
+    <Compile Include="Models\pdspring_mast.cs" />
     <Compile Include="Models\pdtype_mast.cs" />
     <Compile Include="Models\pd_jit_schedule_ctl.cs" />
     <Compile Include="Models\pd_mapp_user_mac.cs" />
@@ -306,12 +309,14 @@
     <Compile Include="ModelViews\DefaultPrinterView.cs" />
     <Compile Include="ModelViews\Dropdownlist.cs" />
     <Compile Include="ModelViews\JobMachineView.cs" />
+    <Compile Include="ModelViews\SpecDrawingView.cs" />
     <Compile Include="ModelViews\StockView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\DefaultPrinterService.cs" />
     <Compile Include="Services\DropdownlistService.cs" />
     <Compile Include="Services\JobMachineService.cs" />
+    <Compile Include="Services\SpecDrawingService.cs" />
     <Compile Include="Services\StockService.cs" />
     <Compile Include="Util\DataIgnoreAttribute.cs" />
     <Compile Include="Util\DataNameAttribute.cs" />

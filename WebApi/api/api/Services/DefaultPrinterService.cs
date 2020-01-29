@@ -27,7 +27,10 @@ namespace api.Services
                         serial_no = "",
                         grp_type = "",
                         prnt_point_name = "",
-                        default_no = ""
+                        default_no = "",
+                        filepath_data = "",
+                        filepath_btw = "",
+                        filepath_txt =""
                     };
                 }
                 else
@@ -37,7 +40,10 @@ namespace api.Services
                         serial_no = model.SERIES_NO,
                         grp_type = model.GRP_TYPE,
                         prnt_point_name = model.PRNT_POINT_NAME,
-                        default_no = model.DEFAULT_NO
+                        default_no = model.DEFAULT_NO,
+                        filepath_data = model.FILEPATH_DATA,
+                        filepath_btw = model.FILEPATH_BTW,
+                        filepath_txt = model.FILEPATH_TXT
                     };
                 }
             }

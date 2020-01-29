@@ -36,6 +36,7 @@ namespace api.ModelViews
         public int plan_qty { get; set; }
         public int actual_qty { get; set; }
         public int diff_qty { get; set; }
+        public string pcs_barcode { get; set; }
     }
 
     public class JobMachineSearchView

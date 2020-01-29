@@ -25,6 +25,9 @@ namespace api.ModelViews
         public string serial_no { get; set; }
         public string prnt_point_name { get; set; }
         public string default_no { get; set; }
+        public string filepath_data { get; set; }
+        public string filepath_btw { get; set; }
+        public string filepath_txt { get; set; }
     }
 
 
