@@ -20,40 +20,40 @@ namespace api.Controllers
         }
 
 
-        [Route("stock/postSearch")]
+        //[Route("stock/postSearch")]
 
-        public HttpResponseMessage postSearch(StockSearchView model)
-        {
-            try
-            {
-                var result = stockSvc.Search(model);
+        //public HttpResponseMessage postSearch(StockSearchView model)
+        //{
+        //    try
+        //    {
+        //        var result = stockSvc.Search(model);
 
-                return Request.CreateResponse(HttpStatusCode.OK, result);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
-            }
-
-
-        }
-
-        [Route("stock/postSearchpcs")]
-
-        public HttpResponseMessage postSearchpcs(StockSearchView model)
-        {
-            try
-            {
-                var result = stockSvc.Search(model);
-
-                return Request.CreateResponse(HttpStatusCode.OK, result);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
-            }
+        //        return Request.CreateResponse(HttpStatusCode.OK, result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+        //    }
 
 
-        }
+        //}
+
+        //[Route("stock/postSearchpcs")]
+
+        //public HttpResponseMessage postSearchpcs(StockSearchView model)
+        //{
+        //    try
+        //    {
+        //        var result = stockSvc.Search(model);
+
+        //        return Request.CreateResponse(HttpStatusCode.OK, result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+        //    }
+
+
+        //}
     }
 }

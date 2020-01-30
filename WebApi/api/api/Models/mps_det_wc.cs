@@ -97,5 +97,9 @@ namespace api.Models
         [StringLength(12)]
         public string TICK_NO { get; set; }
 
+        [Column("MODEL_NAME")]
+        [StringLength(12)]
+        public string MODEL_NAME { get; set; }
+
     }
 }

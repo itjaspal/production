@@ -22,12 +22,18 @@ namespace api.ModelViews
 
     public class RawMatListView
     {
-        
+        //public string pcs_barcode { get; set; }
+        public int bom_seq { get; set; }
+        public string bom_sub { get; set; }
+        public string bom_name { get; set; }
+        public int rm_seq { get; set; }
         public string rm_code { get; set; }
-        public string rm_name { get; set; }
+        //public string rm_name { get; set; }
         public string short_name { get; set; }
         public string uom_code { get; set; }
         public int unit_qty { get; set; }
+        public string item_name { get; set; }
+        
     }
 
     public class SpecDrawingSearchView

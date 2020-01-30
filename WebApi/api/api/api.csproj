@@ -264,6 +264,7 @@
     <Compile Include="Controllers\DropdownlistController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobMachineController.cs" />
+    <Compile Include="Controllers\SpecDrawingController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="DataAccess\ConXContext.cs" />
     <Compile Include="DataAccess\MyDbConfiguration.cs" />
@@ -286,6 +287,7 @@
     <Compile Include="Models\mps_det_in_process_his.cs" />
     <Compile Include="Models\mps_det_wc.cs" />
     <Compile Include="Models\mps_mast.cs" />
+    <Compile Include="Models\mps_mr_pcs.cs" />
     <Compile Include="Models\pdbrnd_mast.cs" />
     <Compile Include="Models\pdcolor_mast.cs" />
     <Compile Include="Models\pddsgn_mast.cs" />
@@ -296,6 +298,7 @@
     <Compile Include="Models\pdtype_mast.cs" />
     <Compile Include="Models\pd_jit_schedule_ctl.cs" />
     <Compile Include="Models\pd_mapp_user_mac.cs" />
+    <Compile Include="Models\product.cs" />
     <Compile Include="Models\su_menu.cs" />
     <Compile Include="Models\su_role.cs" />
     <Compile Include="Models\su_role_menu.cs" />
