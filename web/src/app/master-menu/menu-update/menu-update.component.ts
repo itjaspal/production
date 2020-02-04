@@ -42,9 +42,9 @@ export class MenuUpdateComponent implements OnInit {
       menuFunctionId: [null, [Validators.required]],
       menuFunctionGroupId: [null, [Validators.required]],      
       menuFunctionName:[null, [Validators.required]],
-      menuURL: [null, [Validators.required]],
-      iconName: [null, []],
-      orderDisplay: [null, [Validators.required]]   
+      menuURL: [null, []],
+      iconName: [null, []]
+      //orderDisplay: [null, [Validators.required]]   
     });
   }
 

@@ -17,23 +17,23 @@ export class AuthenGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    // if (sessionStorage.getItem('loginUser')) {
-    //   // logged in so return true
+    if (sessionStorage.getItem('loginUser')) {
+      // logged in so return true
 
-    //   let user = this._authSvc.getLoginUser();
+      let user = this._authSvc.getLoginUser();
 
-    //   if(user.isDefaultPassword){
-    //     this._msgSvc.warningPopup("กรุณาเปลี่ยนรหัสผ่านก่อนใช้งาน")
-    //     this.route.navigate(['/app/user/change-password']);
-    //   }
+      if(user.isDefaultPassword){
+        this._msgSvc.warningPopup("กรุณาเปลี่ยนรหัสผ่านก่อนใช้งาน")
+        this.route.navigate(['/app/user/change-password']);
+      }
 
-    //   return true;
-    // }
+      return true;
+    }
 
-    // this._msgSvc.errorPopup("กรุณา LOGIN เพื่อเข้าใช้งานระบบ");
-    // not logged in so redirect to login page with the return url
-    //this.route.navigate(['/login']);
-    this.route.navigate(['/stock']);
+    //this._msgSvc.errorPopup("กรุณา LOGIN เพื่อเข้าใช้งานระบบ");
+    //not logged in so redirect to login page with the return url
+    this.route.navigate(['/login']);
+    //this.route.navigate(['/stock']);
     return false;
   }
 }

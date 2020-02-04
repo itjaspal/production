@@ -7,20 +7,20 @@
 
           <form>
               <mat-card-content class="no-margin">
-                  <div class="row">
+                  <!-- <div class="row">
                       <div class="col-sm-6 col-lg-3">
                           <mat-form-field class="full-width">
                               <input matInput placeholder="รหัสกลุ่มเมนู" [(ngModel)]="model.menuFunctionGroupId"
                                   name="menuFunctionGroupId">
                           </mat-form-field>
                       </div>
-                      <!-- <div class="col-sm-6 col-lg-3">
+                      <div class="col-sm-6 col-lg-3">
                           <mat-form-field class="full-width">
                               <input matInput placeholder="ชื่อกลุ่มเมนู" [(ngModel)]="model.menuFunctionGroupName"
                                   name="menuFunctionGroupName">
                           </mat-form-field>
-                      </div> -->
-                  </div>
+                      </div>
+                  </div> -->
                   <div class="row">
                     <div class="col-sm-6 col-lg-3">
                         <mat-form-field class="full-width">
@@ -40,10 +40,10 @@
                   <button mat-raised-button color="primary" class="btn-w-md" type="button" (click)="search()">
                       <mat-icon class="material-icons">search</mat-icon> ค้นหา
                   </button>
-                  <button mat-raised-button type="button" mat-button class="btn-w-md pull-right"
+                  <!-- <button mat-raised-button type="button" mat-button class="btn-w-md pull-right"
                       [routerLink]="['/app/menu/create']" >
                       <mat-icon class="material-icons">add</mat-icon> เพิ่มเมนู
-                  </button>
+                  </button> -->
               </mat-card-actions>
           </form>
 
@@ -72,14 +72,14 @@
                           <small>รหัสเมนู</small>
                           <dd>{{x.menuFunctionId}}</dd>
                       </div>
-                      <div class="col-3 col-sm-3">
+                      <div class="col-6 col-sm-5">
                           <small>ชื่อเมนู</small>
                           <dd>{{x.menuFunctionName}}</dd>
                       </div>
-                      <div class="col-3 col-sm-2">
+                      <!-- <div class="col-3 col-sm-2">
                         <small>ลำดับ</small>
                         <dd>{{x.orderDisplay}}</dd>
-                    </div>
+                    </div> -->
                       <div class="col-12 col-sm-3 text-right">
                           <button mat-icon-button [matMenuTriggerFor]="appMenu">
                               <mat-icon class="material-icons">more_horiz</mat-icon>

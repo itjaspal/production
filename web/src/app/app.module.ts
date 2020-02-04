@@ -294,7 +294,7 @@ import { HomeAutoComponent } from './home-auto/home-auto.component';
 
     
     PopupMessageComponent,
-
+    ConfirmMessageComponent,
     
     HomeComponent,
 
@@ -332,7 +332,7 @@ import { HomeAutoComponent } from './home-auto/home-auto.component';
   ],
   entryComponents: [
     PopupMessageComponent,
-   
+    ConfirmMessageComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -124,7 +124,7 @@ namespace api.Services
             using (var ctx = new ConXContext())
             {
                 //List<su_user_role> user_role = ctx.user_role.SqlQuery("Select USER_ID , ROLE_ID ,ACTIVE  from su_user_role where user_id = :param1", new OracleParameter("param1", userId)).ToList();
-               List<su_menu> menu = ctx.job.SqlQuery("select  LEVEL , MENU_ID, MENU_NAME , MENU_TYPE, LINK_NAME , MAIN_MENU from su_menu where EXISTS   (select MENU_ID  from su_role_menu  WHERE MENU_ID= SU_MENU.MENU_ID AND EXISTS (select role_id from su_user_role  WHERE ROLE_ID= SU_ROLE_MENU.ROLE_ID  and user_id = :param1)) CONNECT BY PRIOR MENU_ID = MAIN_MENU START WITH  menu_id ='MOB0000000' ORDER BY MENU_ID", new OracleParameter("param1", userId)).ToList();
+               List<su_menu> menu = ctx.menu.SqlQuery("select  LEVEL , MENU_ID, MENU_NAME , MENU_TYPE, LINK_NAME , MAIN_MENU , ICON_NAME from su_menu where EXISTS   (select MENU_ID  from su_role_menu  WHERE MENU_ID= SU_MENU.MENU_ID AND EXISTS (select role_id from su_user_role  WHERE ROLE_ID= SU_ROLE_MENU.ROLE_ID  and user_id = :param1)) CONNECT BY PRIOR MENU_ID = MAIN_MENU START WITH  menu_id ='MOB0000000' ORDER BY MENU_ID", new OracleParameter("param1", userId)).ToList();
                 
                List<menuFunctionView> functionViews = new List<menuFunctionView>();
 
@@ -137,7 +137,7 @@ namespace api.Services
                                 menuFunctionGroupId = x.MAIN_MENU,
                                 menuFunctionId = x.MENU_ID,
                                 menuFunctionName = x.MENU_NAME,
-                                iconName = "store",
+                                iconName = x.ICON_NAME,
                                 menuURL = x.LINK_NAME,
                             };
 
@@ -156,6 +156,7 @@ namespace api.Services
                     {
                         menuFunctionGroupId = x.MENU_ID,
                         menuFunctionGroupName = x.MENU_NAME,
+                        iconName = x.ICON_NAME,
                         menuFunctionList = functionViews
                                 .Where(o => o.menuFunctionGroupId == x.MENU_ID)
                                 .ToList()

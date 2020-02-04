@@ -30,8 +30,11 @@ namespace api
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             };
+
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
+            //Add CORS Handler
+            //GlobalConfiguration.Configuration.MessageHandlers.Add(new CorsHandler());
         }
     }
 }

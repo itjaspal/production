@@ -38,7 +38,7 @@ import { MenuViewComponent } from '../master-menu/menu-view/menu-view.component'
 import { MenuCreateComponent } from '../master-menu/menu-create/menu-create.component';
 import { MenuUpdateComponent } from '../master-menu/menu-update/menu-update.component';
 
-import { StockBalanceComponent } from '../stock/stock-balance/stock-balance.component';
+//import { StockBalanceComponent } from '../stock/stock-balance/stock-balance.component';
 
 const routes: Routes = [
   {

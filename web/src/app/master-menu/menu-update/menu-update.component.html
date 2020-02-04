@@ -61,13 +61,13 @@
             <div class="row">
               <div class="col-12 col-sm-6">
                   <mat-form-field class="full-width">
-                      <input matInput placeholder="URL *" formControlName="menuURL"
+                      <input matInput placeholder="URL " formControlName="menuURL"
                           [(ngModel)]="model.menuURL" name="menuURL">
                   </mat-form-field>
-                  <mat-error class="error-message"
+                  <!-- <mat-error class="error-message"
                       *ngIf="validationForm.get('menuURL').hasError('required') && (validationForm.get('menuURL').dirty || validationForm.get('menuURL').touched)">
                       โปรดระบุข้อมูล
-                  </mat-error>
+                  </mat-error> -->
                   
               </div>
               <div class="col-12 col-sm-5">
@@ -91,7 +91,7 @@
                     </mat-form-field>
                     
                 </div>    -->
-                <div class="col-12 col-sm-5">
+                <!-- <div class="col-12 col-sm-5">
                     <mat-form-field class="full-width">
                         <input matInput placeholder="ลำดับ *" formControlName="orderDisplay"
                             [(ngModel)]="model.orderDisplay" name="orderDisplay">
@@ -100,7 +100,7 @@
                         *ngIf="validationForm.get('orderDisplay').hasError('required') && (validationForm.get('orderDisplay').dirty || validationForm.get('orderDisplay').touched)">
                         โปรดระบุข้อมูล
                     </mat-error>
-                </div>   
+                </div>    -->
                         
             </div>
           </form>

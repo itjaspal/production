@@ -31,6 +31,18 @@ export class UserLoginComponent extends BaseComponent implements OnInit {
     super();
   }
 
+  // async ngOnInit() {
+
+  //   localStorage.clear();
+  //   this.version = environment.version;
+
+  //   this.formGroup = this.fb.group({});
+
+  //   this.formGroup.addControl('password', new FormControl("", [Validators.required]));
+  //   this.formGroup.addControl('username', new FormControl("", [Validators.required]));
+  //   this.router.navigateByUrl('/app/home');
+  // }
+
   async ngOnInit() {
 
     localStorage.clear();
@@ -40,17 +52,16 @@ export class UserLoginComponent extends BaseComponent implements OnInit {
 
     this.formGroup.addControl('password', new FormControl("", [Validators.required]));
     this.formGroup.addControl('username', new FormControl("", [Validators.required]));
-    this.router.navigateByUrl('/app/home');
   }
 
   async login() {
-    // if (this.formGroup.invalid) {
+    if (this.formGroup.invalid) {
 
-    //   await this.markFormGroupTouched(this.formGroup);
-    //   return;
-    // }
+      await this.markFormGroupTouched(this.formGroup);
+      return;
+    }
 
-    // let user: any = await this.authenticationService.login(this.data.username, this.data.password);
+    let user: any = await this.authenticationService.login(this.data.username, this.data.password);
 
     // if (user.isPC) {
     //   this.router.navigateByUrl('/select-branch');
@@ -58,11 +69,9 @@ export class UserLoginComponent extends BaseComponent implements OnInit {
     //   if (user.menuGroups.length > 0 && user.menuGroups[0].menuFunctionGroupId == '01') {
     //     this.router.navigateByUrl('/app/dashboard');
     //   } else {
-    //     this.router.navigateByUrl('/app/home');
-    //   }
-    // }
-
-    this.router.navigateByUrl('/app/home');
+        this.router.navigateByUrl('/app/home');
+    //  }
+    //}
   }
 
 }

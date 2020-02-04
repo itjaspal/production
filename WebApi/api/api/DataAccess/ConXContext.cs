@@ -37,7 +37,7 @@ namespace api.DataAccess
         public DbSet<department> departments { get; set; }
         public DbSet<su_user> user { get; set; }
         public DbSet<su_role> role { get; set; }
-        public DbSet<su_menu> job { get; set; }
+        public DbSet<su_menu> menu { get; set; }
         public DbSet<su_user_role> user_role { get; set; }
         public DbSet<su_role_menu> role_menu { get; set; }
         public DbSet<pd_mapp_user_mac> user_mac { get; set; }

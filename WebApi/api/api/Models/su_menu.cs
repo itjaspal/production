@@ -30,7 +30,11 @@ namespace api.Models
         [StringLength(15)]
         public string LINK_NAME { get; set; }
 
+        [Column("ICON_NAME")]
+        [StringLength(50)]
+        public string ICON_NAME { get; set; }
 
-        
+
+
     }
 }

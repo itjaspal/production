@@ -264,6 +264,8 @@
     <Compile Include="Controllers\DropdownlistController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobMachineController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\ScanSendController.cs" />
     <Compile Include="Controllers\SpecDrawingController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="DataAccess\ConXContext.cs" />
@@ -276,6 +278,8 @@
     <Compile Include="Interfaces\IDefaultPrinterService.cs" />
     <Compile Include="Interfaces\IDropdownlistService.cs" />
     <Compile Include="Interfaces\IJobMachineService.cs" />
+    <Compile Include="Interfaces\IMenuService.cs" />
+    <Compile Include="Interfaces\IScanSendService.cs" />
     <Compile Include="Interfaces\ISpecDrawingService.cs" />
     <Compile Include="Interfaces\IStockService.cs" />
     <Compile Include="Models\auth_function.cs" />
@@ -312,6 +316,8 @@
     <Compile Include="ModelViews\DefaultPrinterView.cs" />
     <Compile Include="ModelViews\Dropdownlist.cs" />
     <Compile Include="ModelViews\JobMachineView.cs" />
+    <Compile Include="ModelViews\MasterMenuView.cs" />
+    <Compile Include="ModelViews\ScanSendView.cs" />
     <Compile Include="ModelViews\SpecDrawingView.cs" />
     <Compile Include="ModelViews\StockView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -319,6 +325,8 @@
     <Compile Include="Services\DefaultPrinterService.cs" />
     <Compile Include="Services\DropdownlistService.cs" />
     <Compile Include="Services\JobMachineService.cs" />
+    <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\ScanSendService.cs" />
     <Compile Include="Services\SpecDrawingService.cs" />
     <Compile Include="Services\StockService.cs" />
     <Compile Include="Util\DataIgnoreAttribute.cs" />
