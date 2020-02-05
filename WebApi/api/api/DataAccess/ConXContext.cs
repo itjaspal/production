@@ -61,7 +61,14 @@ namespace api.DataAccess
         {
             modelBuilder.Entity<whmobileprnt_ctl>().HasKey(t => new { t.SERIES_NO, t.GRP_TYPE });
 
+            //modelBuilder
+            //  .Properties()
+            //  .Where(p => p.PropertyType == typeof(DateTime))
+            //  .Configure(p => p.HasPrecision(0));
+
         }
+
+       
 
     }
 }
