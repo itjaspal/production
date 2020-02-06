@@ -32,7 +32,7 @@ namespace api.ModelViews
         public int itemPerPage { get; set; }
         public string entity { get; set; }
         public string wc_code { get; set; }
-        //public DateTime req_date { get; set; }
+        public string req_date { get; set; }
 
     }
 }
