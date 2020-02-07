@@ -62,6 +62,11 @@ namespace api.Models
         [StringLength(8)]
         public string SD_NO { get; set; }
 
+        [Column("SPRING_GRP")]
+        [StringLength(6)]
+        public string SPRING_GRP { get; set; }
+
+
         [Column("SPRINGTYPE_CODE")]
         [StringLength(6)]
         public string SPRINGTYPE_CODE { get; set; }
@@ -70,26 +75,26 @@ namespace api.Models
         [StringLength(4)]
         public string MPS_ST { get; set; }
 
-        //[Column("FIN_BY")]
-        //[StringLength(15)]
-        //public string FIN_BY { get; set; }
+        [Column("FIN_BY")]
+        [StringLength(15)]
+        public string FIN_BY { get; set; }
 
-        //[Column("FIN_DATE")]
-        //public DateTime FIN_DATE { get; set; }
+        [Column("FIN_DATE")]
+        public DateTime? FIN_DATE { get; set; }
 
-        //[Column("GEN_BY")]
-        //[StringLength(15)]
-        //public string GEN_BY { get; set; }
+        [Column("GEN_BY")]
+        [StringLength(15)]
+        public string GEN_BY { get; set; }
 
-        //[Column("GEN_DATE")]
-        //public DateTime GEN_DATE { get; set; }
+        [Column("GEN_DATE")]
+        public DateTime? GEN_DATE { get; set; }
 
-        //[Column("UPD_BY")]
-        //[StringLength(15)]
-        //public string UPD_BY { get; set; }
+        [Column("UPD_BY")]
+        [StringLength(15)]
+        public string UPD_BY { get; set; }
 
-        //[Column("UPD_DATE")]
-        //public DateTime UPD_DATE { get; set; }
+        [Column("UPD_DATE")]
+        public DateTime? UPD_DATE { get; set; }
 
     }
 }

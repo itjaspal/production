@@ -263,6 +263,7 @@
     <Compile Include="Controllers\DefaultPrinterController.cs" />
     <Compile Include="Controllers\DropdownlistController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JobInProcessController.cs" />
     <Compile Include="Controllers\JobMachineController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ScanSendController.cs" />
@@ -277,6 +278,7 @@
     <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="Interfaces\IDefaultPrinterService.cs" />
     <Compile Include="Interfaces\IDropdownlistService.cs" />
+    <Compile Include="Interfaces\IJobInProcessService.cs" />
     <Compile Include="Interfaces\IJobMachineService.cs" />
     <Compile Include="Interfaces\IMenuService.cs" />
     <Compile Include="Interfaces\IScanSendService.cs" />
@@ -315,6 +317,7 @@
     <Compile Include="ModelViews\CommonSearchView.cs" />
     <Compile Include="ModelViews\DefaultPrinterView.cs" />
     <Compile Include="ModelViews\Dropdownlist.cs" />
+    <Compile Include="ModelViews\JobInProcessView.cs" />
     <Compile Include="ModelViews\JobMachineView.cs" />
     <Compile Include="ModelViews\MasterMenuView.cs" />
     <Compile Include="ModelViews\ScanSendView.cs" />
@@ -324,6 +327,7 @@
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\DefaultPrinterService.cs" />
     <Compile Include="Services\DropdownlistService.cs" />
+    <Compile Include="Services\JobInProcessService.cs" />
     <Compile Include="Services\JobMachineService.cs" />
     <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\ScanSendService.cs" />
