@@ -39,6 +39,17 @@ import { MenuCreateComponent } from '../master-menu/menu-create/menu-create.comp
 import { MenuUpdateComponent } from '../master-menu/menu-update/menu-update.component';
 
 //import { StockBalanceComponent } from '../stock/stock-balance/stock-balance.component';
+import { DefaultPrinterComponent } from '../default-printer/default-printer.component';
+import { ViewSpecComponent } from '../view-spec/view-spec/view-spec.component';
+import { DispalyJobComponent } from '../display-job/dispaly-job/dispaly-job.component';
+import { ScanTagComponent } from '../scan-tag/scan-tag/scan-tag.component';
+import { ScanInprocessComponent } from '../scan-inprocess/scan-inprocess/scan-inprocess.component';
+import { ScanSendComponent } from '../scan-send/scan-send/scan-send.component';
+import { PrintTagComponent } from '../scan-tag/print-tag/print-tag.component';
+import { ProductionCancelComponent } from '../scan-inprocess/production-cancel/production-cancel.component';
+import { ProductionScanComponent } from '../scan-inprocess/production-scan/production-scan.component';
+import { SendProdCancelComponent } from '../scan-send/send-prod-cancel/send-prod-cancel.component';
+import { SendProdScanComponent } from '../scan-send/send-prod-scan/send-prod-scan.component';
 
 const routes: Routes = [
   {
@@ -97,6 +108,31 @@ const routes: Routes = [
       { path: 'menu/view/:menuFunctionId', component: MenuViewComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/menu" } },
 
       //{ path: 'stock', component: StockBalanceComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/stock" } },
+
+      //Default Printer
+      { path: 'defprinter', component: DefaultPrinterComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },     
+      
+
+      //Display Job and View Spec
+      { path: 'job', component: DispalyJobComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
+      { path: 'spec', component: ViewSpecComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },     
+
+      //Scan Tag
+      { path: 'scantag', component: ScanTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },
+      { path: 'scantag/printtag', component: PrintTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },     
+
+      //Scan Inprocess
+      { path: 'scaninproc', component: ScanInprocessComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
+      { path: 'scaninproc/prodcanc', component: ProductionCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },     
+      { path: 'scaninproc/prodscan', component: ProductionScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },         
+
+ 
+
+      //Scan Send
+      { path: 'scansend', component: ScanSendComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
+      { path: 'scansend/sendprodcanc', component: SendProdCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },     
+      { path: 'scansend/sendprodscan', component: SendProdScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },              
+    
 
       { path: '**', redirectTo: 'home', pathMatch: 'full' },
     ]

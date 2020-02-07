@@ -35,4 +35,15 @@ namespace api.ModelViews
         public string req_date { get; set; }
 
     }
+
+    public class ScanPcsSearchView
+    {
+        public int pageIndex { get; set; }
+        public int itemPerPage { get; set; }
+        public string entity { get; set; }
+        public string req_date { get; set; }
+        public string wc_code { get; set; }
+        public string pcs_barcode { get; set; }
+    
+    }
 }
