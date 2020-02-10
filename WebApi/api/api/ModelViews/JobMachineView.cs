@@ -17,6 +17,10 @@ namespace api.ModelViews
         public int pageIndex { get; set; }
         public int itemPerPage { get; set; }
         public int totalItem { get; set; }
+        public int total_plan_qty { get; set; }
+        public int total_actual_qty { get; set; }
+        public int total_diff_qty { get; set; }
+
         public List<JobMachineReqView> datas { get; set; }
         //public List<JobMachineReqView> jobMachineForward { get; set; }
         //public List<JobMachineReqView> jobMachinePending { get; set; }

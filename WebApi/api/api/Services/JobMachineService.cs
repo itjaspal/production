@@ -78,6 +78,11 @@ namespace api.Services
                     .Take(view.itemPerPage)
                     .ToList();
 
+
+                int tot_plan_qty = 0;
+                int tot_actual_qty = 0;
+                int tot_diff_qty = 0;
+
                 ////prepare model to modelView
                 foreach (var i in jobcurrentView)
                 {
@@ -93,6 +98,11 @@ namespace api.Services
                         pcs_barcode = i.pcs_barcode
                     });
                 }
+
+                view.total_plan_qty = tot_plan_qty;
+                view.total_actual_qty = tot_actual_qty;
+                view.total_diff_qty = tot_diff_qty;
+
 
                 //return data to contoller
                 return view;
