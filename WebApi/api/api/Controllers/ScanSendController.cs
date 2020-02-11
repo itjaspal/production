@@ -33,5 +33,84 @@ namespace api.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
             }
         }
+
+        [Route("scan-send/postScanPcs")]
+        public HttpResponseMessage postScanPcs(ScanSendProcView model)
+        {
+            try
+            {
+                sendSvc.ScanPcs(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, "บันทึกข้อมูลสำเร็จ");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+            }
+        }
+
+        [Route("scan-send/postCancelPcs")]
+        public HttpResponseMessage postCancelPcs(ScanSendProcView model)
+        {
+            try
+            {
+                sendSvc.CancelPcs(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, "ยกเลิกข้อมูลสำเร็จ");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+            }
+        }
+
+        [Route("scan-send/postSearchPcs")]
+        public HttpResponseMessage postSearchPcs(ScanPcsSearchView model)
+        {
+            try
+            {
+                var result = sendSvc.SearchPcs(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+            }
+        }
+
+        [Route("scan-send/postSearchScanPcs")]
+        public HttpResponseMessage postSearchScanPcs(ScanPcsSearchView model)
+        {
+            try
+            {
+                var result = sendSvc.SearchScanPcs(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+            }
+        }
+
+
+        [Route("scan-send/postSerachFinPcs")]
+        public HttpResponseMessage postSerachFinPcs(ScanSendFinSearchView model)
+        {
+            try
+            {
+                var result = sendSvc.SerachFinPcs(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+            }
+        }
+
+
+
     }
 }

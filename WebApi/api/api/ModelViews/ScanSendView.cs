@@ -14,6 +14,7 @@ namespace api.ModelViews
         public int total_inact_qty { get; set; }
         public int total_qp_qty { get; set; }
         public int total_act_qty { get; set; }
+        public int total_diff_qty { get; set; }
         public List<SpringDataView> datas { get; set; }
     }
 
@@ -28,6 +29,7 @@ namespace api.ModelViews
         public int inact_qty { get; set; }
         public int qp_qty { get; set; }
         public int act_qty { get; set; }
+        public int diff_qty { get; set; }
     }
 
     public class ScanSendSearchView
@@ -92,6 +94,8 @@ namespace api.ModelViews
         public string wc_code { get; set; }
         public string req_date { get; set; }
         public string pcs_barcode { get; set; }
+        public string spring_grp { get; set; }
+        public string size_code { get; set; }
         public string user_id { get; set; }
     }
 }
