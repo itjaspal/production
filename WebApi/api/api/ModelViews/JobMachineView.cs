@@ -13,6 +13,7 @@ namespace api.ModelViews
    
     public class JobMachineView
     {
+        internal List<JobReqView> req_date;
 
         public int pageIndex { get; set; }
         public int itemPerPage { get; set; }
@@ -20,20 +21,37 @@ namespace api.ModelViews
         public int total_plan_qty { get; set; }
         public int total_actual_qty { get; set; }
         public int total_diff_qty { get; set; }
-
         public List<JobMachineReqView> datas { get; set; }
-        //public List<JobMachineReqView> jobMachineForward { get; set; }
-        //public List<JobMachineReqView> jobMachinePending { get; set; }
 
+    }
 
+    public class JobMachinePendingView
+    {
 
+        public int pageIndex { get; set; }
+        public int itemPerPage { get; set; }
+        
+        
+        public List<JobReqView> req_date { get; set; }
+       // public List<JobMachineReqView> datas { get; set; }
+
+    }
+
+    public class JobReqView
+    {
+        public int totalItem { get; set; }
+        public DateTime req_date { get; set; }
+        public int total_plan_qty { get; set; }
+        public int total_actual_qty { get; set; }
+        public int total_diff_qty { get; set; }
+        public List<JobMachineReqView> datas { get; set; }
     }
 
     public class JobMachineReqView
     {
-        //public int pageIndex { get; set; }
-        //public int itemPerPage { get; set; }
-        //public int totalItem { get; set; }
+        public int pageIndex { get; set; }
+        public int itemPerPage { get; set; }
+        public int totalItem { get; set; }
         public DateTime req_date { get; set; }
         public string pdsize_desc { get; set; }
         public string springtype_code { get; set; }

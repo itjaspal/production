@@ -3,36 +3,39 @@ import { AppSetting } from "../_constants/app-setting";
 export class JobInProcessSearchView {
     public pageIndex: number = 1;
     public itemPerPage: number = AppSetting.itemPerPage;
-    //public ic_entity: string = "";
-    public prod_code: string = "";    
-    public prod_name: string = "";    
-    public bar_code: string = "";    
-    public pcs_barcode: string = "";    
-    public pdgrp_code: string = "";
-    public pdtype_code: string = "";
-    public pdbrnd_code: string = "";
-    public pddsgn_code: string = "";
-    public pdmodel_code: string = "";
-    public pdcolor_code: string = "";
-    public pdsize_code: string = "";
-    public status: string = "";
-    //public wh_code: string ="";
-    
-    
+    public entity : string = "";  
+    public req_date : string = "";  
+    public pcs_barcode: string = "";  
+    public wc_code : string = "";  
+    public mc_code : string = "";  
+    public user_id : string = "";  
 }
 
 export class JobInProcessView {
-    public prod_code: string = "";    
-    public prod_name: string = "";    
-    public bar_code: string = "";    
-    public pcs_barcode: string = "";    
-    public pdgrp_code: string = "";
-    public pdtype_code: string = "";
-    public pdbrnd_code: string = "";
-    public pddsgn_code: string = "";
-    public pdmodel_code: string = "";
-    public pdcolor_code: string = "";
-    public pdsize_code: string = "";
-    public status: string = "";
-    
+    public pageIndex: number = 1;
+    public itemPerPage: number = AppSetting.itemPerPage;
+    public totalItem: number = 0;
+    public pcs_barcode : string = "";  
+    public pdsize_desc : string = "";  
+    public springtype_code : string = "";  
+    public qty : number = 0;
+    public datas: JobInProcessScanView[] = [];
 }
+
+export class JobInProcessScanFinView
+{
+    public pageIndex: number = 1;
+    public itemPerPage: number = AppSetting.itemPerPage;
+    public totalItem : number = 0;
+    public datas: JobInProcessScanView[] = [];
+}
+
+export class JobInProcessScanView
+{
+    public pcs_barcode : string = "";  
+    public pdmodel_code : string = "";  
+    public prod_code : string = "";  
+    public prod_name : string = "";  
+    public qty : number = 0;
+}
+   

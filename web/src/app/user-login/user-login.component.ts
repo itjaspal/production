@@ -31,18 +31,7 @@ export class UserLoginComponent extends BaseComponent implements OnInit {
     super();
   }
 
-  // async ngOnInit() {
-
-  //   localStorage.clear();
-  //   this.version = environment.version;
-
-  //   this.formGroup = this.fb.group({});
-
-  //   this.formGroup.addControl('password', new FormControl("", [Validators.required]));
-  //   this.formGroup.addControl('username', new FormControl("", [Validators.required]));
-  //   this.router.navigateByUrl('/app/home');
-  // }
-
+  
   async ngOnInit() {
 
     localStorage.clear();

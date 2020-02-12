@@ -47,8 +47,33 @@ namespace api.Services
 
                 using (TransactionScope scope = new TransactionScope())
                 {
+
+                    //Check QP QTY
+                    string sql = "select nvl(sum(1),0) from MPS_DET a , PDMODEL_MAST b , MPS_DET_WC c";
+                    sql += " where trunc(a.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";
+                    sql += " and a.entity  = :p_entity";
+                    sql += " and a.pdsize_code  = :p_size_code";
+                    sql += " and substr(b.spring_type,1,2)  = :p_spring_grp";
+                    sql += " and a.pddsgn_code  = b.pdmodel_code";
+                    sql += " and a.entity  = c.entity";
+                    sql += " and a.req_date  = c.req_date";
+                    sql += " and a.pcs_no  = c.pcs_no";
+                    sql += " and c.mps_st  = 'Y'";
+                    sql += " and c.wc_code = '(select d.WC_PREV from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code)'";
+                    //sql += " and c.wc_code = 'PB5'";
+
+                    int qp_qty = ctx.Database.SqlQuery<int>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_spring_grp", model.spring_grp), new OracleParameter("p_req_date", model.req_date),  new OracleParameter("p_size_code", model.size_code)).FirstOrDefault();
+
+                    //
+
+                    if(qp_qty == 0)
+                    {
+                        throw new Exception("Scan ส่งมอบเกิน Quit Panel ไม่ได้");
+                    }
+
+
                     mps_det_wc updateObj = ctx.mps_wc
-                   .Where(z => z.PCS_BARCODE == model.pcs_barcode
+                    .Where(z => z.PCS_BARCODE == model.pcs_barcode
                         && z.ENTITY == model.entity
                         && z.WC_CODE == model.wc_code
                         && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date)).SingleOrDefault();
@@ -68,7 +93,63 @@ namespace api.Services
             }
         }
 
-        public JobInProcessView SearchScanPcs(ScanPcsSearchView model)
+        public ScanPcsView SearchPcs(ScanPcsSearchView model)
+        {
+            using (var ctx = new ConXContext())
+            {
+
+
+                //DateTime vreq_date = Convert.ToDateTime(model.req_date);
+                var ventity = model.entity;
+                var vpcs_barcode = model.pcs_barcode;
+                var vwc_code = model.wc_code;
+
+                string sql = "select a.PCS_BARCODE , a.SIZE_NAME as SIZE_DESC , substr(b.SPRING_TYPE,1,2) as SPRING_GRP , 1 as QTY";
+                sql += " from MPS_DET a , PDMODEL_MAST b , MPS_DET_WC c";
+                sql += " where a.pcs_barcode = :p_pcs_barcode";
+                sql += " and a.entity  = :p_entity";
+                sql += " and a.pddsgn_code  = b.pdmodel_code";
+                sql += " and a.entity  = c.entity";
+                sql += " and a.req_date  = c.req_date";
+                sql += " and a.pcs_no  = c.pcs_no";
+                sql += " and c.mps_st  <> 'OCL'";
+                sql += " and c.wc_code  = :p_wc_code";
+
+               
+                List<ScanPcsView> mps_det = ctx.Database.SqlQuery<ScanPcsView>(sql, new OracleParameter("p_pcs_barcode", vpcs_barcode), new OracleParameter("p_entity", ventity),  new OracleParameter("p_wc_code", vwc_code)).ToList();
+               
+
+                if (mps_det.Count == 0)
+                {
+                    throw new Exception("PSC Barcodeไม่ถูกต้อง");
+                    
+
+                }
+
+
+
+                ////define model view
+
+               
+
+                ScanPcsView view = new ModelViews.ScanPcsView();
+                    
+
+                foreach (var i in mps_det)
+                {
+                    view.pcs_barcode = i.pcs_barcode;
+                    view.spring_grp = i.spring_grp;
+                    view.size_desc = i.size_desc;
+                    view.qty = 1;
+                }
+
+
+                //return data to contoller
+                return view;
+            }
+        }
+
+        public ScanPcsView SearchScanPcs(ScanPcsSearchView model)
         {
             using (var ctx = new ConXContext())
             {
@@ -84,7 +165,7 @@ namespace api.Services
                 sql += " where trunc(a.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";
                 sql += " and a.entity  = :p_entity";
                 sql += " and a.pdsize_code  = :p_size_code";
-                sql += " and substring(b.spring_type,1,2)  = :p_spring_grp";
+                sql += " and substr(b.spring_type,1,2)  = :p_spring_grp";
                 sql += " and c.wc_code  = :p_wc_code";
                 sql += " and a.pddsgn_code  = b.pdmodel_code";
                 sql += " and a.entity  = c.entity";
@@ -108,11 +189,11 @@ namespace api.Services
 
 
                 ////define model view
-                JobInProcessView view = new ModelViews.JobInProcessView()
+                ScanPcsView view = new ModelViews.ScanPcsView()
                 {
                     pcs_barcode = pcs_barcode,
-                    springtype_code = vspring_grp,
-                    pdsize_desc = vsize_code,
+                    spring_grp = vspring_grp,
+                    size_desc = vsize_code,
                     qty = 1,
                     //datas = new List<ModelViews.JobInProcessScanView>()
                 };
@@ -179,6 +260,7 @@ namespace api.Services
                 string ventity = model.entity;
                 string vwc_code = model.wc_code;
                 string vreq_date = model.req_date;
+                string vmc_code = model.mc_code;
 
 
                 if (vreq_date == "")
@@ -259,6 +341,7 @@ namespace api.Services
                 int tot_inact_qty = 0;
                 int tot_qp_qty = 0;
                 int tot_act_qty = 0;
+                int tot_diff_qty = 0;
 
                 ////prepare model to modelView
                 foreach (var i in spring)
@@ -267,6 +350,7 @@ namespace api.Services
                     tot_inact_qty += i.inact_qty;
                     tot_qp_qty += i.qp_qty;
                     tot_act_qty += i.act_qty;
+                    tot_diff_qty += (i.act_qty - i.plan_qty);
 
                     view.datas.Add(new ModelViews.SpringDataView()
                     {
@@ -278,14 +362,19 @@ namespace api.Services
                         plan_qty = i.plan_qty,
                         inact_qty = i.inact_qty,
                         qp_qty = i.qp_qty,
-                        act_qty = i.act_qty
+                        act_qty = i.act_qty,
+                        diff_qty = i.act_qty - i.plan_qty
                     });
                 }
 
+                view.req_date = vreq_date;
+                view.mc_code = vmc_code;
+                view.spring_grp = vmc_code.Substring(0,2);
                 view.total_plan_qty = tot_plan_qty;
                 view.total_inact_qty = tot_inact_qty;
                 view.total_qp_qty = tot_qp_qty;
                 view.total_act_qty = tot_act_qty;
+                view.total_diff_qty = tot_diff_qty;
 
 
 
@@ -347,5 +436,7 @@ namespace api.Services
                 return view;
             }
         }
+
+      
     }
 }
