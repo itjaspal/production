@@ -32,6 +32,8 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit() {
     this.user = this._authSvc.getLoginUser();
+
+    console.log(this.user);
     //this.branchList = this._authSvc.getUserBranches();
 
     // if (this.user.isPC) {

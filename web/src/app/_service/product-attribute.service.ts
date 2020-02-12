@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ProductAttributeSearchView, ProductAttributeView } from '../_model/productAttribute';
 
+
 @Injectable({
   providedIn: 'root'
 })

@@ -260,6 +260,7 @@ namespace api.Services
                 string ventity = model.entity;
                 string vwc_code = model.wc_code;
                 string vreq_date = model.req_date;
+                string vmc_code = model.mc_code;
 
 
                 if (vreq_date == "")
@@ -366,6 +367,9 @@ namespace api.Services
                     });
                 }
 
+                view.req_date = vreq_date;
+                view.mc_code = vmc_code;
+                view.spring_grp = vmc_code.Substring(0,2);
                 view.total_plan_qty = tot_plan_qty;
                 view.total_inact_qty = tot_inact_qty;
                 view.total_qp_qty = tot_qp_qty;

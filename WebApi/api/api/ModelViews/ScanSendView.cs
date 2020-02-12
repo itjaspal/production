@@ -10,6 +10,9 @@ namespace api.ModelViews
         public int pageIndex { get; set; }
         public int itemPerPage { get; set; }
         public int totalItem { get; set; }
+        public string req_date { get; set; }
+        public string mc_code { get; set; }
+        public string spring_grp { get; set; }
         public int total_plan_qty { get; set; }
         public int total_inact_qty { get; set; }
         public int total_qp_qty { get; set; }
@@ -38,6 +41,7 @@ namespace api.ModelViews
         public int itemPerPage { get; set; }
         public string entity { get; set; }
         public string wc_code { get; set; }
+        public string mc_code { get; set; }
         public string req_date { get; set; }
 
     }
