@@ -159,6 +159,11 @@ namespace api.Services
                 string vspring_grp = strlist[0];
                 string vsize_code = strlist[1];
 
+                //if(strlist.Length < 1)
+                //{
+                //    throw new Exception("รูปแบบ QR ไม่ถูกต้อง");
+                //}
+
                 //DateTime vreq_date = Convert.ToDateTime(model.req_date);
 
                 string sql = "select a.PCS_BARCODE from MPS_DET a , PDMODEL_MAST b , MPS_DET_WC c";
@@ -172,15 +177,24 @@ namespace api.Services
                 sql += " and a.req_date  = c.req_date";
                 sql += " and a.pcs_no  = c.pcs_no";
                 sql += " and c.mps_st  <> 'OCL'";
+                sql += " and a.mps_st  = 'N'";
+                sql += " and rownum = 1";
 
 
-                string pcs_barcode = ctx.Database.SqlQuery<string>(sql, new OracleParameter("p_entity", model.entity) , new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_spring_grp", vspring_grp))
+
+                string pcs_barcode = ctx.Database.SqlQuery<string>(sql, new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_wc_code", model.wc_code))
                             .FirstOrDefault();
+
+                //string pcs_barcode = ctx.Database.SqlQuery<string>(sql).FirstOrDefault();
+
+                //List<ScanPcsView> pcs = ctx.Database.SqlQuery<ScanPcsView>(sql, new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_wc_code", model.wc_code)).ToList();
+
+
 
 
                 if (pcs_barcode == null)
                 {
-                    throw new Exception("PSC Barcodeไม่ถูกต้อง");
+                    throw new Exception("PCS Barcodeไม่ถูกต้อง");
                 }
 
 
@@ -199,42 +213,6 @@ namespace api.Services
                 };
 
 
-
-                ////DateTime vreq_date = DateTime.Now;
-
-                ////query data
-                //string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME , b.PDMODEL_DESC";
-                //sql += " from MPS_DET_IN_PROCESS a , PRODUCT b";
-                //sql += " where a.prod_code = b.prod_code";
-                //sql += " and a.mps_st = 'Y'";
-                //sql += " and a.fin_by = :p_user_id";
-                //sql += " and trunc(a.fin_date) = trunc(SYSDATE)";
-                //sql += " and a.entity = :p_entity";
-                //sql += " and a.wc_code = :p_wc_code";
-
-
-                //List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code)).ToList();
-
-
-
-                //view.totalItem = scan.Count;
-                //scan = scan.Skip(view.pageIndex * view.itemPerPage)
-                //    .Take(view.itemPerPage)
-                //    .ToList();
-
-                //////prepare model to modelView
-                //foreach (var i in scan)
-                //{
-
-                //    view.datas.Add(new ModelViews.JobInProcessScanView()
-                //    {
-                //        pcs_barcode = i.pcs_barcode,
-                //        pdmodel_code = i.pdmodel_code,
-                //        prod_code = i.prod_code,
-                //        prod_name = i.prod_name
-
-                //    });
-                //}
 
                 //return data to contoller
                 return view;
@@ -275,7 +253,7 @@ namespace api.Services
                 //query data
 
                 string sql = "select ENTITY, REQ_DATE, SPRINGTYPE_CODE, PDSIZE_CODE, PDSIZE_DESC, sum(PLAN_QTY)  PLAN_QTY ,sum(INACT_QTY) INACT_QTY ,sum(QP_QTY)  QP_QTY ,sum(ACT_QTY)  ACT_QTY FROM (";
-                sql += " select c.ENTITY , c.REQ_DATE , b.SPRING_TYPE as SPRINGTYPE_CODE, c.PDSIZE_CODE , c.PDSIZE_DESC  , sum(1) as PLAN_QTY , 0 as INACT_QTY , 0 as QP_QTY , 0 as ACT_QTY";
+                sql += " select c.ENTITY , c.REQ_DATE  , b.SPRING_TYPE as SPRINGTYPE_CODE, c.PDSIZE_CODE , c.PDSIZE_DESC  , sum(1) as PLAN_QTY , 0 as INACT_QTY , 0 as QP_QTY , 0 as ACT_QTY";
                 sql += " from MPS_DET a ,PDMODEL_MAST b ,MPS_DET_WC c";
                 sql += " where a.entity =  :p_entity";
                 sql += " and trunc(a.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";

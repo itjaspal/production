@@ -12,4 +12,12 @@ export class SendProdCancelComponent implements OnInit {
   ngOnInit() {
   }
 
+  close() {
+    window.history.back();
+  }
+
+  save() {
+    window.history.back();
+  }
+
 }

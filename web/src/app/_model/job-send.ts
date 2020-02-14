@@ -43,6 +43,7 @@ export class ScanPcsView
     public spring_grp : string = "";  
     public size_desc : string = "";  
     public qty : string = "";  
+  length: number;
 }
 
 export class ScanSendFinSearchView
@@ -80,4 +81,15 @@ export class ScanSendProcView
     public spring_grp : string = "";  
     public size_code : string = "";  
     public user_id : string = "";  
+}
+
+export class ScanPcsSearchView
+{
+    public pageIndex : number = 1;
+    public itemPerPage: number = AppSetting.itemPerPage;
+    public entity : string = AppSetting.entity;
+    public req_date : string = "";  
+    public wc_code : string = "";  
+    public pcs_barcode : string = "";  
+    
 }

@@ -131,7 +131,7 @@ const routes: Routes = [
       //Scan Send
       { path: 'scansend', component: ScanSendComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
       { path: 'scansend/sendprodcanc', component: SendProdCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },     
-      { path: 'scansend/sendprodscan', component: SendProdScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },              
+      { path: 'scansend/sendprodscan/:req_date/:spring_grp/:size_code', component: SendProdScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },              
     
 
       { path: '**', redirectTo: 'home', pathMatch: 'full' },
