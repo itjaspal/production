@@ -14,6 +14,7 @@ namespace api.Interfaces
         ScanPcsView SearchPcs(ScanPcsSearchView model);
         void ScanPcs(ScanSendProcView model);
         void CancelPcs(ScanSendProcView model);
+        //bool CheckPrevWc(string entity , string wc_code , string pcs_barcode);
         ScanSendFinView SerachFinPcs(ScanSendFinSearchView model);
     }
 }

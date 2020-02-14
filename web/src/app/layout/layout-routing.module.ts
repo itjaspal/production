@@ -50,6 +50,7 @@ import { ProductionCancelComponent } from '../scan-inprocess/production-cancel/p
 import { ProductionScanComponent } from '../scan-inprocess/production-scan/production-scan.component';
 import { SendProdCancelComponent } from '../scan-send/send-prod-cancel/send-prod-cancel.component';
 import { SendProdScanComponent } from '../scan-send/send-prod-scan/send-prod-scan.component';
+import { ViewSpceDrawingComponent } from '../view-spec/view-spce-drawing/view-spce-drawing.component';
 
 const routes: Routes = [
   {
@@ -115,16 +116,17 @@ const routes: Routes = [
 
       //Display Job and View Spec
       { path: 'job', component: DispalyJobComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
-      { path: 'spec', component: ViewSpecComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },     
+      { path: 'spec', component: ViewSpecComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
+      { path: 'spec/viewspec/:refCode', component: ViewSpceDrawingComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/spec" }  },    
 
       //Scan Tag
       { path: 'scantag', component: ScanTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },
-      { path: 'scantag/printtag', component: PrintTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },     
+      { path: 'scantag/printtag/:refCode', component: PrintTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },     
 
       //Scan Inprocess
       { path: 'scaninproc', component: ScanInprocessComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
-      { path: 'scaninproc/prodcanc', component: ProductionCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },     
-      { path: 'scaninproc/prodscan', component: ProductionScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },         
+      { path: 'scaninproc/prodcanc/:refCode', component: ProductionCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },     
+      { path: 'scaninproc/prodscan/:refCode', component: ProductionScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },         
 
  
 

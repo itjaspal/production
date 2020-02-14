@@ -1,3 +1,524 @@
-<p>
-  scan-tag works!
-</p>
+<div class="container-fluid no-breadcrumbs"> <!-- container-->
+  <mat-card> <!-- mat-card 1 -->
+      <mat-card-title>
+         <h6>Spring Production Order Data Sheet : ( Scan Tag Po and Print Tag )</h6>
+      </mat-card-title>
+      <br />
+      
+      
+      <mat-card> <!-- mat-card 2 -->
+           <mat-card-title >
+              <h5>ปัจจุบัน</h5>
+           </mat-card-title >
+           <div class="row" *ngIf="dataCurrent.datas.length == 0;else show_current_content">
+                <div class="col-12 text-center">
+                    <h4>ไม่พบรายการ</h4>
+                </div>
+           </div>
+           <ng-template #show_current_content>
+                 <div class="scrollable-child" >
+                      <div class="panel panel-default" *ngFor="let x of dataCurrent.datas; let i = index;">
+                               <!-- Column Header--> 
+                               <div *ngIf="i === 0;else show_detail_current"> 
+                                    <div class="row">
+                                        <div class="col-lg-2 col-sm-3 col-3">
+                                            <dt>Machine</dt>
+                                            <dd>{{this.user.user_mac.MC_CODE}}</dd>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-3 col-3">
+                                            <dt>Spring</dt>
+                                            <dd>{{x.springtype_code}}</dd>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-5 col-5">
+                                            <dt>Mps Date</dt>
+                                            <dd>{{x.req_date  | date:'dd/MM/yyyy'}}</dd>
+                                        </div>
+                                    </div>
+                              </div>
+                              <ng-template #show_detail_current>
+                                   <div *ngIf="x.req_date != dataCurrent.datas[i-1].req_date || x.springtype_code != dataCurrent.datas[i-1].springtype_code">
+                                           <!--INSERT Table (Privious) -->  
+                                           <!-- Table -->
+                                          <table style="width: 100%" >
+                                              <tbody> 
+                                                  <tr>
+                                                      <th style="width: 100px" class="text-center">Size</th>
+                                                      <th style="width: 100px" class="text-center">Spring</th>
+                                                      <th style="width: 100px"  class="text-center">Plan QTY</th>
+                                                      <th style="width: 100px" class="text-center">In Act QTY</th>
+                                                      <th style="width: 100px" class="text-center">Diff QTY</th>
+                                                      <th style="width: 10px">&nbsp;</th>
+                                                  </tr>
+                                                  <tr *ngFor="let y of dataCurrent.datas; let j = index;">
+                                                      <td *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
+                                                          {{y.pdsize_desc}}
+                                                      </td>
+                                                      <td *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
+                                                          {{y.springtype_code}}
+                                                      </td>
+                                                      <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
+                                                          {{y.plan_qty}}
+                                                      </td>
+                                                      <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
+                                                          {{y.actual_qty}}
+                                                      </td>
+                                                      <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
+                                                          {{y.diff_qty}}
+                                                      </td>
+                                                      <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
+                                                          <button mat-icon-button [matMenuTriggerFor]="appMenu1">
+                                                            <mat-icon class="material-icons">more_horiz</mat-icon>
+                                                          </button> 
+
+                                                          <mat-menu #appMenu1="matMenu">
+                                                            <button mat-menu-item [routerLink]="['printtag/'+ y.pdsize_code + '@' + y.springtype_code]" action>
+                                                              <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process</span>
+                                                            </button>
+                                                         </mat-menu>
+                                                     </td>
+                                                       
+
+                                                  </tr>
+                                                  <tr>
+                                                    <th colspan="2" class="text-center">รวม</th>
+                                                    <th class="text-center">x</th>
+                                                    <th class="text-center">x</th>
+                                                    <th class="text-center">x</th>
+                                                    <th class="text-center">&nbsp;</th>
+                                                  </tr>
+                                          
+                                              </tbody>
+                                          </table>
+
+                                           <br/>
+
+                                          <div class="row">
+                                              <div class="col-lg-2 col-sm-3 col-3">
+                                                  <dt>Machine</dt>
+                                                  <dd>{{this.user.user_mac.MC_CODE}}</dd>
+                                              </div>
+                                              <div class="col-lg-2 col-sm-3 col-3">
+                                                  <dt>Spring</dt>
+                                                  <dd>{{x.springtype_code}}</dd>
+                                              </div>
+                                              <div class="col-lg-2 col-sm-5 col-5">
+                                                  <dt>Mps Date</dt>
+                                                  <dd>{{x.req_date  | date:'dd/MM/yyyy'}}</dd>
+                                              </div>
+                                          </div>
+                                  </div>
+                              </ng-template> 
+                     
+                              <!--Last Record ? -->
+                              <div *ngIf="i === dataCurrent.datas.length -1;">  
+                                
+                                           <!--INSERT Table (Privious) -->  
+                                           <!-- Table -->
+                                           <table style="width: 100%" >
+                                            <tbody> 
+                                                <!-- In Process Movement -->
+                                                <tr>
+                                                    <th style="width: 100px" class="text-center">Size</th>
+                                                    <th style="width: 100px" class="text-center">Spring</th>
+                                                    <th style="width: 100px"  class="text-center">Plan QTY</th>
+                                                    <th style="width: 100px" class="text-center">In Act QTY</th>
+                                                    <th style="width: 100px" class="text-center">Diff QTY</th>
+                                                    <th style="width: 10px">&nbsp;</th>
+                                                </tr>
+                                                <tr *ngFor="let y of dataCurrent.datas; let j = index;">
+                                                    <td *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
+                                                        {{y.pdsize_desc}}
+                                                    </td>
+                                                    <td *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
+                                                        {{y.springtype_code}}
+                                                    </td>
+                                                    <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
+                                                        {{y.plan_qty}}
+                                                    </td>
+                                                    <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
+                                                        {{y.actual_qty}}
+                                                    </td>
+                                                    <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
+                                                        {{y.diff_qty}}
+                                                    </td>
+                                                    <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
+                                                      <button mat-icon-button [matMenuTriggerFor]="appMenu1">
+                                                        <mat-icon class="material-icons">more_horiz</mat-icon>
+                                                      </button>
+
+                                                      <mat-menu #appMenu1="matMenu">
+                                                        <button mat-menu-item [routerLink]="['printtag/'+ y.pdsize_code + '@' + y.springtype_code]" action>
+                                                          <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process</span>
+                                                        </button>
+                                                      </mat-menu>
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                  <th colspan="2" class="text-center">รวม</th>
+                                                  <th class="text-center">x</th>
+                                                  <th class="text-center">x</th>
+                                                  <th class="text-center">x</th>
+                                                  <th class="text-center">&nbsp;</th>
+                                                </tr>
+                                        
+                                            </tbody>
+                                        </table>
+                                               
+                              </div> <!--end *ngIf Last Record -->
+                      </div> <!--*ngFor=" -->
+                </div> <!--end <div class="scrollable-child"> --> 
+           </ng-template> <!--end show_current_content --> 
+     
+      </mat-card> <!-- mat-card 2 -->
+    
+      <br />
+    
+      <mat-card> <!-- mat-card 3 -->
+         <mat-card-title >
+            <h5>ค้างผลิต</h5>
+         </mat-card-title > 
+         <div class="row" *ngIf="dataPending.datas.length == 0;else show_pending_content">
+                <div class="col-12 text-center">
+                    <h4>ไม่พบรายการ</h4>
+                </div>
+         </div> 
+         <ng-template #show_pending_content>
+            <div class="scrollable-child" >
+               <div class="panel panel-default" *ngFor="let x of dataPending.datas; let i = index;">
+                    <!-- Column Header--> 
+                    <div *ngIf="i === 0;else show_detail_pending"> 
+                      <div class="row">
+                          <div class="col-lg-2 col-sm-3 col-3">
+                              <dt>Machine</dt>
+                              <dd>{{this.user.user_mac.MC_CODE}}</dd>
+                          </div>
+                          <div class="col-lg-2 col-sm-3 col-3">
+                              <dt>Spring</dt>
+                              <dd>{{x.springtype_code}}</dd>
+                          </div>
+                          <div class="col-lg-2 col-sm-5 col-5">
+                              <dt>Mps Date</dt>
+                              <dd>{{x.req_date  | date:'dd/MM/yyyy'}}</dd>
+                          </div>
+                      </div>
+                    </div>
+                    <ng-template #show_detail_pending>
+                         <div *ngIf="x.req_date != dataPending.datas[i-1].req_date || x.springtype_code != dataPending.datas[i-1].springtype_code">
+                                <!--INSERT Table (Privious) -->  
+                                           <!-- Table -->
+                                           <table style="width: 100%" >
+                                            <tbody> 
+                                                <tr>
+                                                    <th style="width: 100px" class="text-center">Size</th>
+                                                    <th style="width: 100px" class="text-center">Spring</th>
+                                                    <th style="width: 100px"  class="text-center">Plan QTY</th>
+                                                    <th style="width: 100px" class="text-center">In Act QTY</th>
+                                                    <th style="width: 100px" class="text-center">Diff QTY</th>
+                                                    <th style="width: 10px">&nbsp;</th>
+                                                </tr>
+                                                <tr *ngFor="let y of dataPending.datas; let j = index;">
+                                                    <td *ngIf="y.req_date === dataPending.datas[i-1].req_date && y.springtype_code === dataPending.datas[i-1].springtype_code">
+                                                        {{y.pdsize_desc}}
+                                                    </td>
+                                                    <td *ngIf="y.req_date === dataPending.datas[i-1].req_date && y.springtype_code === dataPending.datas[i-1].springtype_code">
+                                                        {{y.springtype_code}}
+                                                    </td>
+                                                    <td class="text-center" *ngIf="y.req_date === dataPending.datas[i-1].req_date && y.springtype_code === dataPending.datas[i-1].springtype_code">
+                                                        {{y.plan_qty}}
+                                                    </td>
+                                                    <td class="text-center" *ngIf="y.req_date === dataPending.datas[i-1].req_date && y.springtype_code === dataPending.datas[i-1].springtype_code">
+                                                        {{y.actual_qty}}
+                                                    </td>
+                                                    <td class="text-center" *ngIf="y.req_date === dataPending.datas[i-1].req_date && y.springtype_code === dataPending.datas[i-1].springtype_code">
+                                                        {{y.diff_qty}}
+                                                    </td>
+                                                    <td class="text-center" *ngIf="y.req_date === dataPending.datas[i-1].req_date && y.springtype_code === dataPending.datas[i-1].springtype_code">
+                                                      <button mat-icon-button [matMenuTriggerFor]="appMenu1">
+                                                        <mat-icon class="material-icons">more_horiz</mat-icon>
+                                                      </button>
+
+                                                      <mat-menu #appMenu1="matMenu">
+                                                        <button mat-menu-item [routerLink]="['printtag/'+ y.pdsize_code + '@' + y.springtype_code]" action>
+                                                          <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process</span>
+                                                        </button>
+                                                      </mat-menu>
+                                                    </td>
+                                                     
+                                                </tr>
+                                                <tr>
+                                                  <th colspan="2" class="text-center">รวม</th>
+                                                  <th class="text-center">x</th>
+                                                  <th class="text-center">x</th>
+                                                  <th class="text-center">x</th>
+                                                  <th class="text-center">&nbsp;</th>
+                                                </tr>
+                                        
+                                            </tbody>
+                                        </table>
+
+                                         <br/>
+                                         <div class="row">
+                                              <div class="col-lg-2 col-sm-3 col-3">
+                                                  <dt>Machine</dt>
+                                                  <dd>{{this.user.user_mac.MC_CODE}}</dd>
+                                              </div>
+                                              <div class="col-lg-2 col-sm-3 col-3">
+                                                  <dt>Spring</dt>
+                                                  <dd>{{x.springtype_code}}</dd>
+                                              </div>
+                                              <div class="col-lg-2 col-sm-5 col-5">
+                                                  <dt>Mps Date</dt>
+                                                  <dd>{{x.req_date  | date:'dd/MM/yyyy'}}</dd>
+                                              </div>
+                                          </div>
+
+                        </div>  <!--end ngIf -->
+                    </ng-template> <!--end show_detail_pending -->
+
+                    <!--Last Record ? -->
+                    <div *ngIf="i === dataPending.datas.length -1;">  
+                                
+                          <!--INSERT Table (Privious) -->  
+                          <!-- Table -->
+                          <table style="width: 100%" >
+                          <tbody> 
+                              <!-- In Process Movement -->
+                              <tr>
+                                  <th style="width: 100px" class="text-center">Size</th>
+                                  <th style="width: 100px" class="text-center">Spring</th>
+                                  <th style="width: 100px"  class="text-center">Plan QTY</th>
+                                  <th style="width: 100px" class="text-center">In Act QTY</th>
+                                  <th style="width: 100px" class="text-center">Diff QTY</th>
+                                  <th style="width: 10px">&nbsp;</th>
+                              </tr>
+                              <tr *ngFor="let y of dataPending.datas; let j = index;">
+                                  <td *ngIf="y.req_date === dataPending.datas[i].req_date && y.springtype_code === dataPending.datas[i].springtype_code">
+                                      {{y.pdsize_desc}}
+                                  </td>
+                                  <td *ngIf="y.req_date === dataPending.datas[i].req_date && y.springtype_code === dataPending.datas[i].springtype_code">
+                                      {{y.springtype_code}}
+                                  </td>
+                                  <td class="text-center" *ngIf="y.req_date === dataPending.datas[i].req_date && y.springtype_code === dataPending.datas[i].springtype_code">
+                                      {{y.plan_qty}}
+                                  </td>
+                                  <td class="text-center" *ngIf="y.req_date === dataPending.datas[i].req_date && y.springtype_code === dataPending.datas[i].springtype_code">
+                                      {{y.actual_qty}}
+                                  </td>
+                                  <td class="text-center" *ngIf="y.req_date === dataPending.datas[i].req_date && y.springtype_code === dataPending.datas[i].springtype_code">
+                                      {{y.diff_qty}}
+                                  </td>
+                                  <td class="text-center" *ngIf="y.req_date === dataPending.datas[i].req_date && y.springtype_code === dataPending.datas[i].springtype_code">
+                                    <button mat-icon-button [matMenuTriggerFor]="appMenu1">
+                                      <mat-icon class="material-icons">more_horiz</mat-icon>
+                                    </button>
+
+                                    <mat-menu #appMenu1="matMenu">
+                                      <button mat-menu-item [routerLink]="['printtag/'+ y.pdsize_code + '@' + y.springtype_code]" action>
+                                        <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process</span>
+                                      </button>
+                                   </mat-menu>
+                                  </td>
+                                  
+                              </tr>
+                              <tr>
+                                <th colspan="2" class="text-center">รวม</th>
+                                <th class="text-center">x</th>
+                                <th class="text-center">x</th>
+                                <th class="text-center">x</th>
+                                <th class="text-center">&nbsp;</th>
+                              </tr>
+                      
+                          </tbody>
+                      </table>
+                          
+                   </div> <!--end *ngIf Last Record -->
+
+               </div> <!--*ngFor=" -->
+            </div> <!--end <div class="scrollable-child"> -->  
+         </ng-template> <!--end show_pending_content --> 
+
+      </mat-card> <!-- mat-card 3 -->
+      <br />
+
+      <mat-card> <!-- mat-card 4 -->
+        <mat-card-title >
+            <h5>ล่วงหน้า</h5>
+        </mat-card-title > 
+         <div class="row" *ngIf="dataForward.datas.length == 0;else show_Forward_content">
+                <div class="col-12 text-center">
+                    <h4>ไม่พบรายการ</h4>
+                </div>
+         </div> 
+         <ng-template #show_Forward_content>
+          <div class="scrollable-child" >
+            <div class="panel panel-default" *ngFor="let x of dataForward.datas; let i = index;">
+                 <!-- Column Header--> 
+                 <div *ngIf="i === 0;else show_detail_forward"> 
+                   <div class="row">
+                       <div class="col-lg-2 col-sm-3 col-3">
+                           <dt>Machine</dt>
+                           <dd>{{this.user.user_mac.MC_CODE}}</dd>
+                       </div>
+                       <div class="col-lg-2 col-sm-3 col-3">
+                           <dt>Spring</dt>
+                           <dd>{{x.springtype_code}}</dd>
+                       </div>
+                       <div class="col-lg-2 col-sm-5 col-5">
+                           <dt>Mps Date</dt>
+                           <dd>{{x.req_date  | date:'dd/MM/yyyy'}}</dd>
+                       </div>
+                   </div>
+                 </div>
+                 <ng-template #show_detail_forward>
+                      <div *ngIf="x.req_date != dataForward.datas[i-1].req_date || x.springtype_code != dataForward.datas[i-1].springtype_code">
+                             <!--INSERT Table (Privious) -->  
+                                        <!-- Table -->
+                                        <table style="width: 100%" >
+                                         <tbody> 
+                                             <tr>
+                                                 <th style="width: 100px" class="text-center">Size</th>
+                                                 <th style="width: 100px" class="text-center">Spring</th>
+                                                 <th style="width: 100px"  class="text-center">Plan QTY</th>
+                                                 <th style="width: 100px" class="text-center">In Act QTY</th>
+                                                 <th style="width: 100px" class="text-center">Diff QTY</th>
+                                                 <th style="width: 10px">&nbsp;</th>
+                                             </tr>
+                                             <tr *ngFor="let y of dataForward.datas; let j = index;">
+                                                 <td *ngIf="y.req_date === dataForward.datas[i-1].req_date && y.springtype_code === dataForward.datas[i-1].springtype_code">
+                                                     {{y.pdsize_desc}}
+                                                 </td>
+                                                 <td *ngIf="y.req_date === dataForward.datas[i-1].req_date && y.springtype_code === dataForward.datas[i-1].springtype_code">
+                                                     {{y.springtype_code}}
+                                                 </td>
+                                                 <td class="text-center" *ngIf="y.req_date === dataForward.datas[i-1].req_date && y.springtype_code === dataForward.datas[i-1].springtype_code">
+                                                     {{y.plan_qty}}
+                                                 </td>
+                                                 <td class="text-center" *ngIf="y.req_date === dataForward.datas[i-1].req_date && y.springtype_code === dataForward.datas[i-1].springtype_code">
+                                                     {{y.actual_qty}}
+                                                 </td>
+                                                 <td class="text-center" *ngIf="y.req_date === dataForward.datas[i-1].req_date && y.springtype_code === dataForward.datas[i-1].springtype_code">
+                                                     {{y.diff_qty}}
+                                                 </td>
+                                                 <td class="text-center" *ngIf="y.req_date === dataForward.datas[i-1].req_date && y.springtype_code === dataForward.datas[i-1].springtype_code">
+                                                      <button mat-icon-button [matMenuTriggerFor]="appMenu1">
+                                                        <mat-icon class="material-icons">more_horiz</mat-icon>
+                                                      </button>
+
+                                                      <mat-menu #appMenu1="matMenu">
+                                                        <button mat-menu-item [routerLink]="['printtag/'+ y.pdsize_code + '@' + y.springtype_code]" action>
+                                                          <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process</span>
+                                                        </button>
+                                                      </mat-menu>
+                                                  </td>
+                                                  
+                                             </tr>
+                                             <tr>
+                                               <th colspan="2" class="text-center">รวม</th>
+                                               <th class="text-center">x</th>
+                                               <th class="text-center">x</th>
+                                               <th class="text-center">x</th>
+                                               <th class="text-center">&nbsp;</th>
+                                             </tr>
+                                     
+                                         </tbody>
+                                     </table>
+
+                                      <br/>
+                                      <div class="row">
+                                           <div class="col-lg-2 col-sm-3 col-3">
+                                               <dt>Machine</dt>
+                                               <dd>{{this.user.user_mac.MC_CODE}}</dd>
+                                           </div>
+                                           <div class="col-lg-2 col-sm-3 col-3">
+                                               <dt>Spring</dt>
+                                               <dd>{{x.springtype_code}}</dd>
+                                           </div>
+                                           <div class="col-lg-2 col-sm-5 col-5">
+                                               <dt>Mps Date</dt>
+                                               <dd>{{x.req_date  | date:'dd/MM/yyyy'}}</dd>
+                                           </div>
+                                       </div>
+
+                     </div>  <!--end ngIf -->
+                 </ng-template> <!--end show_detail_pending -->
+
+                 <!--Last Record ? -->
+                 <div *ngIf="i === dataForward.datas.length -1;">  
+                             
+                       <!--INSERT Table (Privious) -->  
+                       <!-- Table -->
+                       <table style="width: 100%" >
+                       <tbody> 
+                           <!-- In Process Movement -->
+                           <tr>
+                               <th style="width: 100px" class="text-center">Size</th>
+                               <th style="width: 100px" class="text-center">Spring</th>
+                               <th style="width: 100px"  class="text-center">Plan QTY</th>
+                               <th style="width: 100px" class="text-center">In Act QTY</th>
+                               <th style="width: 100px" class="text-center">Diff QTY</th>
+                               <th style="width: 10px">&nbsp;</th>
+                           </tr>
+                           <tr *ngFor="let y of dataForward.datas; let j = index;">
+                               <td *ngIf="y.req_date === dataForward.datas[i].req_date && y.springtype_code === dataForward.datas[i].springtype_code">
+                                   {{y.pdsize_desc}}
+                               </td>
+                               <td *ngIf="y.req_date === dataForward.datas[i].req_date && y.springtype_code === dataForward.datas[i].springtype_code">
+                                   {{y.springtype_code}}
+                               </td>
+                               <td class="text-center" *ngIf="y.req_date === dataForward.datas[i].req_date && y.springtype_code === dataForward.datas[i].springtype_code">
+                                   {{y.plan_qty}}
+                               </td>
+                               <td class="text-center" *ngIf="y.req_date === dataForward.datas[i].req_date && y.springtype_code === dataForward.datas[i].springtype_code">
+                                   {{y.actual_qty}}
+                               </td>
+                               <td class="text-center" *ngIf="y.req_date === dataForward.datas[i].req_date && y.springtype_code === dataForward.datas[i].springtype_code">
+                                   {{y.diff_qty}}
+                               </td>
+                               <td class="text-center" *ngIf="y.req_date === dataForward.datas[i].req_date && y.springtype_code === dataForward.datas[i].springtype_code">
+                                    <button mat-icon-button [matMenuTriggerFor]="appMenu1">
+                                      <mat-icon class="material-icons">more_horiz</mat-icon>
+                                    </button>
+
+                                    <mat-menu #appMenu1="matMenu">
+                                      <button mat-menu-item [routerLink]="['printtag/'+ y.pdsize_code + '@' + y.springtype_code]" action>
+                                        <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process</span>
+                                      </button>
+                                    </mat-menu>
+                                </td>
+                                
+                           </tr>
+                           <tr>
+                             <th colspan="2" class="text-center">รวม</th>
+                             <th class="text-center">x</th>
+                             <th class="text-center">x</th>
+                             <th class="text-center">x</th>
+                             <th class="text-center">&nbsp;</th>
+                           </tr>
+                   
+                       </tbody>
+                   </table>
+                       
+                </div> <!--end *ngIf Last Record -->
+
+            </div> <!--*ngFor=" -->
+         </div> <!--end <div class="scrollable-child"> --> 
+
+         </ng-template>
+ 
+
+      </mat-card> <!-- mat-card 4 -->
+
+      <mat-card-actions class="no-margin">
+        <div class="row">
+          <div class="col-2 col-sm-2">
+            <button (click)="close();" mat-raised-button color="primary">
+              <mat-icon class="material-icons">close</mat-icon> ปิด
+            </button>
+          </div>
+      </div>
+      </mat-card-actions>
+      
+
+  </mat-card> <!-- mat-card 1 -->
+</div> <!-- container-->

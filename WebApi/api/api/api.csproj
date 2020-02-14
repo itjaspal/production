@@ -312,6 +312,7 @@
     <Compile Include="Models\su_user_entity.cs" />
     <Compile Include="Models\su_user_role.cs" />
     <Compile Include="Models\whmobileprnt_ctl.cs" />
+    <Compile Include="Models\whmobileprnt_default.cs" />
     <Compile Include="ModelViews\AuthenticationView.cs" />
     <Compile Include="ModelViews\CommonResponseView.cs" />
     <Compile Include="ModelViews\CommonSearchView.cs" />
@@ -373,6 +374,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

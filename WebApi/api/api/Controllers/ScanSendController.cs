@@ -39,6 +39,12 @@ namespace api.Controllers
         {
             try
             {
+                //var isChk = sendSvc.CheckPrevWc(model.entity, model.wc_code, model.pcs_barcode);
+                //if (isChk)
+                //{
+                //    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, string.Format("Scan ส่งมอบเกิน Quit Panel ไม่ได้"));
+                //}
+
                 sendSvc.ScanPcs(model);
 
                 return Request.CreateResponse(HttpStatusCode.OK, "บันทึกข้อมูลสำเร็จ");
@@ -60,7 +66,7 @@ namespace api.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
             }
         }
 

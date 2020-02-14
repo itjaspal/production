@@ -46,9 +46,20 @@ export class ScanSendComponent implements OnInit {
     //   //this.search();
     //   this.data = await this._jobSendSvc.searchcspring(this.model);
     // }
-    this.data = await this._jobSendSvc.searchcspring(this.model);
+
+    this.searchSpringData();
+    //this.data = await this._jobSendSvc.searchcspring(this.model);
     //console.log(this.user);
   }
+
+  async searchSpringData(event: PageEvent = null) {  
+
+    if (event != null) {
+      this.model.pageIndex = event.pageIndex;
+      this.model.itemPerPage = event.pageSize;
+    }
+    this.data = await this._jobSendSvc.searchcspring(this.model);
+ }  
 
   async ngOnDestroy() {
     this.saveSession();

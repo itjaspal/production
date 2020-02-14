@@ -74,7 +74,7 @@ export class ScanSendDataView
 
 export class ScanSendProcView
 {
-    public entity : string = "";  
+    public entity : string = AppSetting.entity; 
     public wc_code : string = "";  
     public req_date : string = "";  
     public pcs_barcode : string = "";  

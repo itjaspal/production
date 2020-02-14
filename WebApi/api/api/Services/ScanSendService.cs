@@ -45,53 +45,107 @@ namespace api.Services
             {
                 DateTime vreq_date = Convert.ToDateTime(model.req_date);
 
-                using (TransactionScope scope = new TransactionScope())
+                //Check QP QTY
+
+                string sqlp = "select d.WC_PREV from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code";
+
+                string vprev_wc = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code))
+                            .FirstOrDefault();
+
+                string sql = "select count(*) from MPS_DET_WC where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code = :p_prev_wc and mps_st = 'Y'";
+
+                int qp_qty = ctx.Database.SqlQuery<int>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_entity", model.pcs_barcode), new OracleParameter("p_prev_wc", vprev_wc)).FirstOrDefault();
+
+
+
+
+                if (qp_qty == 0)
                 {
+                    throw new Exception("Scan ส่งมอบเกิน Quit Panel ไม่ได้");
 
-                    //Check QP QTY
-                    string sql = "select nvl(sum(1),0) from MPS_DET a , PDMODEL_MAST b , MPS_DET_WC c";
-                    sql += " where trunc(a.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";
-                    sql += " and a.entity  = :p_entity";
-                    sql += " and a.pdsize_code  = :p_size_code";
-                    sql += " and substr(b.spring_type,1,2)  = :p_spring_grp";
-                    sql += " and a.pddsgn_code  = b.pdmodel_code";
-                    sql += " and a.entity  = c.entity";
-                    sql += " and a.req_date  = c.req_date";
-                    sql += " and a.pcs_no  = c.pcs_no";
-                    sql += " and c.mps_st  = 'Y'";
-                    sql += " and c.wc_code = '(select d.WC_PREV from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code)'";
-                    //sql += " and c.wc_code = 'PB5'";
-
-                    int qp_qty = ctx.Database.SqlQuery<int>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_spring_grp", model.spring_grp), new OracleParameter("p_req_date", model.req_date),  new OracleParameter("p_size_code", model.size_code)).FirstOrDefault();
-
-                    //
-
-                    if(qp_qty == 0)
-                    {
-                        throw new Exception("Scan ส่งมอบเกิน Quit Panel ไม่ได้");
-                    }
-
-
-                    mps_det_wc updateObj = ctx.mps_wc
-                    .Where(z => z.PCS_BARCODE == model.pcs_barcode
-                        && z.ENTITY == model.entity
-                        && z.WC_CODE == model.wc_code
-                        && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date)).SingleOrDefault();
-
-
-
-                    updateObj.MPS_ST = "Y";
-                    updateObj.FIN_BY = model.user_id;
-                    updateObj.FIN_DATE = DateTime.Now;
-                    updateObj.UPD_BY = model.user_id;
-                    updateObj.UPD_DATE = DateTime.Now;
-
-                    ctx.Configuration.AutoDetectChangesEnabled = true;
-                    ctx.SaveChanges();
-                    scope.Complete();
                 }
+
+                var sqlu = "update mps_det_wc set mps_st='Y' , fin_by = :p_user_id , fin_date = DateTime.Now , upd_by = :p_user_id , upd_date = DateTime.Now where pcs_barcode = :p_pcs_barcode and wc_code = :p_wc_code";
+                ctx.Database.ExecuteSqlCommand(sqlu, new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_pcs_barcode", model.pcs_barcode), new OracleParameter("p_wc_code", model.wc_code));
+                //ctx.Database.ExecuteSqlCommand(sqlu, new SqlParameter("FirstName", firstName),
+                //                    new SqlParameter("Id", id));
+
+                //mps_det_wc updateObj = ctx.mps_wc
+                //.Where(z => z.PCS_BARCODE == model.pcs_barcode
+                //    && z.ENTITY == model.entity
+                //    && z.WC_CODE == model.wc_code
+                //    && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date)).SingleOrDefault();
+
+
+
+                //updateObj.MPS_ST = "Y";
+                //updateObj.FIN_BY = model.user_id;
+                //updateObj.FIN_DATE = DateTime.Now;
+                //updateObj.UPD_BY = model.user_id;
+                //updateObj.UPD_DATE = DateTime.Now;
+
+                //ctx.Configuration.AutoDetectChangesEnabled = true;
+                //ctx.SaveChanges();
+
+                //using (TransactionScope scope = new TransactionScope())
+                //{
+
+
+
+                //    mps_det_wc updateObj = ctx.mps_wc
+                //    .Where(z => z.PCS_BARCODE == model.pcs_barcode
+                //        && z.ENTITY == model.entity
+                //        && z.WC_CODE == model.wc_code
+                //        && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date)).SingleOrDefault();
+
+
+
+                //    updateObj.MPS_ST = "Y";
+                //    updateObj.FIN_BY = model.user_id;
+                //    updateObj.FIN_DATE = DateTime.Now;
+                //    updateObj.UPD_BY = model.user_id;
+                //    updateObj.UPD_DATE = DateTime.Now;
+
+                //    ctx.Configuration.AutoDetectChangesEnabled = true;
+                //    ctx.SaveChanges();
+                //    scope.Complete();
+                //}
             }
         }
+
+        //public bool CheckPrevWc(string entity, string wc_code, string pcs_barcode)
+        //{
+        //    using (var ctx = new ConXContext())
+        //    {
+
+        //        string sqlp = "select d.WC_PREV from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code";
+
+        //        string vprev_wc = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_entity", entity), new OracleParameter("p_wc_code", wc_code))
+        //                    .FirstOrDefault();
+
+        //        string sql = "select count(*) from MPS_DET_WC where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code = :p_prev_wc and mps_st = 'Y'";
+
+        //        int qp_qty = ctx.Database.SqlQuery<int>(sql, new OracleParameter("p_entity", entity), new OracleParameter("p_entity", pcs_barcode), new OracleParameter("p_prev_wc", vprev_wc)).FirstOrDefault();
+        //        //int qp_qty = ctx.Database.SqlQuery<int>(sql).FirstOrDefault();
+
+        //        //
+
+        //        //if (qp_qty == 0)
+        //        //{
+        //        //    throw new Exception("Scan ส่งมอบเกิน Quit Panel ไม่ได้");
+
+        //        //}
+
+        //        bool isChk = qp_qty == 0;
+        //        //if (model != null)
+        //        //{
+        //        //    MenuFunctionGroup oldModel = ctx.MenuFunctionGroups.Where(z => z.branchGroupId == id).SingleOrDefault();
+        //        //    isDup = code != oldModel.branchGroupCode;
+        //        //}
+
+        //        return isChk;
+        //    }
+        //}
 
         public ScanPcsView SearchPcs(ScanPcsSearchView model)
         {
