@@ -36,9 +36,9 @@ namespace api.Models
         [StringLength(60)]
         public string FILEPATH_TXT { get; set; }
 
-        //[Column("DEFAULT_NO")]
-        //[StringLength(20)]
-        //public string DEFAULT_NO { get; set; }
+        [Column("DEFAULT_NO")]
+        [StringLength(20)]
+        public string DEFAULT_NO { get; set; }
 
         [Column("USER_CODE")]
         [StringLength(15)]

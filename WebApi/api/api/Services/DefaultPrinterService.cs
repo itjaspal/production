@@ -17,10 +17,10 @@ namespace api.Services
         {
             using (var ctx = new ConXContext())
             {
-                whmobileprnt_default prnt_def = ctx.mobileprnt_def
-                    .Where(z=>z.MC_CODE == code).SingleOrDefault();
+                whmobileprnt_ctl model = ctx.mobileprnt_ctl
+                   .Where(z => z.DEFAULT_NO == code).SingleOrDefault();
 
-                if (prnt_def == null)
+                if (model == null)
                 {
                     return new GetDefaultPrinterView
                     {
@@ -30,23 +30,17 @@ namespace api.Services
                         default_no = "",
                         filepath_data = "",
                         filepath_btw = "",
-                        filepath_txt = ""
+                        filepath_txt =""
                     };
                 }
-
                 else
                 {
-                    whmobileprnt_ctl model = ctx.mobileprnt_ctl
-                   .Where(z => z.SERIES_NO == prnt_def.SERIES_NO).SingleOrDefault();
-
-                
-                
                     return new GetDefaultPrinterView
                     {
                         serial_no = model.SERIES_NO,
                         grp_type = model.GRP_TYPE,
                         prnt_point_name = model.PRNT_POINT_NAME,
-                        default_no = prnt_def.MC_CODE,
+                        default_no = model.DEFAULT_NO,
                         filepath_data = model.FILEPATH_DATA,
                         filepath_btw = model.FILEPATH_BTW,
                         filepath_txt = model.FILEPATH_TXT
@@ -61,41 +55,20 @@ namespace api.Services
             {
                 using (TransactionScope scope = new TransactionScope())
                 {
+                    whmobileprnt_ctl updateObj = ctx.mobileprnt_ctl
+                   .Where(z => z.SERIES_NO == model.serial_no && z.GRP_TYPE == "SPRING").SingleOrDefault();
 
-                    whmobileprnt_default prnt_def = ctx.mobileprnt_def
-                   .Where(z => z.MC_CODE == model.mc_code).SingleOrDefault();
 
-                    if (prnt_def == null)
-                    {
-                        whmobileprnt_default newObj = new whmobileprnt_default()
-                        {
-                            MC_CODE = model.mc_code,
-                            SERIES_NO = model.serial_no,
-                            UPD_BY = model.user_id,
-                            UPD_DATE = DateTime.Now
+                    updateObj.SERIES_NO = model.serial_no;
+                    updateObj.GRP_TYPE = model.grp_type;
+                    updateObj.DEFAULT_NO = model.default_no;
+                    updateObj.PRNT_POINT_NAME = model.prnt_point_name;
+                    updateObj.USER_CODE = model.user_code;
+                    updateObj.SYS_DATE = DateTime.Now;
 
-                        };
-
-                        ctx.mobileprnt_def.Add(newObj);
-                        ctx.SaveChanges();
-                        scope.Complete();
-                    }
-                    else
-                    {
-                        whmobileprnt_default updateObj = ctx.mobileprnt_def
-                            .Where(z => z.MC_CODE == model.mc_code).SingleOrDefault();
-
-                        updateObj.MC_CODE = model.mc_code;
-                        updateObj.SERIES_NO = model.serial_no;
-                        updateObj.UPD_BY = model.user_id;
-                        updateObj.UPD_DATE = DateTime.Now;
-
-                        ctx.Configuration.AutoDetectChangesEnabled = true;
-                        ctx.SaveChanges();
-                        scope.Complete();
-                    }
-
-                   
+                    ctx.Configuration.AutoDetectChangesEnabled = true;
+                    ctx.SaveChanges();
+                    scope.Complete();
                 }
             }
         }

@@ -2,7 +2,7 @@ import { environment } from '../../environments/environment';
 import { CommonSearchView } from '../_model/common-search-view';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { JobInProcessSearchView, JobInProcessView, JobInProcessScanFinView } from '../_model/job-inprocess';
+import { JobInProcessSearchView, JobInProcessView } from '../_model/job-inprocess';
 
 
 
@@ -13,34 +13,14 @@ export class JobinprocessService {
 
   constructor(private http: HttpClient) { }
 
-  
-  public async searchscanpcs(_model: JobInProcessSearchView) {
-    return await this.http.post<JobInProcessView>(environment.API_URL + 'job-inprocess/postSearchScanPcs', _model).toPromise();
+  public async searchcurrent(_model: JobInProcessSearchView) {
+    return await this.http.post<JobInProcessView>(environment.API_URL + 'job/postSearchcurrent', _model).toPromise();
   }
 
-  public async searchscancancelpcs(_model: JobInProcessSearchView) {
-    return await this.http.post<JobInProcessView>(environment.API_URL + 'job-inprocess/postSearchScanCancelPcs', _model).toPromise();
+  public async search(_model: JobInProcessSearchView) {
+    return await this.http.post<CommonSearchView<JobInProcessView>>(environment.API_URL + 'stock/postSearch', _model).toPromise();
   }
 
-  public async searchfinpcs(_model: JobInProcessSearchView) {
-    return await this.http.post<JobInProcessScanFinView>(environment.API_URL + 'job-inprocess/postSerachFinPcs', _model).toPromise();
-  }
-
-  public async searchcancelpcs(_model: JobInProcessSearchView) {
-    return await this.http.post<JobInProcessScanFinView>(environment.API_URL + 'job-inprocess/postSerachCancelPcs', _model).toPromise();
-  }
-
-  public async searchcanpcs(_model: JobInProcessSearchView) {
-    return await this.http.post<JobInProcessScanFinView>(environment.API_URL + 'job-inprocess/postSerachCanPcs', _model).toPromise();
-  }
-
-  public async scanpcs(_model: JobInProcessSearchView) {
-    return await this.http.post(environment.API_URL + 'job-inprocess/postScanPcs', _model).toPromise();  
-  }
-
-  public async cancelpcs(_model: JobInProcessSearchView) {
-    return await this.http.post(environment.API_URL + 'job-inprocess/postCancelPcs', _model).toPromise();  
-  }
 
 
   

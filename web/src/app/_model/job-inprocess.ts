@@ -3,7 +3,7 @@ import { AppSetting } from "../_constants/app-setting";
 export class JobInProcessSearchView {
     public pageIndex: number = 1;
     public itemPerPage: number = AppSetting.itemPerPage;
-    public entity : string = AppSetting.entity;  
+    public entity : string = "";  
     public req_date : string = "";  
     public pcs_barcode: string = "";  
     public wc_code : string = "";  
@@ -18,8 +18,8 @@ export class JobInProcessView {
     public pcs_barcode : string = "";  
     public pdsize_desc : string = "";  
     public springtype_code : string = "";  
-    public qty : number ;
-   // public datas: JobInProcessScanView[] = [];
+    public qty : number = 0;
+    public datas: JobInProcessScanView[] = [];
 }
 
 export class JobInProcessScanFinView

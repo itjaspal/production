@@ -106,84 +106,6 @@ namespace api.Services
             }
         }
 
-        public JobInProcessView SearchScanCancelPcs(JobInProcessSearchView model)
-        {
-            using (var ctx = new ConXContext())
-            {
-
-
-                String[] strlist = model.pcs_barcode.Split('|');
-                string vspring_grp = strlist[0];
-                string vsize_code = strlist[1];
-
-                DateTime vreq_date = Convert.ToDateTime(model.req_date);
-
-                mps_det_in_process mps_in_process = ctx.mps_in_process
-                    .Where(z => z.SPRING_GRP == vspring_grp && z.PDSIZE_CODE == vsize_code && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date) && z.WC_CODE == model.wc_code && z.ENTITY == model.entity && z.MPS_ST == "Y" && z.MC_CODE == model.mc_code)
-                    .OrderBy(z => z.PCS_BARCODE)
-                    .FirstOrDefault();
-
-
-                if (mps_in_process == null)
-                {
-                    throw new Exception("PSC Barcodeไม่ถูกต้อง");
-                }
-
-
-                //define model view
-                JobInProcessView view = new ModelViews.JobInProcessView()
-                {
-                    pcs_barcode = mps_in_process.PCS_BARCODE,
-                    springtype_code = mps_in_process.SPRINGTYPE_CODE,
-                    pdsize_desc = mps_in_process.PDSIZE_DESC,
-                    qty = 1,
-                    datas = new List<ModelViews.JobInProcessScanView>()
-                };
-
-
-
-                //DateTime vreq_date = DateTime.Now;
-
-                //query data
-                string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME , b.PDMODEL_DESC";
-                sql += " from MPS_DET_IN_PROCESS a , PRODUCT b";
-                sql += " where a.prod_code = b.prod_code";
-                sql += " and a.mps_st = 'Y'";
-                sql += " and a.fin_by = :p_user_id";
-                sql += " and trunc(a.fin_date) = trunc(SYSDATE)";
-                sql += " and a.entity = :p_entity";
-                sql += " and a.wc_code = :p_wc_code";
-                sql += " and a.mc_code = :p_mc_code";
-
-
-                List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code)).ToList();
-
-
-
-                view.totalItem = scan.Count;
-                scan = scan.Skip(view.pageIndex * view.itemPerPage)
-                    .Take(view.itemPerPage)
-                    .ToList();
-
-                ////prepare model to modelView
-                foreach (var i in scan)
-                {
-
-                    view.datas.Add(new ModelViews.JobInProcessScanView()
-                    {
-                        pcs_barcode = i.pcs_barcode,
-                        pdmodel_code = i.pdmodel_code,
-                        prod_code = i.prod_code,
-                        prod_name = i.prod_name
-
-                    });
-                }
-
-                //return data to contoller
-                return view;
-            }
-        }
-
         public JobInProcessView SearchScanPcs(JobInProcessSearchView model)
         {
             using (var ctx = new ConXContext())
@@ -197,7 +119,7 @@ namespace api.Services
                 DateTime vreq_date = Convert.ToDateTime(model.req_date);
 
                 mps_det_in_process mps_in_process = ctx.mps_in_process
-                    .Where(z => z.SPRING_GRP == vspring_grp && z.PDSIZE_CODE == vsize_code && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date) && z.WC_CODE == model.wc_code && z.ENTITY == model.entity && z.MPS_ST == "N" && z.MC_CODE==model.mc_code)
+                    .Where(z => z.SPRING_GRP == vspring_grp && z.PDSIZE_CODE == vsize_code && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date) && z.WC_CODE == model.wc_code && z.ENTITY == model.entity && z.MPS_ST == "N")
                     .OrderBy(z => z.PCS_BARCODE)
                     .FirstOrDefault();
 
@@ -231,66 +153,9 @@ namespace api.Services
                 sql += " and trunc(a.fin_date) = trunc(SYSDATE)";
                 sql += " and a.entity = :p_entity";
                 sql += " and a.wc_code = :p_wc_code";
-                sql += " and a.mc_code = :p_mc_code";
 
 
-                List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code)).ToList();
-
-
-
-                view.totalItem = scan.Count;
-                scan = scan.Skip(view.pageIndex * view.itemPerPage)
-                    .Take(view.itemPerPage)
-                    .ToList();
-
-                ////prepare model to modelView
-                foreach (var i in scan)
-                {
-
-                    view.datas.Add(new ModelViews.JobInProcessScanView()
-                    {
-                        pcs_barcode = i.pcs_barcode,
-                        pdmodel_code = i.pdmodel_code,
-                        prod_code = i.prod_code,
-                        prod_name = i.prod_name
-
-                    });
-                }
-
-                //return data to contoller
-                return view;
-            }
-        }
-
-        public JobInProcessScanFinView SerachCancelPcs(JobInProcessSearchView model)
-        {
-            using (var ctx = new ConXContext())
-            {
-                //define model view
-                JobInProcessScanFinView view = new ModelViews.JobInProcessScanFinView()
-                {
-                    pageIndex = model.pageIndex - 1,
-                    itemPerPage = model.itemPerPage,
-                    totalItem = 0,
-
-
-                    datas = new List<ModelViews.JobInProcessScanView>()
-                };
-
-
-                string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME PROD_NAME, b.PDMODEL_DESC PDMODEL_CODE";
-                sql += " from MPS_DET_IN_PROCESS a , PRODUCT b";
-                sql += " where a.prod_code = b.prod_code";
-                sql += " and a.mps_st = 'N'";
-                sql += " and a.entity = :p_entity";
-                sql += " and a.fin_by = :p_user_id";
-                sql += " and trunc(a.fin_date) = trunc(SYSDATE)";
-                sql += " and a.wc_code = :p_wc_code";
-                sql += " and a.mc_code = :p_mc_code";
-                sql += " and a.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
-
-
-                List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code), new OracleParameter("p_req_date", model.req_date)).ToList();
+                List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code)).ToList();
 
 
 
@@ -325,28 +190,26 @@ namespace api.Services
                 //define model view
                 JobInProcessScanFinView view = new ModelViews.JobInProcessScanFinView()
                 {
-                    pageIndex = model.pageIndex -1,
+                    pageIndex = model.pageIndex - 1,
                     itemPerPage = model.itemPerPage,
                     totalItem = 0,
 
 
                     datas = new List<ModelViews.JobInProcessScanView>()
-                }; 
+                };
 
 
-                string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME PROD_NAME, b.PDMODEL_DESC PDMODEL_CODE";
+                string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME , b.PDMODEL_DESC";
                 sql += " from MPS_DET_IN_PROCESS a , PRODUCT b";
                 sql += " where a.prod_code = b.prod_code";
                 sql += " and a.mps_st = 'Y'";
-                sql += " and a.entity = :p_entity";
                 sql += " and a.fin_by = :p_user_id";
                 sql += " and trunc(a.fin_date) = trunc(SYSDATE)";
+                sql += " and a.entity = :p_entity";
                 sql += " and a.wc_code = :p_wc_code";
-                sql += " and a.mc_code = :p_mc_code";
-                sql += " and a.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
 
 
-                List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code),new OracleParameter("p_req_date", model.req_date)).ToList();
+                List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code)).ToList();
 
 
 
