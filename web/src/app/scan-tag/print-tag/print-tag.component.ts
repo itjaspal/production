@@ -106,44 +106,7 @@ export class PrintTagComponent implements OnInit {
 
   }
 
-  close() {
-    window.history.back();
-  }
-
-  print() {
-    let head = document.head;
-    let style = document.createElement('style');
-    style.type = 'text/css';
-    style.media = 'print';
-
-    style.appendChild(document.createTextNode('@page { size: A4 landscape; margin: 4mm 0;}'));
-
-    head.appendChild(style);
-
-    window.print();
-  }
-
-  setDefaultPrint() {
-
-    this._router.navigateByUrl('/app/defprinter');
-
-  }
-
-  // openSearchItemModal(_isEdit: boolean = false, _editItem: SaleTransactionItemView = null, _index: number = -1) {
-  //   const dialogRef = this._dialog.open(SaleTransactionProductSearchComponent, {
-  //     maxWidth: '100vw',
-  //     maxHeight: '100vh',
-  //     height: '100%',
-  //     width: '100%',
-  //     data: {
-  //       branchId: this.model.branchId,
-  //       stockLocationId: this.model.stockLocationId,
-  //       isEdit: _isEdit,
-  //       editItem: _editItem,
-  //       hideSerialNo: true,
-  //       isSaleBed: false
-  //     }
-  //   });
+  
 
 
 }
