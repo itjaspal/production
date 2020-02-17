@@ -1,3 +1,93 @@
-<p>
-  default-printer works!
-</p>
+<div class="container-fluid no-breadcrumbs">
+  
+  <mat-card>
+
+    <mat-card-title>
+      <h6>Set Default Printer</h6>
+    </mat-card-title>
+
+    <mat-card-content> 
+     <div class="row card-table-body" >
+        <!-- Row 1-->
+        <div class="col-2 col-lg-1">
+            <small>Serial No</small>
+            <dd>200</dd>
+        </div>
+        <div class="col-2 col-lg-2">
+            <small>Printer Name</small>  
+            <dd>เครื่องพิมพ์ Spring1</dd>
+       </div>
+       <div class="col-2 col-lg-1">
+          <small>default</small>
+          <dd><input type="radio" name="gender" value="" ></dd>
+       </div>
+       <div class="col-12">
+            <hr />
+       </div>  
+
+        <!-- Row 2-->
+        <div class="col-2 col-lg-1">
+          <small>Serial No</small>
+          <dd>201</dd>
+        </div>
+        <div class="col-2 col-lg-2">
+          <small>Printer Name</small>  
+          <dd>เครื่องพิมพ์ Spring2</dd>
+        </div>
+        <div class="col-2 col-lg-1">
+            <small>default</small>
+            <dd><input type="radio" name="gender" value="" checked ></dd>
+        </div>
+        <div class="col-12">
+            <hr />
+       </div> 
+
+        <!-- Row 3-->
+        <div class="col-2 col-lg-1">
+          <small>Serial No</small>
+          <dd>203</dd>
+      </div>
+      <div class="col-2 col-lg-2">
+          <small>Printer Name</small>  
+          <dd>เครื่องพิมพ์ Spring3</dd>
+     </div>
+     <div class="col-2 col-lg-1">
+        <small>default</small>
+        <dd><input type="radio" name="gender" value="" ></dd>
+     </div>
+     <div class="col-12">
+            <hr />
+     </div> 
+     
+
+        <mat-menu #appMenu5="matMenu">
+            <button mat-menu-item [routerLink]="['/pcsHistory']" action>
+              <mat-icon class="material-icons">search</mat-icon> <span>รายละเอียด Pcs Barcode</span>
+            </button>
+       </mat-menu> 
+
+    </div>
+
+
+    <div class="form-action">
+      <mat-card-actions>
+        <button mat-raised-button class="btn-w-md" type="button" (click)="close()">
+            <mat-icon class="material-icons">close</mat-icon> ปิด
+        </button>
+
+        <button mat-raised-button color="primary" class="btn-w-md pull-right" type="button" (click)="save()"
+            [disabled]="">
+            <mat-icon class="material-icons">save</mat-icon> บันทึกข้อมูล
+        </button>
+    </mat-card-actions>
+    </div>
+  </mat-card-content>
+ </mat-card>
+
+   
+ 
+
+
+
+</div>
+

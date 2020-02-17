@@ -34,6 +34,8 @@ namespace api.Controllers
             }
         }
 
+        
+
         [Route("job-inprocess/postSearchScanPcs")]
         public HttpResponseMessage postSearchScanPcs(JobInProcessSearchView model)
         {
@@ -49,12 +51,42 @@ namespace api.Controllers
             }
         }
 
+        [Route("job-inprocess/postSearchScanCancelPcs")]
+        public HttpResponseMessage postSearchScanCancelPcs(JobInProcessSearchView model)
+        {
+            try
+            {
+                var result = inprocSvc.SearchScanCancelPcs(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+            }
+        }
+
         [Route("job-inprocess/postSerachFinPcs")]
         public HttpResponseMessage postSerachFinPcs(JobInProcessSearchView model)
         {
             try
             {
                 var result = inprocSvc.SerachFinPcs(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+            }
+        }
+
+        [Route("job-inprocess/postSerachCancelPcs")]
+        public HttpResponseMessage postSerachCancelPcs(JobInProcessSearchView model)
+        {
+            try
+            {
+                var result = inprocSvc.SerachCancelPcs(model);
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }

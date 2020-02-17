@@ -13,7 +13,7 @@ namespace api.ModelViews
    
     public class JobMachineView
     {
-        internal List<JobReqView> req_date;
+        //internal List<JobReqView> req_date;
 
         public int pageIndex { get; set; }
         public int itemPerPage { get; set; }
@@ -53,6 +53,7 @@ namespace api.ModelViews
         public int itemPerPage { get; set; }
         public int totalItem { get; set; }
         public DateTime req_date { get; set; }
+        public string pdsize_code { get; set; }
         public string pdsize_desc { get; set; }
         public string springtype_code { get; set; }
         public int plan_qty { get; set; }

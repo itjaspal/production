@@ -268,3 +268,17 @@ dd {
 
   
 }
+
+.scrollable-child-display-mac {
+  max-height: 200px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.scrollable-master-display-mac {
+  max-height: 350px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+

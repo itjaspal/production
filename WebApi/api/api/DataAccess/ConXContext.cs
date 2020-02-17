@@ -42,6 +42,7 @@ namespace api.DataAccess
         public DbSet<su_role_menu> role_menu { get; set; }
         public DbSet<pd_mapp_user_mac> user_mac { get; set; }
         public DbSet<whmobileprnt_ctl> mobileprnt_ctl { get; set; }
+        public DbSet<whmobileprnt_default> mobileprnt_def { get; set; }
         public DbSet<mps_det_wc> mps_wc { get; set; }
         public DbSet<mps_det_in_process> mps_in_process { get; set; }
         public DbSet<mps_det_in_process_det> mps_in_process_det { get; set; }

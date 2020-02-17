@@ -36,8 +36,8 @@ namespace api.Services
 
                 //pd_mapp_user_mac user_mac = ctx.user_mac.SqlQuery("select USER_ID , MC_CODE , STATUS from pd_mapp_user_mac where user_id = :param1", new OracleParameter("param1", user.USER_ID)).SingleOrDefault();
 
-                whmobileprnt_ctl whmobileprnt = ctx.mobileprnt_ctl
-                   .Where(z => z.DEFAULT_NO == user.user_mac.MC_CODE).SingleOrDefault();
+                whmobileprnt_default whmobileprnt = ctx.mobileprnt_def
+                   .Where(z => z.MC_CODE == user.user_mac.MC_CODE).SingleOrDefault();
 
                 auth_function auth = ctx.auth
                    .Where(z => z.USER_ID == user.USER_ID && z.FUNCTION_ID == "PDOPTM_WEB").SingleOrDefault();

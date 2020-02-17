@@ -266,6 +266,7 @@
     <Compile Include="Controllers\JobInProcessController.cs" />
     <Compile Include="Controllers\JobMachineController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\PrintTagController.cs" />
     <Compile Include="Controllers\ScanSendController.cs" />
     <Compile Include="Controllers\SpecDrawingController.cs" />
     <Compile Include="Controllers\StockController.cs" />
@@ -281,6 +282,7 @@
     <Compile Include="Interfaces\IJobInProcessService.cs" />
     <Compile Include="Interfaces\IJobMachineService.cs" />
     <Compile Include="Interfaces\IMenuService.cs" />
+    <Compile Include="Interfaces\IPrintTagService.cs" />
     <Compile Include="Interfaces\IScanSendService.cs" />
     <Compile Include="Interfaces\ISpecDrawingService.cs" />
     <Compile Include="Interfaces\IStockService.cs" />
@@ -312,6 +314,7 @@
     <Compile Include="Models\su_user_entity.cs" />
     <Compile Include="Models\su_user_role.cs" />
     <Compile Include="Models\whmobileprnt_ctl.cs" />
+    <Compile Include="Models\whmobileprnt_default.cs" />
     <Compile Include="ModelViews\AuthenticationView.cs" />
     <Compile Include="ModelViews\CommonResponseView.cs" />
     <Compile Include="ModelViews\CommonSearchView.cs" />
@@ -320,6 +323,7 @@
     <Compile Include="ModelViews\JobInProcessView.cs" />
     <Compile Include="ModelViews\JobMachineView.cs" />
     <Compile Include="ModelViews\MasterMenuView.cs" />
+    <Compile Include="ModelViews\PrintTagView.cs" />
     <Compile Include="ModelViews\ScanSendView.cs" />
     <Compile Include="ModelViews\SpecDrawingView.cs" />
     <Compile Include="ModelViews\StockView.cs" />
@@ -330,6 +334,7 @@
     <Compile Include="Services\JobInProcessService.cs" />
     <Compile Include="Services\JobMachineService.cs" />
     <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\PrintTagService.cs" />
     <Compile Include="Services\ScanSendService.cs" />
     <Compile Include="Services\SpecDrawingService.cs" />
     <Compile Include="Services\StockService.cs" />
@@ -373,6 +378,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
