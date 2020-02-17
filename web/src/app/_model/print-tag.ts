@@ -20,4 +20,12 @@ export class PrintTagView {
     public sprin_type: string = "";  
     public size_code: string = "";  
     public user_id: string = "";  
+    public raw_item: RawMatitemView[] = [];
+}
+
+export class RawMatitemView {
+    public doc_no :string = "";
+    public prod_code :string = "";
+    public prod_name :string = "";
+
 }
