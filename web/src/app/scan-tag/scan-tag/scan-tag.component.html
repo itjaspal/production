@@ -16,7 +16,7 @@
                 </div>
            </div>
            <ng-template #show_current_content>
-                 <div class="scrollable-child" >
+                 <div class="scrollable-child-display-mac" >
                       <div class="panel panel-default" *ngFor="let x of dataCurrent.datas; let i = index;">
                                <!-- Column Header--> 
                                <div *ngIf="i === 0;else show_detail_current"> 
@@ -71,7 +71,7 @@
                                                           </button> 
 
                                                           <mat-menu #appMenu1="matMenu">
-                                                            <button mat-menu-item [routerLink]="['printtag/'+ y.pdsize_code + '@' + y.springtype_code]" action>
+                                                            <button mat-menu-item [routerLink]="['printtag/'+y.req_date+'/'+y.springtype_code+'/'+y.pdsize_code+'/'+y.plan_qty]" action>
                                                               <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process</span>
                                                             </button>
                                                          </mat-menu>
@@ -147,7 +147,7 @@
                                                       </button>
 
                                                       <mat-menu #appMenu1="matMenu">
-                                                        <button mat-menu-item [routerLink]="['printtag/'+ y.pdsize_code + '@' + y.springtype_code]" action>
+                                                        <button mat-menu-item [routerLink]="['printtag/'+y.req_date+'/'+y.springtype_code+'/'+y.pdsize_code+'/'+y.plan_qty]" action>
                                                           <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process</span>
                                                         </button>
                                                       </mat-menu>
@@ -156,10 +156,10 @@
                                                 </tr>
                                                 <tr>
                                                   <th colspan="2" class="text-center">รวม</th>
-                                                  <th class="text-center">x</th>
-                                                  <th class="text-center">x</th>
-                                                  <th class="text-center">x</th>
-                                                  <th class="text-center">&nbsp;</th>
+                                                    <th class="text-center">{{dataCurrent.total_plan_qty}}</th>
+                                                    <th class="text-center">{{dataCurrent.total_actual_qty}}</th>
+                                                    <th class="text-center">{{dataCurrent.total_diff_qty}}</th>
+                                                    <th class="text-center">&nbsp;</th>
                                                 </tr>
                                         
                                             </tbody>
@@ -184,7 +184,7 @@
                 </div>
          </div> 
          <ng-template #show_pending_content>
-            <div class="scrollable-child" >
+            <div class="scrollable-child-display-mac" >
                <div class="panel panel-default" *ngFor="let x of dataPending.datas; let i = index;">
                     <!-- Column Header--> 
                     <div *ngIf="i === 0;else show_detail_pending"> 
@@ -239,7 +239,7 @@
                                                       </button>
 
                                                       <mat-menu #appMenu1="matMenu">
-                                                        <button mat-menu-item [routerLink]="['printtag/'+ y.pdsize_code + '@' + y.springtype_code]" action>
+                                                        <button mat-menu-item [routerLink]="['printtag/'+y.req_date+'/'+y.springtype_code+'/'+y.pdsize_code+'/'+y.plan_qty]" action>
                                                           <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process</span>
                                                         </button>
                                                       </mat-menu>
@@ -351,7 +351,7 @@
                 </div>
          </div> 
          <ng-template #show_Forward_content>
-          <div class="scrollable-child" >
+          <div class="scrollable-child-display-mac" >
             <div class="panel panel-default" *ngFor="let x of dataForward.datas; let i = index;">
                  <!-- Column Header--> 
                  <div *ngIf="i === 0;else show_detail_forward"> 

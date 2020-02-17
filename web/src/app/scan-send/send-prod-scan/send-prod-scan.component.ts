@@ -1,18 +1,24 @@
 import { ScanInprocessComponent } from './../../scan-inprocess/scan-inprocess/scan-inprocess.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Directive } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../../_service/authentication.service';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { MessageService } from '../../_service/message.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobSendService } from '../../_service/job-send.service';
-import { ScanPcsView, ScanPcsSearchView, ScanSendFinSearchView, ScanSendProcView } from '../../_model/job-send';
+import { ScanPcsView, ScanPcsSearchView, ScanSendFinSearchView, ScanSendProcView, ScanSendFinView } from '../../_model/job-send';
 import { DatePipe } from '@angular/common';
+//import { qR } from '@angular/core/src/render3';
+
+// @Directive({
+//   selector :'[focusQR]'
+// })
 
 @Component({
   selector: 'app-send-prod-scan',
   templateUrl: './send-prod-scan.component.html',
   styleUrls: ['./send-prod-scan.component.scss']
+  
 })
 export class SendProdScanComponent implements OnInit {
 
@@ -33,12 +39,22 @@ export class SendProdScanComponent implements OnInit {
   searchModel: ScanPcsSearchView = new ScanPcsSearchView();
   searchfinModel: ScanSendFinSearchView = new ScanSendFinSearchView();
   scanModel : ScanSendProcView = new ScanSendProcView();
-  public scan_data: any = {};
+  finModel : ScanSendFinSearchView = new  ScanSendFinSearchView();
+  //public scan_data: any = {};
   public data: any = {};
+  public model_scan: ScanSendFinView = new ScanSendFinView();
   
+  @ViewChild('qr') qrElement:ElementRef;
+  ngAfterViewInit(){
+    this.qrElement.nativeElement.focus();
+  }
+
   ngOnInit() {
     this.buildForm();
     this.user = this._authSvc.getLoginUser();
+  
+    
+    
   }
 
   private buildForm() {
@@ -62,9 +78,7 @@ export class SendProdScanComponent implements OnInit {
     
 
     //this.searchfinModel.req_date = this._actRoute.snapshot.params.req_date;
-    this.searchfinModel.wc_code = this.user.def_wc_code;
-    this.searchfinModel.user_id = this.user.username;
-    this.searchfinModel.req_date  = this.searchModel.req_date
+    
     
     
 
@@ -76,16 +90,17 @@ export class SendProdScanComponent implements OnInit {
     }
 
     this.model = await this._jobSendSvc.searchscanpcs(this.searchModel);
-    console.log(this.scan_data);
+    //console.log(this.scan_data);
 
-
-    this.data = await this._jobSendSvc.searchfinpcs(this.searchfinModel);
+    
+    
     // if (pcs_barcode.length > 0) {
     //   this.itemSelected(pcs_barcode[0]);
     // } else {
     //   this._msgSvc.warningPopup("ไม่พบสินค้าบาร์โค้ด " + _qr + " ในระบบ");
 
     // }
+    
   }
 
   close() {
@@ -102,10 +117,29 @@ export class SendProdScanComponent implements OnInit {
     this.scanModel.spring_grp  = this.model.spring_grp;  
     this.scanModel.size_code  = this.model.size_desc;  
     this.scanModel.user_id  = this.user.username;  
+
+    this.searchfinModel.wc_code = this.user.def_wc_code;
+    this.searchfinModel.user_id = this.user.username;
+    this.searchfinModel.req_date  = this.searchModel.req_date
    
-    console.log(this.scanModel);
+    console.log(this.searchfinModel);
+    
     this.data = await this._jobSendSvc.scanpcs(this.scanModel);
+    
+    this.model_scan = await this._jobSendSvc.searchfinpcs(this.searchfinModel);
+
+    this.qrElement.nativeElement.focus();
+
+    this.model.spring_grp =  "";
+    this.model.size_desc= "";
+    this.model.qty= null;
+
+    console.log(this.model_scan);
 
   }
+
+
+  
+  
 
 }

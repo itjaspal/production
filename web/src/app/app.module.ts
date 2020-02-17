@@ -156,6 +156,7 @@ import { SendProdCancelComponent } from './scan-send/send-prod-cancel/send-prod-
 import { SendProdScanComponent } from './scan-send/send-prod-scan/send-prod-scan.component';
 import { ViewSpceDrawingComponent } from './view-spec/view-spce-drawing/view-spce-drawing.component';
 import { BranchSearchAssignProductComponent } from './master-branch/branch-search-assignProduct/branch-search-assignProduct.component';
+import { RawmatSearchComponent } from './scan-tag/rawmat-search/rawmat-search.component';
 
 
 
@@ -337,6 +338,7 @@ import { BranchSearchAssignProductComponent } from './master-branch/branch-searc
     SendProdCancelComponent,
     SendProdScanComponent,
     ViewSpceDrawingComponent,
+    RawmatSearchComponent,
 
   
   

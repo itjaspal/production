@@ -117,6 +117,21 @@ namespace api.Controllers
         }
 
 
+        [Route("scan-send/postSerachCanPcs")]
+        public HttpResponseMessage postSerachCanPcs(ScanSendFinSearchView model)
+        {
+            try
+            {
+                var result = sendSvc.SerachCanPcs(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+            }
+        }
+
 
     }
 }

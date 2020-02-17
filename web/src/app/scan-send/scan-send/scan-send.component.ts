@@ -41,15 +41,8 @@ export class ScanSendComponent implements OnInit {
     this.model.req_date = "";
     
 
-    // if (sessionStorage.getItem('session-scansend-search') != null) {
-    //   this.model = JSON.parse(sessionStorage.getItem('session-scansend-search'));
-    //   //this.search();
-    //   this.data = await this._jobSendSvc.searchcspring(this.model);
-    // }
-
     this.searchSpringData();
-    //this.data = await this._jobSendSvc.searchcspring(this.model);
-    //console.log(this.user);
+    
   }
 
   async searchSpringData(event: PageEvent = null) {  
@@ -61,6 +54,7 @@ export class ScanSendComponent implements OnInit {
     this.data = await this._jobSendSvc.searchcspring(this.model);
  }  
 
+ 
   async ngOnDestroy() {
     this.saveSession();
   }

@@ -13,7 +13,7 @@ namespace api.ModelViews
    
     public class JobMachineView
     {
-        internal List<JobReqView> req_date;
+        //internal List<JobReqView> req_date;
 
         public int pageIndex { get; set; }
         public int itemPerPage { get; set; }

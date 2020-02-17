@@ -36,14 +36,50 @@ namespace api.Services
 
                 //pd_mapp_user_mac user_mac = ctx.user_mac.SqlQuery("select USER_ID , MC_CODE , STATUS from pd_mapp_user_mac where user_id = :param1", new OracleParameter("param1", user.USER_ID)).SingleOrDefault();
 
-                whmobileprnt_ctl whmobileprnt = ctx.mobileprnt_ctl
-                   .Where(z => z.DEFAULT_NO == user.user_mac.MC_CODE).SingleOrDefault();
+               
+
+
+                if (user == null)
+                {
+                    throw new Exception("รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง / ไมได้กำนหด Machine");
+                }
+                //else if (auth == null)
+                //{
+                //    throw new Exception("ยังไมได้กำนหด หน่วยงาน");
+                //}
+                else
+                {
+                    if (!user.USER_PASSWORD.Equals(password))
+                    {
+                        throw new Exception("รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+                    }
+
+                    if (!user.ACTIVE.Equals("Y"))
+                    {
+                        throw new Exception("สถานะผู้ใช้งานนี้ถูกยกเลิก");
+                    }
+
+
+
+                    if (!user.user_mac.STATUS.Equals("A"))
+                    {
+                        throw new Exception("ไม่มีการกำหนด Machine");
+                    }
+                }
+
+                whmobileprnt_default whmobileprnt = ctx.mobileprnt_def
+                  .Where(z => z.MC_CODE == user.user_mac.MC_CODE).SingleOrDefault();
 
                 auth_function auth = ctx.auth
                    .Where(z => z.USER_ID == user.USER_ID && z.FUNCTION_ID == "PDOPTM_WEB").SingleOrDefault();
 
                 string def_printer = null;
                 string wc_code = null;
+
+                if (auth == null)
+                {
+                    throw new Exception("ยังไมได้กำนหด หน่วยงาน");
+                }
 
                 if (whmobileprnt == null)
                 {
@@ -65,35 +101,6 @@ namespace api.Services
 
 
 
-                if (user == null)
-                {
-                    throw new Exception("รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง / ไมได้กำนหด Machine");
-                }
-                else if (auth == null)
-                {
-                    throw new Exception("ยังไมได้กำนหด หน่วยงาน");
-                }
-                else
-                {
-                    if (!user.USER_PASSWORD.Equals(password))
-                    {
-                        throw new Exception("รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
-                    }
-
-                    if (!user.ACTIVE.Equals("Y"))
-                    {
-                        throw new Exception("สถานะผู้ใช้งานนี้ถูกยกเลิก");
-                    }
-
-
-
-                    if (!user.user_mac.STATUS.Equals("A"))
-                    {
-                        throw new Exception("ไม่มีการกำหนด Machine");
-                    }
-                }
-
-                
                 AuthenticationData data = new AuthenticationData()
                 {
                     username = user.USER_ID,

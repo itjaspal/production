@@ -25,6 +25,10 @@ export class JobSendService {
     return await this.http.post<ScanSendFinView>(environment.API_URL + 'scan-send/postSerachFinPcs', _model).toPromise();
   }
 
+  public async searchcanpcs(_model: ScanSendFinSearchView) {
+    return await this.http.post<ScanSendFinView>(environment.API_URL + 'scan-send/postSerachCanPcs', _model).toPromise();
+  }
+
   public async scanpcs(_model: ScanSendProcView) {
     return await this.http.post(environment.API_URL + 'scan-send/postScanPcs', _model).toPromise();  
   }

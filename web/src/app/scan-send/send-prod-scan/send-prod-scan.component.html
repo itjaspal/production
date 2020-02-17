@@ -17,7 +17,7 @@
 
             <mat-form-field class="full-width">
               <input matInput placeholder="In Process Tag" formControlName="qr" name="qr" #qr
-                (keydown.enter)="onQrEntered(qr.value)" >
+                (keydown.enter)="onQrEntered(qr.value); qr.value = '' ">
               <button mat-button *ngIf="qr.value != ''" matSuffix mat-icon-button aria-label="Clear" type="button"
                 (click)="qr.value = ''">
                 <mat-icon>close</mat-icon>
@@ -106,7 +106,7 @@
                     <th style="width: 50px"  class="text-center">Prod Code</th>
                     <th style="width: 100px" class="text-center">Product Description</th>
                   </tr>
-                  <tr *ngFor="let x of data.datas">
+                  <tr *ngFor="let x of model_scan.datas">
                     <td>{{x.pcs_barcode}}</td>
                     <td>{{x.model_desc}}</td>
                     <td>{{x.prod_code}}</td>

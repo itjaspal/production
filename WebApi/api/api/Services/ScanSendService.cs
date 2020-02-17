@@ -5,6 +5,8 @@ using api.ModelViews;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Transactions;
 using System.Web;
@@ -19,21 +21,62 @@ namespace api.Services
             {
                 DateTime vreq_date = Convert.ToDateTime(model.req_date);
 
+                //Check ส่งมอบหน่วยถัดไปแล้ว
+                string sqlp = "select d.WC_NEXT from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code";
+
+                string vnext_wc = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code))
+                            .FirstOrDefault();
+
+                string sql = "select a.pcs_barcode from mps_det a, pdmodel_mast b , mps_det_wc c";
+                sql += " where a.entity = :p_entity";
+                sql += " and a.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
+                sql += " and a.pdsize_code = :p_size_code";
+                sql += " and substr(b.spring_type,1,2) = :p_spring_grp";
+                sql += " and a.pddsgn_code= b.pdmodel_code";
+                sql += " and a.entity= c.entity";
+                sql += " and a.req_date = c.req_date";
+                sql += " and a.pcs_no = c.pcs_no";
+                sql += " and c.mps_st='N'";
+                sql += " and c.wc_code  = :p_next_wc";
+                sql += " and rownum =1";
+
+                string pcs_barcode = ctx.Database.SqlQuery<string>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_size_code", model.size_code), new OracleParameter("p_spring_grp", model.spring_grp), new OracleParameter("p_next_wc", vnext_wc)).FirstOrDefault();
+
+
+
+
+                if (pcs_barcode == null)
+                {
+                    throw new Exception("ยกเลิกไม่ได้");
+
+                }
+
                 using (TransactionScope scope = new TransactionScope())
                 {
-                    mps_det_wc updateObj = ctx.mps_wc
-                   .Where(z => z.PCS_BARCODE == model.pcs_barcode
-                        && z.ENTITY == model.entity
-                        && z.WC_CODE == model.wc_code
-                        && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date)).SingleOrDefault();
+                    string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+                    var dataConn = new OracleConnectionStringBuilder(strConn);
+                    OracleConnection conn = new OracleConnection(dataConn.ToString());
+
+                    conn.Open();
+
+                    OracleCommand oraCommand = conn.CreateCommand();
+                    OracleParameter[] param = new OracleParameter[]
+                    {
+                        new OracleParameter("p_entity", model.entity),
+                        new OracleParameter("p_user_id", model.user_id),
+                        new OracleParameter("p_pcs_barcode", pcs_barcode),
+                        new OracleParameter("p_wc_code", model.wc_code)
+                    };
+                    oraCommand.BindByName = true;
+                    oraCommand.Parameters.AddRange(param);
+                    oraCommand.CommandText = "update MPS_DET_WC set mps_st='N' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code =:p_wc_code";
+
+                    //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
+                    oraCommand.ExecuteNonQuery();
+
+                    conn.Close();
 
 
-                    updateObj.MPS_ST = "N";
-                    updateObj.UPD_BY = model.user_id;
-                    updateObj.UPD_DATE = DateTime.Now;
-
-                    ctx.Configuration.AutoDetectChangesEnabled = true;
-                    ctx.SaveChanges();
                     scope.Complete();
                 }
             }
@@ -65,87 +108,41 @@ namespace api.Services
 
                 }
 
-                var sqlu = "update mps_det_wc set mps_st='Y' , fin_by = :p_user_id , fin_date = DateTime.Now , upd_by = :p_user_id , upd_date = DateTime.Now where pcs_barcode = :p_pcs_barcode and wc_code = :p_wc_code";
-                ctx.Database.ExecuteSqlCommand(sqlu, new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_pcs_barcode", model.pcs_barcode), new OracleParameter("p_wc_code", model.wc_code));
-                //ctx.Database.ExecuteSqlCommand(sqlu, new SqlParameter("FirstName", firstName),
-                //                    new SqlParameter("Id", id));
+               
 
-                //mps_det_wc updateObj = ctx.mps_wc
-                //.Where(z => z.PCS_BARCODE == model.pcs_barcode
-                //    && z.ENTITY == model.entity
-                //    && z.WC_CODE == model.wc_code
-                //    && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date)).SingleOrDefault();
+                using (TransactionScope scope = new TransactionScope())
+                {
 
+                    string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+                    var dataConn = new OracleConnectionStringBuilder(strConn);
+                    OracleConnection conn = new OracleConnection(dataConn.ToString());
 
+                    conn.Open();
 
-                //updateObj.MPS_ST = "Y";
-                //updateObj.FIN_BY = model.user_id;
-                //updateObj.FIN_DATE = DateTime.Now;
-                //updateObj.UPD_BY = model.user_id;
-                //updateObj.UPD_DATE = DateTime.Now;
+                    OracleCommand oraCommand = conn.CreateCommand();
+                    OracleParameter[] param = new OracleParameter[]
+                    {
+                        new OracleParameter("p_entity", model.entity),
+                        new OracleParameter("p_user_id", model.user_id),
+                        new OracleParameter("p_pcs_barcode", model.pcs_barcode),
+                        new OracleParameter("p_wc_code", model.wc_code)
+                    };
+                    oraCommand.BindByName = true;
+                    oraCommand.Parameters.AddRange(param);
+                    oraCommand.CommandText = "update MPS_DET_WC set mps_st='Y' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code =:p_wc_code";
 
-                //ctx.Configuration.AutoDetectChangesEnabled = true;
-                //ctx.SaveChanges();
+                    //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
+                    oraCommand.ExecuteNonQuery();
 
-                //using (TransactionScope scope = new TransactionScope())
-                //{
+                    conn.Close();
 
-
-
-                //    mps_det_wc updateObj = ctx.mps_wc
-                //    .Where(z => z.PCS_BARCODE == model.pcs_barcode
-                //        && z.ENTITY == model.entity
-                //        && z.WC_CODE == model.wc_code
-                //        && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date)).SingleOrDefault();
-
-
-
-                //    updateObj.MPS_ST = "Y";
-                //    updateObj.FIN_BY = model.user_id;
-                //    updateObj.FIN_DATE = DateTime.Now;
-                //    updateObj.UPD_BY = model.user_id;
-                //    updateObj.UPD_DATE = DateTime.Now;
-
-                //    ctx.Configuration.AutoDetectChangesEnabled = true;
-                //    ctx.SaveChanges();
-                //    scope.Complete();
-                //}
+                    
+                    scope.Complete();
+                }
             }
         }
 
-        //public bool CheckPrevWc(string entity, string wc_code, string pcs_barcode)
-        //{
-        //    using (var ctx = new ConXContext())
-        //    {
-
-        //        string sqlp = "select d.WC_PREV from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code";
-
-        //        string vprev_wc = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_entity", entity), new OracleParameter("p_wc_code", wc_code))
-        //                    .FirstOrDefault();
-
-        //        string sql = "select count(*) from MPS_DET_WC where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code = :p_prev_wc and mps_st = 'Y'";
-
-        //        int qp_qty = ctx.Database.SqlQuery<int>(sql, new OracleParameter("p_entity", entity), new OracleParameter("p_entity", pcs_barcode), new OracleParameter("p_prev_wc", vprev_wc)).FirstOrDefault();
-        //        //int qp_qty = ctx.Database.SqlQuery<int>(sql).FirstOrDefault();
-
-        //        //
-
-        //        //if (qp_qty == 0)
-        //        //{
-        //        //    throw new Exception("Scan ส่งมอบเกิน Quit Panel ไม่ได้");
-
-        //        //}
-
-        //        bool isChk = qp_qty == 0;
-        //        //if (model != null)
-        //        //{
-        //        //    MenuFunctionGroup oldModel = ctx.MenuFunctionGroups.Where(z => z.branchGroupId == id).SingleOrDefault();
-        //        //    isDup = code != oldModel.branchGroupCode;
-        //        //}
-
-        //        return isChk;
-        //    }
-        //}
+        
 
         public ScanPcsView SearchPcs(ScanPcsSearchView model)
         {
@@ -166,7 +163,7 @@ namespace api.Services
                 sql += " and a.entity  = c.entity";
                 sql += " and a.req_date  = c.req_date";
                 sql += " and a.pcs_no  = c.pcs_no";
-                sql += " and c.mps_st  <> 'OCL'";
+                sql += " and c.mps_st  = 'N'";
                 sql += " and c.wc_code  = :p_wc_code";
 
                
@@ -175,8 +172,8 @@ namespace api.Services
 
                 if (mps_det.Count == 0)
                 {
+
                     throw new Exception("PSC Barcodeไม่ถูกต้อง");
-                    
 
                 }
 
@@ -230,8 +227,8 @@ namespace api.Services
                 sql += " and a.entity  = c.entity";
                 sql += " and a.req_date  = c.req_date";
                 sql += " and a.pcs_no  = c.pcs_no";
-                sql += " and c.mps_st  <> 'OCL'";
-                sql += " and a.mps_st  = 'N'";
+                //sql += " and c.mps_st  <> 'OCL';
+                sql += " and c.mps_st  = 'N'";
                 sql += " and rownum = 1";
 
 
@@ -431,7 +428,7 @@ namespace api.Services
                 };
 
 
-                string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME , b.PDMODEL_DESC";
+                string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME PROD_NAME , b.PDMODEL_DESC MODEL_DESC";
                 sql += " from MPS_DET_WC a , PRODUCT b";
                 sql += " where a.prod_code = b.prod_code";
                 sql += " and a.mps_st = 'Y'";
@@ -441,7 +438,7 @@ namespace api.Services
                 sql += " and a.wc_code = :p_wc_code";
 
 
-                List<ScanSendDataView> scan = ctx.Database.SqlQuery<ScanSendDataView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code)).ToList();
+                List<ScanSendDataView> scan = ctx.Database.SqlQuery<ScanSendDataView>(sql, new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_entity", model.entity),  new OracleParameter("p_wc_code", model.wc_code)).ToList();
 
 
 
@@ -469,6 +466,60 @@ namespace api.Services
             }
         }
 
-      
+        public ScanSendFinView SerachCanPcs(ScanSendFinSearchView model)
+        {
+            using (var ctx = new ConXContext())
+            {
+                //define model view
+                ScanSendFinView view = new ModelViews.ScanSendFinView()
+                {
+                    pageIndex = model.pageIndex - 1,
+                    itemPerPage = model.itemPerPage,
+                    totalItem = 0,
+
+
+                    datas = new List<ModelViews.ScanSendDataView>()
+                };
+
+
+                string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME PROD_NAME , b.PDMODEL_DESC MODEL_DESC";
+                sql += " from MPS_DET_WC a , PRODUCT b";
+                sql += " where a.prod_code = b.prod_code";
+                sql += " and a.mps_st = 'N'";
+                sql += " and a.fin_by = :p_user_id";
+                sql += " and trunc(a.fin_date) = trunc(SYSDATE)";
+                sql += " and a.entity = :p_entity";
+                sql += " and a.wc_code = :p_wc_code";
+
+
+                List<ScanSendDataView> scan = ctx.Database.SqlQuery<ScanSendDataView>(sql, new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code)).ToList();
+
+
+
+                view.totalItem = scan.Count;
+                scan = scan.Skip(view.pageIndex * view.itemPerPage)
+                    .Take(view.itemPerPage)
+                    .ToList();
+
+                ////prepare model to modelView
+                foreach (var i in scan)
+                {
+
+                    view.datas.Add(new ModelViews.ScanSendDataView()
+                    {
+                        pcs_barcode = i.pcs_barcode,
+                        model_desc = i.model_desc,
+                        prod_code = i.prod_code,
+                        prod_name = i.prod_name
+
+                    });
+                }
+
+                //return data to contoller
+                return view;
+            }
+        }
+
+        
     }
 }

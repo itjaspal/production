@@ -16,7 +16,7 @@
                 </div>
            </div>
            <ng-template #show_current_content>
-                 <div class="scrollable-child" >
+                 <div class="scrollable-child-display-mac" >
                       <div class="panel panel-default" *ngFor="let x of dataCurrent.datas; let i = index;">
                                <!-- Column Header--> 
                                <div *ngIf="i === 0;else show_detail_current"> 
@@ -155,7 +155,7 @@
                 </div>
          </div> 
          <ng-template #show_pending_content>
-            <div class="scrollable-child" >
+            <div class="scrollable-child-display-mac" >
                <div class="panel panel-default" *ngFor="let x of dataPending.datas; let i = index;">
                     <!-- Column Header--> 
                     <div *ngIf="i === 0;else show_detail_pending"> 
@@ -294,7 +294,7 @@
                 </div>
          </div> 
          <ng-template #show_Forward_content>
-          <div class="scrollable-child" >
+          <div class="scrollable-child-display-mac" >
             <div class="panel panel-default" *ngFor="let x of dataForward.datas; let i = index;">
                  <!-- Column Header--> 
                  <div *ngIf="i === 0;else show_detail_forward"> 
