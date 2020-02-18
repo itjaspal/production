@@ -61,6 +61,8 @@ export class ScanInprocessComponent implements OnInit {
     
     this.dataPending =  await this._displayJobMacSvc.searchJobByMacPending(this.model);
     
+   
+    
   }
 
   async searchJobMacForward(event: PageEvent = null) {  

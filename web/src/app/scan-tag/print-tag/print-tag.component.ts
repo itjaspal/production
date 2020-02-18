@@ -45,8 +45,8 @@ export class PrintTagComponent implements OnInit {
     var datePipe = new DatePipe("en-US");
     
     this.model.req_date = this._actRoute.snapshot.params.req_date;
-    this.model.spring_type = this._actRoute.snapshot.params.spring_grp;
-    this.model.size_code = this._actRoute.snapshot.params.size_code;
+    this.model.spring_grp = this._actRoute.snapshot.params.spring_grp;
+    this.model.size_desc = this._actRoute.snapshot.params.size_code;
     this.model.qty = this._actRoute.snapshot.params.qty;
     this.model.wc_code = this.user.def_wc_code;
     this.model.mc_code = this.user.user_mac.MC_CODE;

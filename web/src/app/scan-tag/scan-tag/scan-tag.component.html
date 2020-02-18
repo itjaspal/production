@@ -27,7 +27,7 @@
                                         </div>
                                         <div class="col-lg-2 col-sm-3 col-3">
                                             <dt>Spring</dt>
-                                            <dd>{{x.springtype_code}}</dd>
+                                            <dd>{{x.springtype_code.substring(0,2)}}</dd>
                                         </div>
                                         <div class="col-lg-2 col-sm-5 col-5">
                                             <dt>Mps Date</dt>
@@ -54,7 +54,7 @@
                                                           {{y.pdsize_desc}}
                                                       </td>
                                                       <td *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
-                                                          {{y.springtype_code}}
+                                                          {{y.springtype_code.substring(1,2)}}
                                                       </td>
                                                       <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
                                                           {{y.plan_qty}}
@@ -99,7 +99,7 @@
                                               </div>
                                               <div class="col-lg-2 col-sm-3 col-3">
                                                   <dt>Spring</dt>
-                                                  <dd>{{x.springtype_code}}</dd>
+                                                  <dd>{{x.springtype_code.substring(0,2)}}</dd>
                                               </div>
                                               <div class="col-lg-2 col-sm-5 col-5">
                                                   <dt>Mps Date</dt>
@@ -130,7 +130,7 @@
                                                         {{y.pdsize_desc}}
                                                     </td>
                                                     <td *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
-                                                        {{y.springtype_code}}
+                                                        {{y.springtype_code.substring(0,2)}}
                                                     </td>
                                                     <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
                                                         {{y.plan_qty}}
@@ -156,9 +156,9 @@
                                                 </tr>
                                                 <tr>
                                                   <th colspan="2" class="text-center">รวม</th>
-                                                    <th class="text-center">{{dataCurrent.total_plan_qty}}</th>
-                                                    <th class="text-center">{{dataCurrent.total_actual_qty}}</th>
-                                                    <th class="text-center">{{dataCurrent.total_diff_qty}}</th>
+                                                    <th class="text-center">x</th>
+                                                    <th class="text-center">x</th>
+                                                    <th class="text-center">x</th>
                                                     <th class="text-center">&nbsp;</th>
                                                 </tr>
                                         
@@ -195,7 +195,7 @@
                           </div>
                           <div class="col-lg-2 col-sm-3 col-3">
                               <dt>Spring</dt>
-                              <dd>{{x.springtype_code}}</dd>
+                              <dd>{{x.springtype_code.substring(0,2)}}</dd>
                           </div>
                           <div class="col-lg-2 col-sm-5 col-5">
                               <dt>Mps Date</dt>
@@ -222,7 +222,7 @@
                                                         {{y.pdsize_desc}}
                                                     </td>
                                                     <td *ngIf="y.req_date === dataPending.datas[i-1].req_date && y.springtype_code === dataPending.datas[i-1].springtype_code">
-                                                        {{y.springtype_code}}
+                                                        {{y.springtype_code.substring(0,2)}}
                                                     </td>
                                                     <td class="text-center" *ngIf="y.req_date === dataPending.datas[i-1].req_date && y.springtype_code === dataPending.datas[i-1].springtype_code">
                                                         {{y.plan_qty}}
@@ -265,7 +265,7 @@
                                               </div>
                                               <div class="col-lg-2 col-sm-3 col-3">
                                                   <dt>Spring</dt>
-                                                  <dd>{{x.springtype_code}}</dd>
+                                                  <dd>{{x.springtype_code.substring(0,2)}}</dd>
                                               </div>
                                               <div class="col-lg-2 col-sm-5 col-5">
                                                   <dt>Mps Date</dt>
@@ -297,7 +297,7 @@
                                       {{y.pdsize_desc}}
                                   </td>
                                   <td *ngIf="y.req_date === dataPending.datas[i].req_date && y.springtype_code === dataPending.datas[i].springtype_code">
-                                      {{y.springtype_code}}
+                                      {{y.springtype_code.substring(0,2)}}
                                   </td>
                                   <td class="text-center" *ngIf="y.req_date === dataPending.datas[i].req_date && y.springtype_code === dataPending.datas[i].springtype_code">
                                       {{y.plan_qty}}
@@ -362,7 +362,7 @@
                        </div>
                        <div class="col-lg-2 col-sm-3 col-3">
                            <dt>Spring</dt>
-                           <dd>{{x.springtype_code}}</dd>
+                           <dd>{{x.springtype_code.substring(0,2)}}</dd>
                        </div>
                        <div class="col-lg-2 col-sm-5 col-5">
                            <dt>Mps Date</dt>
@@ -389,7 +389,7 @@
                                                      {{y.pdsize_desc}}
                                                  </td>
                                                  <td *ngIf="y.req_date === dataForward.datas[i-1].req_date && y.springtype_code === dataForward.datas[i-1].springtype_code">
-                                                     {{y.springtype_code}}
+                                                     {{y.springtype_code.substring(0,2)}}
                                                  </td>
                                                  <td class="text-center" *ngIf="y.req_date === dataForward.datas[i-1].req_date && y.springtype_code === dataForward.datas[i-1].springtype_code">
                                                      {{y.plan_qty}}

@@ -9,8 +9,10 @@ namespace api.Interfaces
 {
     interface IPrintTagService
     {
-        SpringTagView SearchCurrent(SpringTagSearchView model);
-        SpringTagView SearchPending(SpringTagSearchView model);
-        SpringTagView SearchForward(SpringTagSearchView model);
+        PrintTagView searchPrintData(PrintTagSearchView model);
+        RawMatView searchRawData(RawMatSearchView model);
+        void AddTag(PrintTagAddView model);
+        void DeleteTag(PrintTagDeleleView model);
+        void PringTag(PrintTagDeleleView model);
     }
 }

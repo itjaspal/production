@@ -2,30 +2,77 @@ import { AppSetting } from "../_constants/app-setting";
 
 export class PrintTagSearchView {
     public entity: string = AppSetting.entity;    
-    public wc_code: string = "";  
-    public mc_code: string = "";    
     public req_date: string = "";  
-    public spring_type: string = "";  
-    public size_code: string = "";  
+    public wc_code: string = "";  
+    public mc_code: string = "";       
+    public spring_grp: string = "";  
+    public size_desc: string = "";  
     public qty :number;
     public user_id: string = "";  
     public printer: string = ""; 
 }
 
 export class PrintTagView {
-    public entity: string = AppSetting.entity;    
+    //public entity: string = AppSetting.entity; 
+    public process_tag_no : number = 1;   
+    public req_date: string = "";  
     public wc_code: string = "";  
     public mc_code: string = "";    
-    public req_date: string = "";  
-    public sprin_type: string = "";  
-    public size_code: string = "";  
-    public user_id: string = "";  
+    public sprin_grp: string = "";  
+    public size_desc: string = "";  
+    public qty :number;
+    public fin_date: string = "";  
     public raw_item: RawMatitemView[] = [];
 }
 
 export class RawMatitemView {
+    public process_tag_no : number = 1; 
     public doc_no :string = "";
     public prod_code :string = "";
     public prod_name :string = "";
 
+}
+
+export class SpringTagSearchView
+{
+    public pageIndex: number = 1;
+    public itemPerPage: number = AppSetting.itemPerPage;
+    public entity : string = AppSetting.entity; 
+    public user_id : string = "";
+    public mc_code : string = "";
+    public wc_code : string = "";
+
+}
+
+export class SpringTagView
+{
+    public req_date : string = "";
+    public spring_grp : string = "";
+    public total_plan_qty : number = 0;
+    public total_actual_qty : number = 0;
+    public total_diff_qty : number = 0;
+    public datas : RawMatitemView[] = [];
+
+}
+
+export class SpringTagDataView
+{
+    public pageIndex: number = 1;
+    public itemPerPage: number = AppSetting.itemPerPage;
+    public totalItem : number = 0
+    public req_date : string = "";
+    public pdsize_code : string = "";
+    public pdsize_desc : string = "";
+    public spring_grp : string = "";
+    public plan_qty : number = 0;
+    public actual_qty : number = 0;
+    public diff_qty : number = 0;
+}
+
+export class RawProductSearchView {
+    public isEdit: boolean = false;
+    public itemPerPage: number = 0;
+
+    public editItem: RawMatitemView = null;
+    public req_date : string = "";
 }

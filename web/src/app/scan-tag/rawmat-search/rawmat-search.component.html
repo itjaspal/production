@@ -1,3 +1,122 @@
-<p>
-  rawmat-search works!
-</p>
+<div class="container-fluid no-breadcrumbs">
+
+  <form [formGroup]="validationForm">
+
+    <mat-card>
+
+      <mat-card-title>
+        <h6>เลือกสินค้าเพื่อขาย</h6>
+      </mat-card-title>
+
+      <mat-card-content>
+
+        <div class="row" *ngIf="action == 'SEARCH'">
+
+          <div class="row">
+            <div class="col-lg-2 col-sm-5 col-5">
+             
+              <mat-form-field class="full-width">
+                <input matInput [matDatepicker]="picker" placeholder="Req. Date" [(ngModel)]="searchModel.req_date"
+                  name="req_date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-1 col-sm-1">
+              <mat-card-actions class="no-margin">
+                <button mat-raised-button color="primary"  type="button" (click)="search()">
+                  <mat-icon class="material-icons">search</mat-icon> ค้นหา
+                </button>
+              </mat-card-actions>
+            </div>
+          </div>
+        </div>
+
+        
+
+      </mat-card-content>
+
+    </mat-card>
+
+    <!-- <mat-card *ngIf="action == 'SEARCH'" style="margin-top:40px;">
+      <mat-card-subtitle class="no-margin">
+        <h6 class="no-margin">ผลการค้นหา</h6>
+      </mat-card-subtitle>
+      <mat-card-content>
+        <div class="row item" *ngFor="let x of products;let i = index">
+          <div class="col-12">
+            <hr>
+          </div>
+          <div class="col-sm-3 col-6" *ngIf="!isSaleBed">
+            <small>SKU</small>
+            <dd>{{x.skuCode}}</dd>
+          </div>
+          <div class="col-sm-3 col-6">
+            <small>รหัสสินค้า</small>
+            <dd>{{x.productCode}}</dd>
+          </div>
+          <div class="col-sm-3 col-6">
+            <small>บาร์โค้ด</small>
+            <dd>{{x.barcode}}</dd>
+          </div>
+          <div class="col-sm-6">
+            <small>ชื่อสินค้า</small>
+            <dd class="row-line-2">{{x.productName}}</dd>
+          </div>
+          <div class="col-sm-2 col-6">
+            <small>หน่วย</small>
+            <dd>{{x.unit}}</dd>
+          </div>
+          <div class="col-sm-2 col-6">
+            <small>Brand</small>
+            <dd>{{x.productBrandText}}</dd>
+          </div>
+          <div class="col-sm-2 col-6" *ngIf="isSaleBed">
+            <small>Model</small>
+            <dd>{{x.productModelText}}</dd>
+          </div>
+          <div class="col-sm-2 col-6" *ngIf="!isSaleBed">
+            <small>Design</small>
+            <dd>{{x.productDesignText}}</dd>
+          </div>
+          <div class="col-sm-2 col-6">
+            <small>Size</small>
+            <dd>{{x.productSizeText}}</dd>
+          </div>
+          <div class="col-sm-2 col-6">
+            <small>Color</small>
+            <dd>{{x.productColorText}}</dd>
+          </div>
+          <div class="col-sm-2 col-6">
+            <small>ราคา</small>
+            <dd>{{x.unitPrice | number:'1.2-2'}}</dd>
+          </div>
+          <div class="col-sm-2 col-6 text-right">
+            <button mat-raised-button color="default" class="btn-w-md pull-right" type="button"
+              (click)="itemSelected(x)">
+              <mat-icon class="material-icons">check</mat-icon> <span>เลือกสินค้า</span>
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card> -->
+
+    <!-- <div class="form-action">
+
+      <button mat-raised-button class="btn-w-md" type="button" (click)="close()">
+        <mat-icon class="material-icons">close</mat-icon> ปิด
+      </button>
+
+      <button mat-raised-button color="primary" class="btn-w-md pull-right" type="button" (click)="add()"
+        [disabled]="!validationForm.valid">
+        <mat-icon *ngIf="!data.isEdit" class="material-icons">add</mat-icon>
+        <span *ngIf="!data.isEdit">เพิ่มสินค้า</span>
+        <mat-icon *ngIf="data.isEdit" class="material-icons">save</mat-icon>
+        <span *ngIf="data.isEdit">บันทึก</span>
+      </button>
+
+    </div> -->
+
+  </form>
+
+</div>
