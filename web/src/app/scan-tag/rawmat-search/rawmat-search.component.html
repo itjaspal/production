@@ -1,3 +1,79 @@
-<p>
-  rawmat-search works!
-</p>
+<div class="container-fluid no-breadcrumbs">
+
+
+  <mat-card>
+
+    <mat-card-title>
+      <h6>เลือก Raw Material</h6>
+    </mat-card-title>
+
+    <mat-card-content>
+
+      <div class="row">
+        <div class="col-lg-2 col-sm-5 col-5">
+          <mat-form-field class="full-width">
+            <input matInput [matDatepicker]="picker" placeholder="Req. Date" [(ngModel)]="model.req_date"
+              name="req_date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-1 col-sm-1">
+          <button mat-raised-button color="primary" class="btn-w-md" type="button" (click)="openSearchRawModal()">
+            <mat-icon class="material-icons">search</mat-icon> ค้นหา
+          </button>
+        </div>
+      </div>
+
+    </mat-card-content>
+
+  </mat-card>
+
+  <mat-card style="margin-top:40px;">
+    <mat-card-subtitle class="no-margin">
+      <h6 class="no-margin">ผลการค้นหา</h6>
+    </mat-card-subtitle>
+    <mat-card-content>
+      <div class="row item">
+        <div class="col-12">
+          <hr>
+        </div>
+        <div class="col-sm-2 col-12">
+          <!-- <dd>
+            <mat-checkbox [(ngModel)]="x.selected"></mat-checkbox>
+          </dd> -->
+          <dd>
+            <mat-checkbox></mat-checkbox>
+          </dd>
+        </div>
+        <div class="col-sm-2 col-6">
+          <small>Doc NO.</small>
+          <dd>xxx</dd>
+        </div>
+        <div class="col-sm-2 col-6">
+          <small>Raw Code</small>
+          <dd>xxx</dd>
+        </div>
+        <div class="col-sm-6 col-12">
+          <small>Product Name</small>
+          <dd class="row-line-2">xxxx</dd>
+        </div>
+        
+        
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="form-action">
+
+    <button mat-raised-button class="btn-w-md" type="button" (click)="close()">
+      <mat-icon class="material-icons">close</mat-icon> ปิด
+    </button>
+
+    <button mat-raised-button color="primary" class="btn-w-md pull-right" type="button" (click)="add()">
+      <mat-icon class="material-icons">add</mat-icon> เพิ่มสินค้า
+    </button>
+
+  </div>
+
+</div>

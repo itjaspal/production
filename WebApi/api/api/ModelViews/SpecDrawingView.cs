@@ -40,9 +40,30 @@ namespace api.ModelViews
     {
         public int pageIndex { get; set; }
         public int itemPerPage { get; set; }
+        public string entity { get; set; }
+        public string req_date { get; set; }
+        public string springtype_code { get; set; }
+        public string pdsize_code { get; set; }
+    }
+
+    public class SpecDrawingSearchPcsView
+    {
+        public int pageIndex { get; set; }
+        public int itemPerPage { get; set; }
         public string pcs_barcode { get; set; }
-        
-        
+    }
+
+    public class PcsBarcodeDataView
+    {
+        public string entity { get; set; }
+        public string pcs_barcode { get; set; }
+        public string springtype_code { get; set; }
+        public string prod_code { get; set; }
+        public string prod_name { get; set; }
+        public string pdsize_desc { get; set; }
+        public string pdmodel_desc { get; set; }
+        public string wc_code { get; set; }
+
     }
 
 

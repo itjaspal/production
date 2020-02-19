@@ -1,6 +1,6 @@
-import { PrintTagView } from './../../_model/print-tag';
+import { PrintTagService } from './../../_service/print-tag.service';
+import { PrintTagView, RawMatitemView } from './../../_model/print-tag';
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { PrintTagSearchView } from '../../_model/print-tag';
@@ -10,8 +10,7 @@ import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { MessageService } from '../../_service/message.service';
 import { RawmatSearchComponent } from '../rawmat-search/rawmat-search.component';
 
-=======
->>>>>>> parent of eb44abb... .
+
 
 @Component({
   selector: 'app-print-tag',
@@ -19,11 +18,13 @@ import { RawmatSearchComponent } from '../rawmat-search/rawmat-search.component'
   styleUrls: ['./print-tag.component.scss']
 })
 export class PrintTagComponent implements OnInit {
-<<<<<<< HEAD
   actions: any;
-  public model: PrintTagSearchView = new PrintTagSearchView();
-  public raw_model: PrintTagView = new PrintTagView();
+  public model_search: PrintTagSearchView = new PrintTagSearchView();
+  public model : PrintTagView = new PrintTagView();
+  //public raw_model: PrintTagView = new PrintTagView();
+  public item_model :RawMatitemView = new RawMatitemView();
   user: any;
+  public data: any = {};
  
 
   constructor(
@@ -33,42 +34,58 @@ export class PrintTagComponent implements OnInit {
     private _msgSvc: MessageService,
     private _router: Router,
     private _actRoute: ActivatedRoute,
-    private snackBar: MatSnackBar
-=======
->>>>>>> parent of eb44abb... .
+    private snackBar: MatSnackBar,
+    private _tagSvc: PrintTagService
 
-  constructor() { }
+  ) { }
 
   ngOnInit() {
+    this.user = this._authSvc.getLoginUser();
+    this.printTagData();
+
+    console.log(this.user);
+    
+  }
+  
+  async printTagData() {  
+    var datePipe = new DatePipe("en-US");
+    
+    this.model_search.req_date = this._actRoute.snapshot.params.req_date;
+    this.model_search.spring_grp = this._actRoute.snapshot.params.spring_grp;
+    this.model_search.size_desc = this._actRoute.snapshot.params.size_code;
+    this.model_search.qty = this._actRoute.snapshot.params.qty;
+    this.model_search.wc_code = this.user.def_wc_code;
+    this.model_search.mc_code = this.user.user_mac.MC_CODE;
+    //this.model.user_id = this.user.username;
+    this.model_search.req_date  = datePipe.transform(this.model_search.req_date, 'dd/MM/yyyy');
+    this.data =  await this._tagSvc.searchPrintTag(this.model_search);
+    
+    
+    console.log(this.data)
   }
 
-<<<<<<< HEAD
-  openSearchRawModal(_isEdit: boolean = false, _editItem: PrintTagView = null, _index: number = -1) {
+  openSearchRawModal()
+  {
     const dialogRef = this._dialog.open(RawmatSearchComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',
       height: '100%',
-      width: '100%',
-     
+      width: '100%'
+      // data: {
+      //   branchId: this.model.branchId,
+      //   stockLocationId: this.model.stockLocationId,
+      // }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        let raw = result.product;
-        //check isExiting
-        if (_index >= 0) {
-          this.raw_model.raw_item[_index].doc_no = raw.doc_no;
-          this.raw_model.raw_item[_index].prod_code = raw.prod_code;
-          this.raw_model.raw_item[_index].prod_name = raw.prod_name;
-          
-        } else {
-          this.raw_model.raw_item.push(raw);
-        }
-        //this.calculate();
+      if (result.length > 0) {
+        this.add(result);
       }
-    });
+    })
   }
-
+  add(datas: any){
+      
+  }
 
   close() {
     window.history.back();
@@ -93,9 +110,5 @@ export class PrintTagComponent implements OnInit {
 
   }
 
-  
-
-
-=======
->>>>>>> parent of eb44abb... .
 }
+
