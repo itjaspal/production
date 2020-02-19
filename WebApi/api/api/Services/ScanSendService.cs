@@ -218,7 +218,7 @@ namespace api.Services
                 //DateTime vreq_date = Convert.ToDateTime(model.req_date);
 
                 string sql = "select a.PCS_BARCODE from MPS_DET a , PDMODEL_MAST b , MPS_DET_WC c";
-                sql += " where trunc(a.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";
+                sql += " where a.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sql += " and a.entity  = :p_entity";
                 sql += " and a.pdsize_code  = :p_size_code";
                 sql += " and substr(b.spring_type,1,2)  = :p_spring_grp";

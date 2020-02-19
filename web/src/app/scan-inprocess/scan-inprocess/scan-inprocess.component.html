@@ -65,13 +65,27 @@
                                                       <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
                                                           {{y.diff_qty}}
                                                       </td>
+                                                      <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
+                                                        <button mat-icon-button [matMenuTriggerFor]="appMenu1">
+                                                        <mat-icon class="material-icons">more_horiz</mat-icon>
+                                                        </button>
+                                                        <mat-menu #appMenu1="matMenu">
+                                                            <button mat-menu-item [routerLink]="['prodscan/'+y.req_date+'/'+y.springtype_code+'/'+y.pdsize_code]" *ngIf="(y.diff_qty !=0)" >
+                                                            <mat-icon class="material-icons">save</mat-icon> <span>บันทึกผลผลิต</span>
+                                                            </button>
+                                                            <button mat-menu-item [routerLink]="['prodcanc/'+y.req_date+'/'+y.springtype_code+'/'+y.pdsize_code]" *ngIf="(y.actual_qty > 0)">
+                                                            <mat-icon class="material-icons">cancel</mat-icon> <span>ยกเลิกผลผลิต</span>
+                                                            </button>
+                                                        </mat-menu>
+                                                      </td>
                                                       
                                                   </tr>
                                                   <tr>
-                                                    <th colspan="2" class="text-center">???</th>
+                                                    <th colspan="2" class="text-center">รวม</th>
                                                     <th class="text-center">x</th>
                                                     <th class="text-center">x</th>
                                                     <th class="text-center">x</th>
+                                                    <th>&nbsp;</th>
                                                   </tr>
                                           
                                               </tbody>
@@ -128,7 +142,7 @@
                                                     <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
                                                         {{y.diff_qty}}
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
                                                       <button mat-icon-button [matMenuTriggerFor]="appMenu1">
                                                         <mat-icon class="material-icons">more_horiz</mat-icon>
                                                       </button>

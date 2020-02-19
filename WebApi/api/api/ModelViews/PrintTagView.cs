@@ -28,6 +28,7 @@ namespace api.ModelViews
         public string size_desc { get; set; }
         public int qty { get; set; }
         public string fin_date { get; set; }
+        public string printer { get; set; }
         public List<RawMatitemView> datas { get; set; }
     }
 

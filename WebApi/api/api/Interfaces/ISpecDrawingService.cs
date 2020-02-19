@@ -10,5 +10,6 @@ namespace api.Interfaces
     interface ISpecDrawingService
     {
         SpecDrawingView GetInfo(SpecDrawingSearchView model);
+        SpecDrawingView GetPcsInfo(SpecDrawingSearchPcsView model);
     }
 }

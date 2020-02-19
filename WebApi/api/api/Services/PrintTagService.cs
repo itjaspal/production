@@ -77,6 +77,7 @@ namespace api.Services
                     view.size_desc = vsize_name;
                     view.qty = vqty;
                     view.fin_date = DateTime.Now.ToShortDateString();
+                    view.printer = vprinter_name;
 
                 }
                 else
@@ -88,6 +89,7 @@ namespace api.Services
                     view.size_desc = vsize_name;
                     view.qty = vqty;
                     view.fin_date = tag.fin_date;
+                    view.printer = vprinter_name;
                 }
 
 

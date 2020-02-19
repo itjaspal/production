@@ -9,11 +9,11 @@
     <div class="row">
       <div class="col-lg-2 col-sm-2">
         <dt>Machine</dt>
-        <dd>{{model.spring_grp}}</dd>
+        <dd>{{data.mc_code}}</dd>
       </div>
      <div class="col-lg-5 col-sm-5 col-5">
         <dt>Print</dt>
-        <dd>XX</dd>
+        <dd>{{data.printer}}</dd>
       </div>
     </div>
 
@@ -48,7 +48,7 @@
         <div class="row card-table-body">
           <div class="col-2 col-lg-1">
             <small>ครั้งที่</small>
-            <dd>1</dd>
+            <dd>{{data.process_tag_no}}</dd>
         </div>
         </div>
 
@@ -57,24 +57,27 @@
             <!-- Row 1-->
             <div class="col-3 col-lg-2">
                 <small>Spring Type</small>
-                <dd>{{model.spring_grp}}</dd>
+                <dd>{{data.spring_grp}}</dd>
             </div>
             <div class="col-3 col-lg-2">
                 <small>Spring Size</small>  
-                <dd>{{model.size_desc}}</dd>
+                <dd>{{data.size_desc}}</dd>
            </div>
            <div class="col-3 col-lg-2">
                 <small>JIT Date</small>  
-                <dd>{{model.req_date }}</dd>
+                <dd>{{data.req_date }}</dd>
            </div>
            <div class="col-3 col-lg-2">
                 <small>FIN Date</small>  
-                <dd>xx</dd>
+                <dd>{{data.fin_date }}</dd>
            </div>
 
            <div class="col-3 col-lg-2">
-            <small>จำนวนพิมพ์</small>  
-            <dd>{{model.qty}}</dd>
+            <!-- <small>จำนวนพิมพ์</small>  
+            <dd>{{model.qty}}</dd> -->
+            <mat-form-field class="full-width">
+            <input matInput placeholder="จำนวนพิมพ์" name="print_qty" value="{{data.qty}}">
+            </mat-form-field>
        </div>
      
         
@@ -97,29 +100,15 @@
               
             
             <div class="row card-table-body" >
-              <!-- Row 1-->
-              <!-- <div class="col-2 col-lg-1">
-                  <small>Spring Type</small>
-                  <dd>MO</dd>
+              <!-- <div class="row" *ngIf="data.datas.length == 0;else show_raw_mat">
+                <div class="col-12 text-center">
+                    <h4>ไม่พบรายการ</h4>
+                </div>
               </div>
-              <div class="col-2 col-lg-1">
-                  <small>Spring Size</small>  
-                  <dd>60"X75"</dd>
-             </div>
-             <div class="col-2 col-lg-1">
-                  <small>JIT Date</small>  
-                  <dd>05/10/2019</dd>
-             </div>
-             <div class="col-2 col-lg-1">
-                  <small>FIN Date</small>  
-                  <dd>15/10/2019</dd>
-             </div>
-       
-             <div class="col-12">
-                  <hr />
-             </div>  
-       -->
-              <!-- Row 2-->
+            </div> -->
+            
+            <!-- <ng-template #show_raw_mat> -->
+              <div class="row item" *ngFor="let x of data.datas">
               <div class="col-3 col-lg-2">
                 <small>PO No.</small>
                 <dd>B19100039</dd>
@@ -128,7 +117,8 @@
                 <small>รายละเอียดวัตถุดิบ</small>  
                 <dd>RABPK0000: Wire2.00 mm.(Former),Titanium อูซ่า</dd>
               </div>
-          
+            </div>
+            <!-- </ng-template>   -->
     
     
     

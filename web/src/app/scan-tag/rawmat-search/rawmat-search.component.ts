@@ -18,72 +18,58 @@ export class RawmatSearchComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: RawProductSearchView,
-    private _productSvc: ProductService,
     private _fb: FormBuilder,
+    private _msg: MessageService,
     private _authSvc: AuthenticationService,
-    private _msgSvc: MessageService,
-    private cdr: ChangeDetectorRef,
-    private _tagSvc: PrintTagService,
-  ) { 
-    this.buildFrom();
+    private _tagSvc : PrintTagService
+  ) {
+
     this.user = this._authSvc.getLoginUser();
-    this.itemPerPage = (this.data.itemPerPage) ? this.data.itemPerPage : 10;
-    this.isEdit = true;
+    //let entityPrefix = this.user.branch.branch.entityCode.substring(0, 1);
+    //this.isSaleBed = (entityPrefix.toUpperCase() == 'B');
 
-    
    
-    if (this.data.editItem) {
-
-      this.model = Object.assign({}, this.data.editItem);
-      this.action = 'SAVE';
-
-      
-      //this.searchModel.req_date = this.model.productName;
-     
-     // let _product: RawMatitemView = new RawMatitemView();
-     
-    
-
-    } 
-    //else {
-    //   this.addFilterProduct("productDesc");
-    //   this.addFilterProduct("modelDesc");
-    //   this.addFilterProduct("designDesc");
-    //   this.addFilterProduct("colorDesc");
-    //   this.addFilterProduct("sizeDesc");
-    // }
   }
 
-  public user: any;
-  public itemPerPage: number = 0;
-  public isEdit: boolean = false;
-  action: string = "SEARCH";
-  debounceT: number = 500;
+ 
+  user:any = {};
+  //isSaleBed: boolean = false;
 
+  datas: any[] = [];
 
-  public products: RawMatitemView[] = [];
+  public model: any = {
+    barcode: "",
+    productName: "",
+    brandId: null,
+    designId: null,
+    modelId: null,
+    colorId: null,
+    sizeId: null,
+    branchId: 0,
+    stockLocationId: 0
+  }
 
-  filteredSerialNo: Observable<string>;
-
-  validationForm: FormGroup;
-
-  public searchModel: RawProductSearchView = new RawProductSearchView();
-  public model: RawMatitemView = new RawMatitemView();
   ngOnInit() {
+    // this.buildForm();
+    //this.model.branchId = this.data.branchId;
+    //this.model.stockLocationId = this.data.stockLocationId;
+
   }
 
-
-  buildFrom() {
-    this.validationForm = this._fb.group({
-      req_date: [null, []]
-    });
+  close() {
+    this.dialogRef.close([]);
   }
 
-  async search(event: PageEvent = null)
-  {
-    
-    
-    //this.data = await this._tagSvc.searchcspring(this.model);
+  async openSearchRawModal() {
+
+    this.datas = await this._tagSvc.searchRawItem(this.model);
+
+  }
+  add() {
+
+    // console.log(this.datas)
+    let addList: any = this.datas.filter(x => x.selected);
+    this.dialogRef.close(addList);
   }
 
 }

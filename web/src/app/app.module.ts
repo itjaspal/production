@@ -346,7 +346,8 @@ import { RawmatSearchComponent } from './scan-tag/rawmat-search/rawmat-search.co
   ],
   entryComponents: [
     PopupMessageComponent,
-    ConfirmMessageComponent
+    ConfirmMessageComponent,
+    RawmatSearchComponent
   ],
   bootstrap: [AppComponent]
 })

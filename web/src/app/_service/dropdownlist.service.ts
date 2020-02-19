@@ -8,7 +8,12 @@ import { Injectable } from '@angular/core';
 })
 export class DropdownlistService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { } 
+
+
+  public async getDdlDefaultPrinter() {
+    return await this.http.get<Dropdownlist[]>(environment.API_URL + 'dropdownlist/getDdlMobilePrnt').toPromise();
+  }
 
   public async getDdlBranchStatus() {
     return await this.http.get<Dropdownlist[]>(environment.API_URL + 'dropdownlist/getDdlBranchStatus').toPromise();

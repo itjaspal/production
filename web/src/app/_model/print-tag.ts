@@ -18,10 +18,11 @@ export class PrintTagView {
     public req_date: string = "";  
     public wc_code: string = "";  
     public mc_code: string = "";    
-    public sprin_grp: string = "";  
+    public spring_grp: string = "";  
     public size_desc: string = "";  
     public qty :number;
     public fin_date: string = "";  
+    public printer: string = "";  
     public raw_item: RawMatitemView[] = [];
 }
 
@@ -75,4 +76,10 @@ export class RawProductSearchView {
 
     public editItem: RawMatitemView = null;
     public req_date : string = "";
+}
+
+export class RawProductView {
+    public doc_no : string = "";
+    public prod_cpde : string = "";
+    public prod_name : string = "";
 }

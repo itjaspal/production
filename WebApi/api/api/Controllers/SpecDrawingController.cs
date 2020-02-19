@@ -30,7 +30,22 @@ namespace api.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+            }
+        }
+
+        [Route("spec/postdrawningpcs")]
+        public HttpResponseMessage postdrawingpcs(SpecDrawingSearchPcsView model)
+        {
+            try
+            {
+                var result = specSvc.GetPcsInfo(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
             }
         }
     }
