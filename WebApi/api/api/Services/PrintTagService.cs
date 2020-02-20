@@ -4,6 +4,7 @@ using api.ModelViews;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -16,14 +17,23 @@ namespace api.Services
             throw new NotImplementedException();
         }
 
-        public void DeleteTag(PrintTagDeleleView model)
+        public void DeleteTag(PrintTagProcView model)
         {
             throw new NotImplementedException();
         }
 
-        public void PringTag(PrintTagDeleleView model)
+        public void PringTag(PrintTagProcView model)
         {
-            throw new NotImplementedException();
+            using (var ctx = new ConXContext())
+            {
+                string[] lines = { "New line 1", "New line 2" };
+
+                //string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string docPath = "d:\\data";
+
+                // Append new lines of text to the file
+                File.AppendAllLines(Path.Combine(docPath, "WriteFile.txt"), lines);
+            }
         }
 
         public PrintTagView searchPrintData(PrintTagSearchView model)

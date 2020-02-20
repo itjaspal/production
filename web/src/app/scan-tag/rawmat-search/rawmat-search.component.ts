@@ -31,30 +31,42 @@ export class RawmatSearchComponent implements OnInit {
    
   }
 
- 
+  public validationForm: FormGroup;
   user:any = {};
   //isSaleBed: boolean = false;
 
   datas: any[] = [];
 
-  public model: any = {
-    barcode: "",
-    productName: "",
-    brandId: null,
-    designId: null,
-    modelId: null,
-    colorId: null,
-    sizeId: null,
-    branchId: 0,
-    stockLocationId: 0
+  public model : RawProductSearchView  = new RawProductSearchView();
+
+  public model_raw: any = {
+    process_tag_no: "",
+    doc_no: "",
+    prod_code: "",
+    prod_name: ""
+    
   }
 
   ngOnInit() {
-    // this.buildForm();
+     this.buildForm();
     //this.model.branchId = this.data.branchId;
     //this.model.stockLocationId = this.data.stockLocationId;
 
   }
+
+
+  private buildForm() {
+    this.validationForm = this._fb.group({
+    doc_date: [null, []]
+    });
+  }
+
+  async search() {
+
+    this.datas = await this._tagSvc.searchRawItem(this.model);
+
+  }
+
 
   close() {
     this.dialogRef.close([]);

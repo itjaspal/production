@@ -48,5 +48,20 @@ namespace api.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
             }
         }
+
+        [Route("print-tag/postPrintTag")]
+        public HttpResponseMessage postPrintTag(PrintTagProcView model)
+        {
+            try
+            {
+                tagSvc.PringTag(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, "ส่งข้อมูลไปยังเครื่องพิมพ์เรียบร้อยแล้ว");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+            }
+        }
     }
 }

@@ -102,7 +102,7 @@ namespace api.ModelViews
 
     }
 
-    public class PrintTagDeleleView
+    public class PrintTagProcView
     {
         public string entity { get; set; }
         public string req_date { get; set; }

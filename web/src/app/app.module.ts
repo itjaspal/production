@@ -154,12 +154,9 @@ import { ProductionCancelComponent } from './scan-inprocess/production-cancel/pr
 import { ProductionScanComponent } from './scan-inprocess/production-scan/production-scan.component';
 import { SendProdCancelComponent } from './scan-send/send-prod-cancel/send-prod-cancel.component';
 import { SendProdScanComponent } from './scan-send/send-prod-scan/send-prod-scan.component';
-<<<<<<< HEAD
 import { ViewSpceDrawingComponent } from './view-spec/view-spce-drawing/view-spce-drawing.component';
 import { BranchSearchAssignProductComponent } from './master-branch/branch-search-assignProduct/branch-search-assignProduct.component';
 import { RawmatSearchComponent } from './scan-tag/rawmat-search/rawmat-search.component';
-=======
->>>>>>> parent of eb44abb... .
 
 
 
@@ -340,11 +337,8 @@ import { RawmatSearchComponent } from './scan-tag/rawmat-search/rawmat-search.co
     ProductionScanComponent,
     SendProdCancelComponent,
     SendProdScanComponent,
-<<<<<<< HEAD
     ViewSpceDrawingComponent,
     RawmatSearchComponent,
-=======
->>>>>>> parent of eb44abb... .
 
   
   
