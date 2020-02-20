@@ -11,8 +11,8 @@ namespace api.Interfaces
     {
         PrintTagView searchPrintData(PrintTagSearchView model);
         RawMatView searchRawData(RawMatSearchView model);
-        void AddTag(PrintTagAddView model);
-        void DeleteTag(PrintTagDeleleView model);
-        void PringTag(PrintTagDeleleView model);
+        //void AddTag(PrintTagAddView model);
+        void DeleteTag(PrintTagProcView model);
+        void PringTag(PrintTagView model);
     }
 }

@@ -48,5 +48,56 @@ namespace api.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
             }
         }
+
+        [Route("print-tag/postPrintTag")]
+        public HttpResponseMessage postPrintTag(PrintTagView model)
+        {
+            try
+            {
+                tagSvc.PringTag(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, "ส่งข้อมูลไปยังเครื่องพิมพ์เรียบร้อยแล้ว");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+            }
+        }
+
+        [Route("print-tag/postDeleteTag")]
+        public HttpResponseMessage postDeleteTag(PrintTagProcView model)
+        {
+            try
+            {
+                tagSvc.DeleteTag(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, "ส่งข้อมูลไปยังเครื่องพิมพ์เรียบร้อยแล้ว");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+            }
+
+            
+        }
+
+        //[Route("print-tag/postAddTag")]
+        //public HttpResponseMessage postAddTag(PrintTagAddView model)
+        //{
+        //    try
+        //    {
+        //        tagSvc.AddTag(model);
+
+        //        return Request.CreateResponse(HttpStatusCode.OK);
+        //        //var result = saleSvc.InquirySaleTransaction(model);
+
+        //        //return Request.CreateResponse(HttpStatusCode.OK, result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+        //    }
+
+        //}
     }
 }

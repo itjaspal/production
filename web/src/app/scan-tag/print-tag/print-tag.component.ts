@@ -1,14 +1,15 @@
 import { PrintTagService } from './../../_service/print-tag.service';
-import { PrintTagView, RawMatitemView } from './../../_model/print-tag';
+import { PrintTagView, RawMatitemView, PrintTagAddView } from './../../_model/print-tag';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { PrintTagSearchView } from '../../_model/print-tag';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../../_service/authentication.service';
 import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { MessageService } from '../../_service/message.service';
 import { RawmatSearchComponent } from '../rawmat-search/rawmat-search.component';
+import { forEach } from '@angular/router/src/utils/collection';
 
 
 
@@ -23,9 +24,10 @@ export class PrintTagComponent implements OnInit {
   public model : PrintTagView = new PrintTagView();
   //public raw_model: PrintTagView = new PrintTagView();
   public item_model :RawMatitemView = new RawMatitemView();
+  //public add_model :PrintTagAddView = new PrintTagAddView();
   user: any;
   public data: any = {};
- 
+  public validationForm: FormGroup;
 
   constructor(
     private _fb: FormBuilder,
@@ -56,8 +58,10 @@ export class PrintTagComponent implements OnInit {
     this.model_search.qty = this._actRoute.snapshot.params.qty;
     this.model_search.wc_code = this.user.def_wc_code;
     this.model_search.mc_code = this.user.user_mac.MC_CODE;
-    //this.model.user_id = this.user.username;
+    this.model_search.printer = this.user.def_printer;
     this.model_search.req_date  = datePipe.transform(this.model_search.req_date, 'dd/MM/yyyy');
+
+    this.model.qty = this.model_search.qty;
     this.data =  await this._tagSvc.searchPrintTag(this.model_search);
     
     
@@ -72,8 +76,10 @@ export class PrintTagComponent implements OnInit {
       height: '100%',
       width: '100%'
       // data: {
-      //   branchId: this.model.branchId,
-      //   stockLocationId: this.model.stockLocationId,
+      //   entity: this.model_search.entity,
+      //   req_date: this.model_search.req_date,
+      //   mc_code: this.model_search.mc_code,
+      //   process_tag_no : this.model.process_tag_no,
       // }
     });
 
@@ -83,26 +89,75 @@ export class PrintTagComponent implements OnInit {
       }
     })
   }
-  add(datas: any){
+  
+  add(datas: any) {
+
+    //const control = <FormArray>this.validationForm.controls['RawMatitemView'];
+
+    datas.forEach(product => {
+
+      // let findIndex = this.model.RawMatitemView.findIndex(x => x.productId == product.productId);
+
+      // if (product.barcode == "ZZ" || product.barcode == "zz") {
+      //   findIndex = -1;
+      // }
+
+      // if (findIndex < 0) {
+
+        let newProd: RawMatitemView = new RawMatitemView();
+        newProd.process_tag_no = this.model.process_tag_no;
+        newProd.doc_no = product.doc_no;
+        newProd.prod_code = product.prod_code;
+        newProd.prod_name = product.prod_name;
+        
+
+        this.model.raw_item.push(newProd);
+        
+
+        //console.log(this.model.raw_item);
+
+       
       
+    });
   }
+
 
   close() {
     window.history.back();
   }
 
-  print() {
-    let head = document.head;
-    let style = document.createElement('style');
-    style.type = 'text/css';
-    style.media = 'print';
+  async print()
+  {
+  
+    this.model.entity = this.model_search.entity;
+    this.model.req_date = this.model_search.req_date;
+    this.model.mc_code = this.model_search.mc_code;
+    this.model.user_id = this.model_search.user_id;
+    this.model.printer = this.model_search.printer;
+    this.model.spring_grp = this.model_search.spring_grp;
+    this.model.size_desc = this.model_search.size_desc;
+    
 
-    style.appendChild(document.createTextNode('@page { size: A4 landscape; margin: 4mm 0;}'));
+   
 
-    head.appendChild(style);
+    console.log(this.model);
 
-    window.print();
+
+    
+    //this.data = await this._tagSvc.PringTag(this.PrintTagView);
   }
+  // print() {
+  //   let head = document.head;
+  //   let style = document.createElement('style');
+  //   style.type = 'text/css';
+  //   style.media = 'print';
+
+  //   style.appendChild(document.createTextNode('@page { size: A4 landscape; margin: 4mm 0;}'));
+
+  //   head.appendChild(style);
+
+  //   window.print();
+  // }
 
   setDefaultPrint() {
 

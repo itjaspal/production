@@ -35,6 +35,10 @@ namespace api.Models
         [StringLength(22)]
         public string RM_CODE { get; set; }
 
+        [Column("RM_NAME")]
+        [StringLength(22)]
+        public string RM_NAME { get; set; }
+
         [Column("SHORT_NAME")]
         [StringLength(50)]
         public string SHORT_NAME { get; set; }

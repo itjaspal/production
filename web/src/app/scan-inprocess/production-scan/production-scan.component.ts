@@ -108,19 +108,6 @@ export class ProductionScanComponent implements OnInit {
 
     this.searchModel.pcs_barcode = this.model.pcs_barcode;
 
-    // this.scanModel.wc_code = this.user.def_wc_code;;  
-    // this.scanModel.req_date  = this.searchModel.req_date;  
-    // this.scanModel.pcs_barcode  = this.model.pcs_barcode;  
-    // this.scanModel.spring_grp  = this.model.spring_grp;  
-    // this.scanModel.size_code  = this.model.size_desc;  
-    // this.scanModel.user_id  = this.user.username;  
-
-    // this.searchfinModel.wc_code = this.user.def_wc_code;
-    // this.searchfinModel.user_id = this.user.username;
-    // this.searchfinModel.req_date  = this.searchModel.req_date
-   
-    // console.log(this.searchfinModel);
-    
     this.data = await this._jobInprocessSvc.scanpcs(this.searchModel);
     
     this.model_scan = await this._jobInprocessSvc.searchfinpcs(this.searchModel);
