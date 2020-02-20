@@ -28,7 +28,7 @@ namespace api.ModelViews
         public string bom_name { get; set; }
         public int rm_seq { get; set; }
         public string rm_code { get; set; }
-        //public string rm_name { get; set; }
+        public string rm_name { get; set; }
         public string short_name { get; set; }
         public string uom_code { get; set; }
         public int unit_qty { get; set; }

@@ -13,16 +13,17 @@ export class PrintTagSearchView {
 }
 
 export class PrintTagView {
-    //public entity: string = AppSetting.entity; 
+    public entity: string = "";
     public process_tag_no : number = 1;   
     public req_date: string = "";  
     public wc_code: string = "";  
     public mc_code: string = "";    
     public spring_grp: string = "";  
     public size_desc: string = "";  
-    public qty :number;
+    public qty :number = 0;
     public fin_date: string = "";  
     public printer: string = "";  
+    public user_id : string = "";  
     public raw_item: RawMatitemView[] = [];
 }
 
@@ -71,15 +72,42 @@ export class SpringTagDataView
 }
 
 export class RawProductSearchView {
-    public isEdit: boolean = false;
-    public itemPerPage: number = 0;
+    // public isEdit: boolean = false;
+    // public itemPerPage: number = 0;
 
-    public editItem: RawMatitemView = null;
-    public req_date : string = "";
+    // public editItem: RawMatitemView = null;
+    public pageIndex: number = 1;
+    public itemPerPage: number = AppSetting.itemPerPage;
+    public doc_date : string = "";
 }
 
+export class RawMatView{
+    public pageIndex: number = 1;
+    public itemPerPage: number = AppSetting.itemPerPage;
+    public totalItem : number = 0
+    public datas : RawProductView[] = [];
+}
 export class RawProductView {
     public doc_no : string = "";
-    public prod_cpde : string = "";
+    public prod_code : string = "";
     public prod_name : string = "";
+}
+
+export class PrintTagAddView{
+    public entity : string = AppSetting.entity;
+    public req_date : string = "";
+    public mc_code : string = "";
+    public process_tag_no : number = 0;
+    public doc_no: string = "";
+    public prod_code : string = "";
+    public prod_name : string = "";
+    public qr : string = "";
+}
+
+
+export class PrintTagProcView{
+    public entity : string = AppSetting.entity;
+    public req_date : string = "";
+    public mc_code : string = "";
+   
 }

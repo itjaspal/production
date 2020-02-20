@@ -12,8 +12,8 @@
       <div class="row">
         <div class="col-lg-2 col-sm-5 col-5">
           <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="picker" placeholder="Req. Date" [(ngModel)]="model.doc_date"
-              name="req_date">
+            <input matInput [matDatepicker]="picker" placeholder="วันที่รับ" [(ngModel)]="model.doc_date"
+              name="doc_date">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -34,11 +34,17 @@
       <h6 class="no-margin">ผลการค้นหา</h6>
     </mat-card-subtitle>
     <mat-card-content>
-      <div class="row item"  *ngFor="let x of datas">
-        <div class="col-12">
-          <hr>
+      <!-- <div class="row" *ngIf="datas.length == 0;else show_raw_mat">
+        <div class="col-12 text-center">
+          <h4>ไม่พบรายการ</h4>
         </div>
-        <div class="col-sm-2 col-12">
+      </div> -->
+<!--           
+      <ng-template #show_raw_mat> -->
+        <div class="row" *ngFor="let x of datas.datas">
+     
+        
+        <div class="col-sm-1 col-1">
           <dd>
             <mat-checkbox [(ngModel)]="x.selected"></mat-checkbox>
           </dd>
@@ -57,8 +63,9 @@
           <dd class="row-line-2">{{x.prod_name}}</dd>
         </div>
         
-        
+    
       </div>
+      <!-- </ng-template> -->
     </mat-card-content>
   </mat-card>
 
@@ -69,7 +76,7 @@
     </button>
 
     <button mat-raised-button color="primary" class="btn-w-md pull-right" type="button" (click)="add()">
-      <mat-icon class="material-icons">add</mat-icon> เพิ่มสินค้า
+      <mat-icon class="material-icons">add</mat-icon> เพิ่ม Raw Material
     </button>
 
   </div>

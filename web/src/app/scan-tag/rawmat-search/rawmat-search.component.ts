@@ -1,12 +1,13 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, PageEvent } from '@angular/material';
-import { ProductService } from '../../_service/product.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../../_service/authentication.service';
 import { MessageService } from '../../_service/message.service';
-import { RawProductSearchView, RawMatitemView } from '../../_model/print-tag';
+import { RawProductSearchView, RawMatitemView, RawProductView, RawMatView, PrintTagAddView } from '../../_model/print-tag';
 import { Observable } from 'rxjs';
 import { PrintTagService } from '../../_service/print-tag.service';
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-rawmat-search',
@@ -14,6 +15,7 @@ import { PrintTagService } from '../../_service/print-tag.service';
   styleUrls: ['./rawmat-search.component.scss']
 })
 export class RawmatSearchComponent implements OnInit {
+  
 
   constructor(
     public dialogRef: MatDialogRef<any>,
@@ -33,14 +35,13 @@ export class RawmatSearchComponent implements OnInit {
 
   public validationForm: FormGroup;
   user:any = {};
-  //isSaleBed: boolean = false;
-
-  datas: any[] = [];
-
   public model : RawProductSearchView  = new RawProductSearchView();
-
+  //datas: any[] = [];
+  datas: any = {};
+  public model_add : PrintTagAddView  = new PrintTagAddView();
+ 
   public model_raw: any = {
-    process_tag_no: "",
+    //process_tag_no: "",
     doc_no: "",
     prod_code: "",
     prod_name: ""
@@ -48,9 +49,29 @@ export class RawmatSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-     this.buildForm();
-    //this.model.branchId = this.data.branchId;
-    //this.model.stockLocationId = this.data.stockLocationId;
+    this.buildForm();
+    //this.model_add.entity = this.datas.entity;
+    //this.model_add.req_date = this.data.req_date;
+    console.log(this.model);
+     
+
+
+  }
+
+  private buildForm() {
+    this.validationForm = this._fb.group({
+    doc_date: [null, []]
+    });
+  }
+
+  async search() {
+    var datePipe = new DatePipe("en-US");
+    this.model.doc_date  = datePipe.transform(this.model.doc_date, 'dd/MM/yyyy');
+    
+    
+    this.datas = await this._tagSvc.searchRawItem(this.model);
+
+    //console.log(this.datas)
 
   }
 
@@ -72,15 +93,14 @@ export class RawmatSearchComponent implements OnInit {
     this.dialogRef.close([]);
   }
 
-  async openSearchRawModal() {
+ 
+  async add() {
 
-    this.datas = await this._tagSvc.searchRawItem(this.model);
+    let addList: any = this.datas.datas.filter(x => x.selected);
 
-  }
-  add() {
+    //this.datas = await this._tagSvc.searchRawItem(this.model);
+    console.log(addList);
 
-    // console.log(this.datas)
-    let addList: any = this.datas.filter(x => x.selected);
     this.dialogRef.close(addList);
   }
 

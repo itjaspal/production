@@ -74,9 +74,9 @@
 
            <div class="col-3 col-lg-2">
             <!-- <small>จำนวนพิมพ์</small>  
-            <dd>{{model.qty}}</dd> -->
+            <dd>{{data.qty}}</dd> -->
             <mat-form-field class="full-width">
-            <input matInput placeholder="จำนวนพิมพ์" name="print_qty" value="{{data.qty}}">
+              <input matInput placeholder="จำนวนพิมพ์" name="qty" [(ngModel)]="model.qty">
             </mat-form-field>
        </div>
      
@@ -99,25 +99,29 @@
           <mat-card-content>
               
             
-            <div class="row card-table-body" >
+            <div class="row card-table-body" *ngFor="let x of model.raw_item">
               <!-- <div class="row" *ngIf="data.datas.length == 0;else show_raw_mat">
                 <div class="col-12 text-center">
                     <h4>ไม่พบรายการ</h4>
                 </div>
-              </div>
-            </div> -->
+              </div> -->
+            <!-- </div> -->
             
             <!-- <ng-template #show_raw_mat> -->
-              <div class="row item" *ngFor="let x of data.datas">
-              <div class="col-3 col-lg-2">
-                <small>PO No.</small>
-                <dd>B19100039</dd>
-              </div>
-              <div class="col-8 col-lg-6">
-                <small>รายละเอียดวัตถุดิบ</small>  
-                <dd>RABPK0000: Wire2.00 mm.(Former),Titanium อูซ่า</dd>
-              </div>
-            </div>
+              <!-- <div class="row"> -->
+                <div class="col-2 col-lg-1">
+                  <small>ครั้งที่</small>
+                  <dd>{{x.process_tag_no}}</dd>
+                </div>
+                <div class="col-3 col-lg-2">
+                  <small>PO No.</small>
+                  <dd>{{x.doc_no}}</dd>
+                </div>
+                <div class="col-7 col-lg-9">
+                  <small>รายละเอียดวัตถุดิบ</small>  
+                  <dd>{{x.prod_name}}</dd>
+                </div>
+            <!-- </div> -->
             <!-- </ng-template>   -->
     
     

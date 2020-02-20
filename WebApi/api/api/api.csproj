@@ -293,6 +293,7 @@
     <Compile Include="Models\mps_det_in_process.cs" />
     <Compile Include="Models\mps_det_in_process_det.cs" />
     <Compile Include="Models\mps_det_in_process_his.cs" />
+    <Compile Include="Models\mps_det_in_process_tag.cs" />
     <Compile Include="Models\mps_det_wc.cs" />
     <Compile Include="Models\mps_mast.cs" />
     <Compile Include="Models\mps_mr_pcs.cs" />
