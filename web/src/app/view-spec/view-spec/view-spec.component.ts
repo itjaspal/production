@@ -4,6 +4,8 @@ import { CommonSearchView } from '../../_model/common-search-view';
 import { DisplayJobService } from '../../_service/displayJob.service';
 import { AuthenticationService } from '../../_service/authentication.service';
 import { PageEvent } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-view-spec',
@@ -18,6 +20,7 @@ export class ViewSpecComponent implements OnInit {
   public dataForward: CommonSearchView<DisplayJobView> = new CommonSearchView<DisplayJobView>();
   
   public user: any;
+  public datePipe = new DatePipe('en-US');
 
   constructor(
     private _displayJobMacSvc: DisplayJobService,
@@ -34,7 +37,7 @@ export class ViewSpecComponent implements OnInit {
 }
 
 close() {
- window.history.back();
+ window.history.back(); 
 }
 
 async searchJobMacCurrent(event: PageEvent = null) {  
@@ -72,6 +75,59 @@ async save() {
  
 }
 
+getSumTotal(pViewData: string, pSumType: string, pReqDate: string, pSpringType: string) : number {
+  var  vReqDate = this.datePipe.transform(pReqDate, 'dd/MM/yyyy');
+  var  vSumTotal : number = 0;
+  //console.log(" vReqDate : " + vReqDate);
 
+  if (pViewData == "current") {
+
+    for (let x of this.dataCurrent.datas) {
+        if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+             if (pSumType == "plan") {
+               vSumTotal = vSumTotal + x.plan_qty;
+             } else if (pSumType == "act") {
+               vSumTotal = vSumTotal + x.actual_qty;
+             } else {
+               vSumTotal = vSumTotal + x.diff_qty;  
+             }
+        }
+    }
+
+  }
+  else if (pViewData == "pending"){
+
+    for (let x of this.dataPending.datas) {
+         if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+             if (pSumType == "plan") {
+               vSumTotal = vSumTotal + x.plan_qty;
+             } else if (pSumType == "act") {
+               vSumTotal = vSumTotal + x.actual_qty;
+             } else {
+               vSumTotal = vSumTotal + x.diff_qty;  
+             }
+         }
+    }
+
+  }
+  else { // pViewData == "forward"
+
+    for (let x of this.dataForward.datas) {
+         if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+             if (pSumType == "plan") {
+               vSumTotal = vSumTotal + x.plan_qty;
+             } else if (pSumType == "act") {
+               vSumTotal = vSumTotal + x.actual_qty;
+             } else {
+               vSumTotal = vSumTotal + x.diff_qty;  
+             }
+        }
+    }
+
+  }
+ 
+  return vSumTotal;
 }
 
+
+}

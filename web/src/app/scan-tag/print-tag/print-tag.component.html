@@ -9,20 +9,45 @@
     <div class="row">
       <div class="col-lg-2 col-sm-2">
         <dt>Machine</dt>
-        <dd>{{data.mc_code}}</dd>
+        <dd>{{datas.mc_code}}</dd>
       </div>
-     <div class="col-lg-5 col-sm-5 col-5">
-        <dt>Print</dt>
-        <dd>{{data.printer}}</dd>
+     <div class="col-lg-5 col-sm-5 col-7">
+      <dt>Print</dt>
+      <dd>{{datas.printer}}</dd>
+      
       </div>
+
+      <div class="col-lg-2 col-sm-2 col-2">
+        <mat-form-field class="full-width">
+          <!-- <mat-select placeholder="ค้นหาครั้งที่พิมพ์" [(ngModel)]="modelUpdate.serial_no"
+          formControlName="serial_no">
+            <mat-option>ทั้งหมด</mat-option>
+            <mat-option *ngFor="let x of ddlDefaultPrinter" [value]="x.key">{{x.value}}</mat-option>
+          </mat-select> -->
+
+          <mat-select placeholder="ค้นหาครั้งที่พิมพ์" formControlName="process_tag_no">
+            <mat-option [value]=1>1</mat-option>
+            <mat-option [value]=2>2</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-1 col-sm-1">
+        <mat-card-actions class="no-margin">
+          <button mat-raised-button color="primary"  type="button" (click)="search_tag()">
+            <mat-icon class="material-icons">search</mat-icon> ค้นหา
+          </button>
+        </mat-card-actions>
+      </div>
+
+
     </div>
 
       <mat-card >
       <mat-card-content>
           
         
-        <div class="row card-table-body" >
-          <!-- Row 1-->
+        <!-- <div class="row card-table-body" >
+       
           <div class="col-3 col-lg-3">
             <mat-form-field class="full-width">
               <input matInput placeholder="Scan Tag PO" name="scan_po">
@@ -43,12 +68,21 @@
             </mat-card-actions>
           </div>
 
-        </div> 
+        </div>  -->
 
         <div class="row card-table-body">
           <div class="col-2 col-lg-1">
             <small>ครั้งที่</small>
-            <dd>{{data.process_tag_no}}</dd>
+            <dd>{{datas.process_tag_no}}</dd>
+        </div>
+
+        <div class="col-2 col-lg-2">
+         
+          <mat-card-actions class="no-margin">
+            <button mat-raised-button color="primary"  type="button" (click)="openSearchRawModal()">
+              <mat-icon class="material-icons">search</mat-icon> เลิอกวัตถุดิบ
+            </button>
+          </mat-card-actions>
         </div>
         </div>
 
@@ -57,19 +91,19 @@
             <!-- Row 1-->
             <div class="col-3 col-lg-2">
                 <small>Spring Type</small>
-                <dd>{{data.spring_grp}}</dd>
+                <dd>{{datas.spring_grp}}</dd>
             </div>
             <div class="col-3 col-lg-2">
                 <small>Spring Size</small>  
-                <dd>{{data.size_desc}}</dd>
+                <dd>{{datas.size_desc}}</dd>
            </div>
            <div class="col-3 col-lg-2">
                 <small>JIT Date</small>  
-                <dd>{{data.req_date }}</dd>
+                <dd>{{datas.req_date }}</dd>
            </div>
            <div class="col-3 col-lg-2">
                 <small>FIN Date</small>  
-                <dd>{{data.fin_date }}</dd>
+                <dd>{{datas.fin_date }}</dd>
            </div>
 
            <div class="col-3 col-lg-2">
@@ -79,9 +113,31 @@
               <input matInput placeholder="จำนวนพิมพ์" name="qty" [(ngModel)]="model.qty">
             </mat-form-field>
        </div>
-     
+       
+      
         
       </div>
+
+      <div class="row card-table-body">
+        <div class="col-3 col-lg-2">
+         
+          <mat-card-actions class="no-margin">
+            <button mat-raised-button color="primary"  type="button" (click)="add_tag()">
+              <mat-icon class="material-icons">add</mat-icon> เพิ่ม
+            </button>
+          </mat-card-actions>
+        </div>
+
+        <div class="col-3 col-lg-2">
+         
+          <mat-card-actions class="no-margin">
+            <button mat-raised-button color="primary"  type="button" (click)="del_tag()">
+              <mat-icon class="material-icons">delete</mat-icon> ลบ
+            </button>
+          </mat-card-actions>
+        </div>
+
+       </div>
 
       </mat-card-content>
       </mat-card> 
@@ -99,7 +155,7 @@
           <mat-card-content>
               
             
-            <div class="row card-table-body" *ngFor="let x of model.raw_item">
+            <div class="row card-table-body" *ngFor="let x of model.datas">
               <!-- <div class="row" *ngIf="data.datas.length == 0;else show_raw_mat">
                 <div class="col-12 text-center">
                     <h4>ไม่พบรายการ</h4>

@@ -140,5 +140,4 @@ namespace api.ModelViews
         public string req_date { get; set; }
         public string mc_code { get; set; }
     }
-
 }

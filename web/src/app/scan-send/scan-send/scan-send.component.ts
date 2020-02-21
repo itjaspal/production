@@ -77,6 +77,8 @@ export class ScanSendComponent implements OnInit {
 
     this.model.req_date  = datePipe.transform(this.model.req_date, 'dd/MM/yyyy').toString();
     this.data = await this._jobSendSvc.searchcspring(this.model);
+
+    console.log(this.data)
   }
 
   close() {

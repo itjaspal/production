@@ -58,7 +58,6 @@ namespace api.DataAccess
 
 
 
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<whmobileprnt_ctl>().HasKey(t => new { t.SERIES_NO, t.GRP_TYPE });

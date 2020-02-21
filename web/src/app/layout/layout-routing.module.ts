@@ -50,6 +50,7 @@ import { ProductionCancelComponent } from '../scan-inprocess/production-cancel/p
 import { ProductionScanComponent } from '../scan-inprocess/production-scan/production-scan.component';
 import { SendProdCancelComponent } from '../scan-send/send-prod-cancel/send-prod-cancel.component';
 import { SendProdScanComponent } from '../scan-send/send-prod-scan/send-prod-scan.component';
+import { ViewSpceDrawingComponent } from '../view-spec/view-spce-drawing/view-spce-drawing.component';
 
 const routes: Routes = [
   {
@@ -109,49 +110,29 @@ const routes: Routes = [
 
       //{ path: 'stock', component: StockBalanceComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/stock" } },
 
-      //Default Printer
-      { path: 'defprinter', component: DefaultPrinterComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },     
-      
+       //Default Printer
+       { path: 'defprinter', component: DefaultPrinterComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },     
 
-      //Display Job and View Spec
-      { path: 'job', component: DispalyJobComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
-      { path: 'spec', component: ViewSpecComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },     
-
-<<<<<<< HEAD
-     //Scan Tag
-     { path: 'scantag', component: ScanTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },
-     { path: 'scantag/printtag/:req_date/:spring_grp/:size_code/:qty', component: PrintTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },     
-
-     //Scan Inprocess
-     { path: 'scaninproc', component: ScanInprocessComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
-     { path: 'scaninproc/prodcanc/:req_date/:spring_grp/:size_code', component: ProductionCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },     
-     { path: 'scaninproc/prodscan/:req_date/:spring_grp/:size_code', component: ProductionScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },         
-
-
-
-     //Scan Send
-     { path: 'scansend', component: ScanSendComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
-     { path: 'scansend/sendprodcanc/:req_date/:spring_grp/:size_code', component: SendProdCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },     
-     { path: 'scansend/sendprodscan/:req_date/:spring_grp/:size_code', component: SendProdScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },              
-=======
-      //Scan Tag
-      { path: 'scantag', component: ScanTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },
-      { path: 'scantag/printtag', component: PrintTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },     
-
-      //Scan Inprocess
-      { path: 'scaninproc', component: ScanInprocessComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
-      { path: 'scaninproc/prodcanc', component: ProductionCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },     
-      { path: 'scaninproc/prodscan', component: ProductionScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },         
-
+       //Display Job and View Spec
+       { path: 'job', component: DispalyJobComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
+       { path: 'spec', component: ViewSpecComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
+       { path: 'spec/viewspec/:sizeCode/:springCode/:reqDate', component: ViewSpceDrawingComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/spec" }  },    
  
-
-      //Scan Send
-      { path: 'scansend', component: ScanSendComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
-      { path: 'scansend/sendprodcanc', component: SendProdCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },     
-      { path: 'scansend/sendprodscan', component: SendProdScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },              
-    
->>>>>>> parent of eb44abb... .
-
+       //Scan Tag
+       { path: 'scantag', component: ScanTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },
+       { path: 'scantag/printtag/:req_date/:spring_grp/:size_code/:qty', component: PrintTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },     
+ 
+       //Scan Inprocess
+       { path: 'scaninproc', component: ScanInprocessComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
+       { path: 'scaninproc/prodcanc/:req_date/:spring_grp/:size_code', component: ProductionCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" } },     
+       { path: 'scaninproc/prodscan/:req_date/:spring_grp/:size_code', component: ProductionScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },         
+ 
+  
+ 
+       //Scan Send
+       { path: 'scansend', component: ScanSendComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
+       { path: 'scansend/sendprodcanc/:req_date/:spring_grp/:size_code', component: SendProdCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },     
+       { path: 'scansend/sendprodscan/:req_date/:spring_grp/:size_code', component: SendProdScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },              
       { path: '**', redirectTo: 'home', pathMatch: 'full' },
     ]
   }
