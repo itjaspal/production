@@ -1,3 +1,174 @@
-<p>
-  view-spce-drawing works!
-</p>
+<div class="container-fluid no-breadcrumbs">
+
+  <mat-card>
+      <mat-card-title>
+        <h6>SPRING SPEC / DRAWING</h6>
+      </mat-card-title> 
+  
+    <mat-card-content class="no-margin">
+      <!-- <mat-card >
+      <mat-card-content>-->
+          
+      <form> 
+        <div class="row card-table-body" >
+          <!-- Row 1-->
+          <div class="col-3 col-lg-3">
+            <mat-form-field class="full-width">
+              <input #scanPcs autocomplete="off" matInput placeholder="PCS No. / In Process Tag" [(ngModel)]="scanPcsModel.scan_pcs_barcode" name="scan_pcs_barcode" id="1" (keyup.enter)="searchViewSpecByPcs()">
+            </mat-form-field>
+          </div>
+          <div class="col-3 col-lg-3">
+              <button (click)="searchViewSpecByPcs();" mat-raised-button color="primary">
+                <mat-icon class="material-icons">search</mat-icon> ค้นหา
+              </button>
+          </div>
+        </div> 
+      </form> 
+     <!--  </mat-card-content>
+      </mat-card> -->
+    </mat-card-content>
+      <br />
+   
+      <mat-card-content class="no-margin">
+        <div class="row">
+          <div class="col-lg-2 col-sm-2">
+            <dt>รายละเอียดรูปภาพ</dt>
+          </div>
+        </div>
+    
+          <mat-card >
+          <mat-card-content>
+              
+            
+            <div class="row card-table-body" >
+                <!-- Row 1-->
+                <div class="col-2 col-lg-2">
+                    <small>Model</small>
+                    <dd>{{dataViewSpec.model_desc}}</dd>
+                </div>
+                <div class="col-2 col-lg-2">
+                    <small>Size</small>  
+                    <dd>{{dataViewSpec.size_desc}}</dd>
+                </div>
+                <div class="col-2 col-lg-2">
+                    <small>Spring</small>  
+                    <dd>{{dataViewSpec.spring_type}}</dd>
+                </div>
+                <div class="col-12">
+                    <hr />
+                </div>  
+                <!-- Row 2-->
+                <div class="col-3 col-lg-2"> 
+                  <small>รหัสสินค้า</small>
+                  <dd>{{dataViewSpec.prod_code}}</dd>
+                </div>
+                <div class="col-3 col-lg-6">
+                  <small>รายละเอียดสินค้า</small>  
+                  <dd>{{dataViewSpec.prod_name}}</dd>
+                </div>
+                <table style="width: 100%" > 
+                  <tbody>     
+                          <div class="col-md-12">
+                              <img style="-webkit-user-select: none;margin: auto;  max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; width: 80%;" [src]="imageSource" alt="Image Source">
+                              <!--<img style="-webkit-user-select: none;margin: auto; cursor: zoom-in; max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; width: 80%;" [src]="imageSource" alt="Image Source">-->
+                          </div>
+                  </tbody>
+                </table> 
+            </div> 
+    
+          </mat-card-content>
+          </mat-card> 
+          </mat-card-content> 
+
+          <div class="col-12">
+            <br />
+          </div> 
+
+          <mat-card-content class="no-margin">
+            <div class="row">
+              <div class="col-lg-2 col-sm-2">
+                <dt>รายละเอียดวัตถุดิบ</dt>
+              </div>
+            </div>
+              <mat-card-content>
+                <!--<div class="scrollable-child-display-mac" >  -->
+                <table style="width: 100%" >
+                  <thead>
+                    <tr>
+                       <th colspan="7" *ngIf="dataViewSpec.datas.length != 0">
+                           {{dataViewSpec.datas[0].bom_name}}-{{dataViewSpec.datas[0].bom_sub}}
+                      </th>
+                    </tr>
+                    <tr>
+                        <th style="width: 5px" class="text-center">ลำดับ</th>
+                        <th style="width: 250px" class="text-center">รายการ</th>
+                        <th style="width: 5px"  class="text-center">รหัสวัตถุดิบ</th>
+                        <th style="width: 300px" class="text-center">รายละเอียดวัตถุดิบ</th>
+                        <th style="width: 70px" class="text-center">ชื่อย่อ</th>
+                        <th style="width: 5px" class="text-center">หน่วย</th>
+                        <th style="width: 60px" class="text-center">จำนวนที่ใช้</th>
+                    </tr>
+                  </thead>
+
+
+                  <tbody> 
+                     <tr *ngFor="let x of dataViewSpec.datas; let i = index;">
+                          <td class="text-center">
+                              {{x.rm_seq}}
+                          </td>
+                          <td>
+                              {{x.item_name}}
+                          </td>
+                          <td>
+                              {{x.rm_code}}
+                          </td>
+                          <td>
+                              {{x.rm_name}}
+                          </td>
+                          <td>
+                              {{x.short_name}}
+                          </td>
+                          <td>
+                              {{x.uom_code}}
+                          </td>
+                          <td class="text-center">
+                              {{ x.unit_qty | number }}
+                          </td>
+                      </tr>
+                  </tbody>
+                </table>
+              <!--</div> --> 
+              </mat-card-content>
+          </mat-card-content>
+          <div class="col-12">
+            <br />
+          </div>
+          <mat-card-content *ngIf="dataViewSpec.datas != undefined">
+            <ngb-pagination [collectionSize]="dataViewSpec.totalItem" [pageSize]="model.itemPerPage" [maxSize]="5"
+              [(page)]="model.pageIndex" (pageChange)="searchViewSpec()" [boundaryLinks]="true"></ngb-pagination>
+          </mat-card-content>
+
+
+          <mat-menu #appMenu1="matMenu">
+            <button mat-menu-item [routerLink]="['/pcsHistory']" action>
+              <mat-icon class="material-icons">search</mat-icon> <span>Print Tag In Prosess</span>
+            </button>
+          </mat-menu>
+
+          <br />
+          <mat-card-actions class="no-margin">
+            <div class="row">
+              <div class="col-2 col-sm-2">
+                <button (click)="close();" mat-raised-button color="primary">
+                  <mat-icon class="material-icons">close</mat-icon> ปิด
+                </button>
+              </div>
+              
+            </div>
+          </mat-card-actions> 
+
+
+  </mat-card>
+
+   
+</div>

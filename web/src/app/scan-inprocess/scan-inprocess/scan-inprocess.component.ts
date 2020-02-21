@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
-import { MessageService } from '../../_service/message.service';
-import { JobinprocessService } from '../../_service/job-inprocess.service';
 import { DisplayJobSearchView, DisplayJobView } from '../../_model/displayJob';
 import { CommonSearchView } from '../../_model/common-search-view';
 import { DisplayJobService } from '../../_service/displayJob.service';
 import { AuthenticationService } from '../../_service/authentication.service';
 import { PageEvent } from '@angular/material';
-
+import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-scan-inprocess',
@@ -23,6 +19,7 @@ export class ScanInprocessComponent implements OnInit {
   public dataForward: CommonSearchView<DisplayJobView> = new CommonSearchView<DisplayJobView>();
   
   public user: any;
+  public datePipe = new DatePipe('en-US');
 
   constructor(
     private _displayJobMacSvc: DisplayJobService,
@@ -32,55 +29,105 @@ export class ScanInprocessComponent implements OnInit {
 
  
   ngOnInit() {
-       this.user = this._authSvc.getLoginUser();
-       this.searchJobMacCurrent();
-       this.searchJobMacPending();
-       this.searchJobMacForward();
-  }
+    this.user = this._authSvc.getLoginUser();
+    this.searchJobMacCurrent();
+    this.searchJobMacPending();
+    this.searchJobMacForward();
 
-  close() {
-    window.history.back();
-  }
+}
 
-  async searchJobMacCurrent(event: PageEvent = null) {  
+close() {
+ window.history.back();
+}
 
-      if (event != null) {
-        this.model.pageIndex = event.pageIndex;
-        this.model.itemPerPage = event.pageSize;
-      }
-      this.dataCurrent =  await this._displayJobMacSvc.searchJobByMacCurrent(this.model);
-      console.log(this.model);
-   }  
+async searchJobMacCurrent(event: PageEvent = null) {  
 
-  async searchJobMacPending(event: PageEvent = null) { 
-    if (event != null) {
-      this.model.pageIndex = event.pageIndex;
-      this.model.itemPerPage = event.pageSize;
-    } 
+   if (event != null) {
+     this.model.pageIndex = event.pageIndex;
+     this.model.itemPerPage = event.pageSize;
+   }
+   this.dataCurrent =  await this._displayJobMacSvc.searchJobByMacCurrent(this.model);
+}  
 
-    
-    this.dataPending =  await this._displayJobMacSvc.searchJobByMacPending(this.model);
-    
-   
-    
-  }
+async searchJobMacPending(event: PageEvent = null) { 
+ if (event != null) {
+   this.model.pageIndex = event.pageIndex;
+   this.model.itemPerPage = event.pageSize;
+ } 
+ this.dataPending =  await this._displayJobMacSvc.searchJobByMacPending(this.model);
+}
 
-  async searchJobMacForward(event: PageEvent = null) {  
-    if (event != null) {
-      this.model.pageIndex = event.pageIndex;
-      this.model.itemPerPage = event.pageSize;
+async searchJobMacForward(event: PageEvent = null) {  
+ if (event != null) {
+   this.model.pageIndex = event.pageIndex;
+   this.model.itemPerPage = event.pageSize;
+ }
+ this.dataForward =  await this._displayJobMacSvc.searchJobByMacForward(this.model);
+}
+
+async save() {
+
+ //let result = await this._productSvc.update(this.model);
+
+ //await this._msgSvc.successPopup("บันทึกข้อมูลเรียบร้อย");
+ //this._router.navigateByUrl('/app/product');
+
+ 
+}
+
+getSumTotal(pViewData: string, pSumType: string, pReqDate: string, pSpringType: string) : number {
+  var  vReqDate = this.datePipe.transform(pReqDate, 'dd/MM/yyyy');
+  var  vSumTotal : number = 0;
+  //console.log(" vReqDate : " + vReqDate);
+
+  if (pViewData == "current") {
+
+    for (let x of this.dataCurrent.datas) {
+        if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+             if (pSumType == "plan") {
+               vSumTotal = vSumTotal + x.plan_qty;
+             } else if (pSumType == "act") {
+               vSumTotal = vSumTotal + x.actual_qty;
+             } else {
+               vSumTotal = vSumTotal + x.diff_qty;  
+             }
+        }
     }
-    this.dataForward =  await this._displayJobMacSvc.searchJobByMacForward(this.model);
+
   }
+  else if (pViewData == "pending"){
 
-  async save() {
+    for (let x of this.dataPending.datas) {
+         if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+             if (pSumType == "plan") {
+               vSumTotal = vSumTotal + x.plan_qty;
+             } else if (pSumType == "act") {
+               vSumTotal = vSumTotal + x.actual_qty;
+             } else {
+               vSumTotal = vSumTotal + x.diff_qty;  
+             }
+         }
+    }
 
-    //let result = await this._productSvc.update(this.model);
-
-    //await this._msgSvc.successPopup("บันทึกข้อมูลเรียบร้อย");
-    //this._router.navigateByUrl('/app/product');
-
-    
   }
+  else { // pViewData == "forward"
+
+    for (let x of this.dataForward.datas) {
+         if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+             if (pSumType == "plan") {
+               vSumTotal = vSumTotal + x.plan_qty;
+             } else if (pSumType == "act") {
+               vSumTotal = vSumTotal + x.actual_qty;
+             } else {
+               vSumTotal = vSumTotal + x.diff_qty;  
+             }
+        }
+    }
+
+  }
+ 
+  return vSumTotal;
+}
+
 
 }

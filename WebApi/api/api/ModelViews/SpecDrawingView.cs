@@ -33,7 +33,7 @@ namespace api.ModelViews
         public string uom_code { get; set; }
         public int unit_qty { get; set; }
         public string item_name { get; set; }
-        
+
     }
 
     public class SpecDrawingSearchView

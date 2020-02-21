@@ -12,16 +12,16 @@ namespace api.Models
     {
         [Key, Column("ENTITY", Order = 0)]
         ///[StringLength(38)]
-        public int ENTITY { get; set; }
+        public string ENTITY { get; set; }
 
-        [Key, Column("REQ_DATE", Order = 0)]
+        [Key, Column("REQ_DATE", Order = 1)]
         public DateTime REQ_DATE { get; set; }
 
-        [Key, Column("MC_CODE", Order = 1)]
+        [Key, Column("MC_CODE", Order = 2)]
         [StringLength(10)]
         public string MC_CODE { get; set; }
 
-        [Key, Column("SEQ_NO", Order = 1)]
+        [Key, Column("SEQ_NO", Order = 3)]
         public int SEQ_NO { get; set; }
 
         [Column("FIN_DATE")]

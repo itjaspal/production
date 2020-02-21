@@ -30,6 +30,7 @@ namespace api.ModelViews
         public int qty { get; set; }
         public string fin_date { get; set; }
         public string printer { get; set; }
+        public string user_id { get; set; }
         public List<RawMatitemView> datas { get; set; }
     }
 
@@ -131,5 +132,12 @@ namespace api.ModelViews
         public string mc_code { get; set; }
         public int process_tag_no { get; set; }
 
+    }
+
+    public class ProcessTagSearchView
+    {
+        public string entity { get; set; }
+        public string req_date { get; set; }
+        public string mc_code { get; set; }
     }
 }

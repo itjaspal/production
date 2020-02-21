@@ -110,31 +110,29 @@ const routes: Routes = [
 
       //{ path: 'stock', component: StockBalanceComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/stock" } },
 
-      //Default Printer
-      { path: 'defprinter', component: DefaultPrinterComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },     
-      
+       //Default Printer
+       { path: 'defprinter', component: DefaultPrinterComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },     
 
-      //Display Job and View Spec
-      { path: 'job', component: DispalyJobComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
-      { path: 'spec', component: ViewSpecComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
-      { path: 'spec/viewspec/:refCode', component: ViewSpceDrawingComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/spec" }  },    
-
-     //Scan Tag
-     { path: 'scantag', component: ScanTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },
-     { path: 'scantag/printtag/:req_date/:spring_grp/:size_code/:qty', component: PrintTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },     
-
-     //Scan Inprocess
-     { path: 'scaninproc', component: ScanInprocessComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
-     { path: 'scaninproc/prodcanc/:req_date/:spring_grp/:size_code', component: ProductionCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },     
-     { path: 'scaninproc/prodscan/:req_date/:spring_grp/:size_code', component: ProductionScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },         
-
-
-
-     //Scan Send
-     { path: 'scansend', component: ScanSendComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
-     { path: 'scansend/sendprodcanc/:req_date/:spring_grp/:size_code', component: SendProdCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },     
-     { path: 'scansend/sendprodscan/:req_date/:spring_grp/:size_code', component: SendProdScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },              
-
+       //Display Job and View Spec
+       { path: 'job', component: DispalyJobComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
+       { path: 'spec', component: ViewSpecComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
+       { path: 'spec/viewspec/:sizeCode/:springCode/:reqDate', component: ViewSpceDrawingComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/spec" }  },    
+ 
+       //Scan Tag
+       { path: 'scantag', component: ScanTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },
+       { path: 'scantag/printtag/:req_date/:spring_grp/:size_code/:qty', component: PrintTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },     
+ 
+       //Scan Inprocess
+       { path: 'scaninproc', component: ScanInprocessComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
+       { path: 'scaninproc/prodcanc/:req_date/:spring_grp/:size_code', component: ProductionCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" } },     
+       { path: 'scaninproc/prodscan/:req_date/:spring_grp/:size_code', component: ProductionScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },         
+ 
+  
+ 
+       //Scan Send
+       { path: 'scansend', component: ScanSendComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
+       { path: 'scansend/sendprodcanc/:req_date/:spring_grp/:size_code', component: SendProdCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },     
+       { path: 'scansend/sendprodscan/:req_date/:spring_grp/:size_code', component: SendProdScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },              
       { path: '**', redirectTo: 'home', pathMatch: 'full' },
     ]
   }

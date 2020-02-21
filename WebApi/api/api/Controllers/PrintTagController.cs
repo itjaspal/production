@@ -71,33 +71,45 @@ namespace api.Controllers
             {
                 tagSvc.DeleteTag(model);
 
-                return Request.CreateResponse(HttpStatusCode.OK, "ส่งข้อมูลไปยังเครื่องพิมพ์เรียบร้อยแล้ว");
+                return Request.CreateResponse(HttpStatusCode.OK, "ลบข้อมูลเรียบร้อยแล้ว");
             }
             catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
             }
 
-            
+
         }
 
-        //[Route("print-tag/postAddTag")]
-        //public HttpResponseMessage postAddTag(PrintTagAddView model)
+        [Route("print-tag/postAddTag")]
+        public HttpResponseMessage postAddTag(PrintTagSearchView model)
+        {
+            try
+            {
+                var result = tagSvc.AddTag(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+            }
+        }
+
+
+        //[Route("print-tag/postSearchProcessTag")]
+        //public HttpResponseMessage postSearchProcessTag(ProcessTagSearchView model)
         //{
         //    try
         //    {
-        //        tagSvc.AddTag(model);
+        //        var result = tagSvc.searchProcessTagNo(model);
 
-        //        return Request.CreateResponse(HttpStatusCode.OK);
-        //        //var result = saleSvc.InquirySaleTransaction(model);
-
-        //        //return Request.CreateResponse(HttpStatusCode.OK, result);
+        //        return Request.CreateResponse(HttpStatusCode.OK, result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
         //    }
-
         //}
     }
 }

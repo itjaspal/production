@@ -54,7 +54,7 @@ namespace api.DataAccess
         public DbSet<bm_basic_mast> bm_basic { get; set; }
         public DbSet<product> product { get; set; }
         public DbSet<mps_mr_pcs> mr_pcs { get; set; }
-
+        public DbSet<mps_det_in_process_tag> mps_tag { get; set; }
 
 
 

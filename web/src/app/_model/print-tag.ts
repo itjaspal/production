@@ -24,7 +24,7 @@ export class PrintTagView {
     public fin_date: string = "";  
     public printer: string = "";  
     public user_id : string = "";  
-    public raw_item: RawMatitemView[] = [];
+    public datas: RawMatitemView[] = [];
 }
 
 export class RawMatitemView {
@@ -109,5 +109,6 @@ export class PrintTagProcView{
     public entity : string = AppSetting.entity;
     public req_date : string = "";
     public mc_code : string = "";
+    public process_tag_no : number = 0;
    
 }

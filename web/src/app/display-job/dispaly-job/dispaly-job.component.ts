@@ -5,6 +5,8 @@ import { CommonSearchView } from '../../_model/common-search-view';
 import { PageEvent } from '@angular/material';
 import { AuthenticationService } from '../../_service/authentication.service';
 import { DisplayJobSearchView, DisplayJobView } from '../../_model/displayJob';
+import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common'
 
 
 @Component({
@@ -19,11 +21,13 @@ export class DispalyJobComponent implements OnInit {
   public dataPending: CommonSearchView<DisplayJobView> = new CommonSearchView<DisplayJobView>();
   public dataForward: CommonSearchView<DisplayJobView> = new CommonSearchView<DisplayJobView>();
   
-  public user: any;
+  public user: any; 
+  public datePipe = new DatePipe('en-US');
 
   constructor(
     private _displayJobMacSvc: DisplayJobService,
     private _authSvc: AuthenticationService,
+    private _activateRoute: ActivatedRoute,
   ) {
   }
 
@@ -39,13 +43,15 @@ export class DispalyJobComponent implements OnInit {
     window.history.back();
   }
 
-  async searchJobMacCurrent(event: PageEvent = null) {  
+  async searchJobMacCurrent(event: PageEvent = null) {   
 
       if (event != null) {
         this.model.pageIndex = event.pageIndex;
         this.model.itemPerPage = event.pageSize;
       }
       this.dataCurrent =  await this._displayJobMacSvc.searchJobByMacCurrent(this.model);
+
+      
    }  
 
   async searchJobMacPending(event: PageEvent = null) { 
@@ -70,8 +76,61 @@ export class DispalyJobComponent implements OnInit {
 
     //await this._msgSvc.successPopup("บันทึกข้อมูลเรียบร้อย");
     //this._router.navigateByUrl('/app/product');
-
     
+  }
+
+  getSumTotal(pViewData: string, pSumType: string, pReqDate: string, pSpringType: string) : number {
+     var  vReqDate = this.datePipe.transform(pReqDate, 'dd/MM/yyyy');
+     var  vSumTotal : number = 0;
+     //console.log(" vReqDate : " + vReqDate);
+
+     if (pViewData == "current") {
+
+       for (let x of this.dataCurrent.datas) {
+           if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+                if (pSumType == "plan") {
+                  vSumTotal = vSumTotal + x.plan_qty;
+                } else if (pSumType == "act") {
+                  vSumTotal = vSumTotal + x.actual_qty;
+                } else {
+                  vSumTotal = vSumTotal + x.diff_qty;  
+                }
+           }
+       }
+
+     }
+     else if (pViewData == "pending"){
+
+       for (let x of this.dataPending.datas) {
+            if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+                if (pSumType == "plan") {
+                  vSumTotal = vSumTotal + x.plan_qty;
+                } else if (pSumType == "act") {
+                  vSumTotal = vSumTotal + x.actual_qty;
+                } else {
+                  vSumTotal = vSumTotal + x.diff_qty;  
+                }
+            }
+       }
+
+     }
+     else { // pViewData == "forward"
+
+       for (let x of this.dataForward.datas) {
+            if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+                if (pSumType == "plan") {
+                  vSumTotal = vSumTotal + x.plan_qty;
+                } else if (pSumType == "act") {
+                  vSumTotal = vSumTotal + x.actual_qty;
+                } else {
+                  vSumTotal = vSumTotal + x.diff_qty;  
+                }
+           }
+       }
+
+     }
+    
+     return vSumTotal;
   }
 
 }
