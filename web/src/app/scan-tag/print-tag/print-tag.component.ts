@@ -1,5 +1,5 @@
 import { PrintTagService } from './../../_service/print-tag.service';
-import { PrintTagView, RawMatitemView, PrintTagAddView, PrintTagProcView } from './../../_model/print-tag';
+import { PrintTagView, RawMatitemView, PrintTagAddView, PrintTagProcView, ProcessTagSearchView, ProcessTagNoSearch } from './../../_model/print-tag';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -25,8 +25,11 @@ export class PrintTagComponent implements OnInit {
   //public raw_model: PrintTagView = new PrintTagView();
   public item_model :RawMatitemView = new RawMatitemView();
   public del_model :PrintTagProcView = new PrintTagProcView();
+  public tagno_search: ProcessTagSearchView = new ProcessTagSearchView();
+  public model_tagsearch :ProcessTagNoSearch  = new ProcessTagNoSearch();
   user: any;
   public datas: any = {};
+  public datas_tag: any = {};
   public validationForm: FormGroup;
 
   constructor(
@@ -44,6 +47,7 @@ export class PrintTagComponent implements OnInit {
   ngOnInit() {
     this.user = this._authSvc.getLoginUser();
     this.printTagData();
+    this.tagList();
 
     console.log(this.user);
     
@@ -72,7 +76,15 @@ export class PrintTagComponent implements OnInit {
     //this.printTagData();
   }
 
+  async tagList() {  
+    this.tagno_search.req_date = this.model_search.req_date;
+    this.tagno_search.mc_code = this.user.user_mac.MC_CODE;
 
+    this.datas_tag = await this._tagSvc.tagnoList(this.tagno_search);
+
+    console.log(this.datas_tag);
+
+  }
   
 
   openSearchRawModal()
@@ -178,9 +190,26 @@ export class PrintTagComponent implements OnInit {
      
   }
 
-  search_tag()
+  async search_tagno()
   {
+    var datePipe = new DatePipe("en-US");
     
+    this.model_tagsearch.req_date = this._actRoute.snapshot.params.req_date;
+    this.model_tagsearch.spring_grp = this._actRoute.snapshot.params.spring_grp;
+    this.model_tagsearch.size_desc = this._actRoute.snapshot.params.size_code;
+    this.model_tagsearch.qty = this._actRoute.snapshot.params.qty;
+    this.model_tagsearch.wc_code = this.user.def_wc_code;
+    this.model_tagsearch.mc_code = this.user.user_mac.MC_CODE;
+    this.model_tagsearch.printer = this.user.def_printer;
+    this.model_tagsearch.req_date  = datePipe.transform(this.model_tagsearch.req_date, 'dd/MM/yyyy');
+
+    this.model_tagsearch.qty = this.model.qty;
+    this.datas =  await this._tagSvc.searchtagno(this.model_tagsearch);
+    
+    this.add(this.datas.datas);
+    
+    console.log(this.model_tagsearch)
+    //this.printTagData();
   }
 
   async searchTagData() {  

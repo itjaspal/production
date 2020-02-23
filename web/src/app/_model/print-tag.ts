@@ -112,3 +112,25 @@ export class PrintTagProcView{
     public process_tag_no : number = 0;
    
 }
+
+export class ProcessTagSearchView{
+    public entity : string = AppSetting.entity;
+    public req_date : string = "";
+    public mc_code : string = "";
+}
+
+export class ProcessTagView{
+    public process_tag_no : number = 0;
+}
+
+export class ProcessTagNoSearch{
+    public entity: string = AppSetting.entity;    
+    public req_date: string = "";  
+    public wc_code: string = "";  
+    public mc_code: string = "";       
+    public spring_grp: string = "";  
+    public size_desc: string = "";  
+    public qty :number; 
+    public printer: string = ""; 
+    public process_tag_no : number = 0;
+}

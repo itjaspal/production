@@ -25,27 +25,27 @@ namespace api.ModelViews
 
     }
 
-    public class JobMachinePendingView
-    {
+    //public class JobMachinePendingView
+    //{
 
-        public int pageIndex { get; set; }
-        public int itemPerPage { get; set; }
-        
-        
-        public List<JobReqView> req_date { get; set; }
-       // public List<JobMachineReqView> datas { get; set; }
+    //    public int pageIndex { get; set; }
+    //    public int itemPerPage { get; set; }
 
-    }
 
-    public class JobReqView
-    {
-        public int totalItem { get; set; }
-        public DateTime req_date { get; set; }
-        public int total_plan_qty { get; set; }
-        public int total_actual_qty { get; set; }
-        public int total_diff_qty { get; set; }
-        public List<JobMachineReqView> datas { get; set; }
-    }
+    //    public List<JobReqView> req_date { get; set; }
+    //   // public List<JobMachineReqView> datas { get; set; }
+
+    //}
+
+    //public class JobReqView
+    //{
+    //    public int totalItem { get; set; }
+    //    public DateTime req_date { get; set; }
+    //    public int total_plan_qty { get; set; }
+    //    public int total_actual_qty { get; set; }
+    //    public int total_diff_qty { get; set; }
+    //    public List<JobMachineReqView> datas { get; set; }
+    //}
 
     public class JobMachineReqView
     {
@@ -72,4 +72,6 @@ namespace api.ModelViews
         public string wc_code { get; set; }
 
     }
+
+    
 }

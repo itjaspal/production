@@ -1,7 +1,8 @@
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RawProductSearchView, RawMatView, PrintTagSearchView, PrintTagView, PrintTagAddView, PrintTagProcView } from '../_model/print-tag';
+import { RawProductSearchView, RawMatView, PrintTagSearchView, PrintTagView, PrintTagAddView, PrintTagProcView, ProcessTagSearchView, ProcessTagView, ProcessTagNoSearch } from '../_model/print-tag';
+import { CommonSearchView } from '../_model/common-search-view';
 
 @Injectable({
     providedIn: 'root' 
@@ -31,6 +32,12 @@ import { RawProductSearchView, RawMatView, PrintTagSearchView, PrintTagView, Pri
       return await this.http.post(environment.API_URL + 'print-tag/postDeleteTag', _model).toPromise();  
     }
   
+    public async tagnoList(_model: ProcessTagSearchView) {
+      return await this.http.post<CommonSearchView<ProcessTagView>>(environment.API_URL + 'print-tag/postSearchTagNoList', _model).toPromise();
+    }
 
+    public async searchtagno(_model: ProcessTagNoSearch) {
+      return await this.http.post<PrintTagView[]>(environment.API_URL + 'print-tag/postSearchTagNo', _model).toPromise();
+    }
     
   }  

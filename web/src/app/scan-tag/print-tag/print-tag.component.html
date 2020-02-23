@@ -18,22 +18,25 @@
       </div>
 
       <div class="col-lg-2 col-sm-2 col-2">
+        
         <mat-form-field class="full-width">
-          <!-- <mat-select placeholder="ค้นหาครั้งที่พิมพ์" [(ngModel)]="modelUpdate.serial_no"
-          formControlName="serial_no">
-            <mat-option>ทั้งหมด</mat-option>
-            <mat-option *ngFor="let x of ddlDefaultPrinter" [value]="x.key">{{x.value}}</mat-option>
-          </mat-select> -->
+          <mat-select placeholder="ค้นหาครั้งที่พิมพ์" [(ngModel)]="model_tagsearch.process_tag_no"
+          name="process_tag_no">
 
-          <mat-select placeholder="ค้นหาครั้งที่พิมพ์" formControlName="process_tag_no">
+
+            <!-- <mat-option>ทั้งหมด</mat-option> -->
+            <mat-option *ngFor="let x of datas_tag.datas" [value]="x.process_tag_no">{{x.process_tag_no}}</mat-option>
+            </mat-select>
+
+          <!-- <mat-select placeholder="ค้นหาครั้งที่พิมพ์" formControlName="process_tag_no">
             <mat-option [value]=1>1</mat-option>
             <mat-option [value]=2>2</mat-option>
-          </mat-select>
+          </mat-select> -->
         </mat-form-field>
       </div>
       <div class="col-1 col-sm-1">
         <mat-card-actions class="no-margin">
-          <button mat-raised-button color="primary"  type="button" (click)="search_tag()">
+          <button mat-raised-button color="primary"  type="button" (click)="search_tagno()">
             <mat-icon class="material-icons">search</mat-icon> ค้นหา
           </button>
         </mat-card-actions>

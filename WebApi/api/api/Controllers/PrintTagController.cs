@@ -96,20 +96,34 @@ namespace api.Controllers
             }
         }
 
+        [Route("print-tag/postSearchTagNoList")]
+        public HttpResponseMessage searchProcessTagNoList(ProcessTagSearchView model)
+        {
+            try
+            {
+                var result = tagSvc.searchProcessTagNoList(model);
 
-        //[Route("print-tag/postSearchProcessTag")]
-        //public HttpResponseMessage postSearchProcessTag(ProcessTagSearchView model)
-        //{
-        //    try
-        //    {
-        //        var result = tagSvc.searchProcessTagNo(model);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+            }
+        }
 
-        //        return Request.CreateResponse(HttpStatusCode.OK, result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
-        //    }
-        //}
+        [Route("print-tag/postSearchTagNo")]
+        public HttpResponseMessage searchProcessTagNo(ProcessTagNoSearch model)
+        {
+            try
+            {
+                var result = tagSvc.searchProcessTagNo(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+            }
+        }
     }
 }

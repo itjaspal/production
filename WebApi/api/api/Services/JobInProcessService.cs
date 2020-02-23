@@ -116,12 +116,26 @@ namespace api.Services
                 string vspring_grp = strlist[0];
                 string vsize_code = strlist[1];
 
-                DateTime vreq_date = Convert.ToDateTime(model.req_date);
+                //DateTime vreq_date = Convert.ToDateTime(model.req_date);
 
-                mps_det_in_process mps_in_process = ctx.mps_in_process
-                    .Where(z => z.SPRING_GRP == vspring_grp && z.PDSIZE_CODE == vsize_code && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date) && z.WC_CODE == model.wc_code && z.ENTITY == model.entity && z.MPS_ST == "Y" && z.MC_CODE == model.mc_code)
-                    .OrderBy(z => z.PCS_BARCODE)
-                    .FirstOrDefault();
+                //mps_det_in_process mps_in_process = ctx.mps_in_process
+                //    .Where(z => z.SPRING_GRP == vspring_grp && z.PDSIZE_CODE == vsize_code && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date) && z.WC_CODE == model.wc_code && z.ENTITY == model.entity && z.MPS_ST == "Y" && z.MC_CODE == model.mc_code)
+                //    .OrderBy(z => z.PCS_BARCODE)
+                //    .FirstOrDefault();
+
+                string sqlp = "select pcs_barcode , spring_grp springtype_code , pdsize_desc";
+                sqlp += " from mps_det_in_process";
+                sqlp += " where spring_grp = :p_spring_grp";
+                sqlp += " and pdsize_code =  :p_size_code";
+                sqlp += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
+                sqlp += " and entity = :p_entity";
+                sqlp += " and wc_code =:p_wc_code";
+                sqlp += " and mc_code =:p_mc_code";
+                sqlp += " and mps_st =  'Y'";
+                sqlp += " and rownum = 1";
+
+                JobInProcessView mps_in_process = ctx.Database.SqlQuery<JobInProcessView>(sqlp, new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code)).FirstOrDefault(); ;
+
 
 
                 if (mps_in_process == null)
@@ -133,9 +147,9 @@ namespace api.Services
                 //define model view
                 JobInProcessView view = new ModelViews.JobInProcessView()
                 {
-                    pcs_barcode = mps_in_process.PCS_BARCODE,
-                    springtype_code = mps_in_process.SPRINGTYPE_CODE,
-                    pdsize_desc = mps_in_process.PDSIZE_DESC,
+                    pcs_barcode = mps_in_process.pcs_barcode,
+                    springtype_code = mps_in_process.springtype_code,
+                    pdsize_desc = mps_in_process.pdsize_desc,
                     qty = 1,
                     datas = new List<ModelViews.JobInProcessScanView>()
                 };
@@ -194,13 +208,26 @@ namespace api.Services
                 string vspring_grp = strlist[0];
                 string vsize_code = strlist[1];
 
-                DateTime vreq_date = Convert.ToDateTime(model.req_date);
+                //DateTime vreq_date = Convert.ToDateTime(model.req_date);
 
-                mps_det_in_process mps_in_process = ctx.mps_in_process
-                    .Where(z => z.SPRING_GRP == vspring_grp && z.PDSIZE_CODE == vsize_code && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date) && z.WC_CODE == model.wc_code && z.ENTITY == model.entity && z.MPS_ST == "N" && z.MC_CODE==model.mc_code)
-                    .OrderBy(z => z.PCS_BARCODE)
-                    .FirstOrDefault();
+                //mps_det_in_process mps_in_process = ctx.mps_in_process
+                //    .Where(z => z.SPRING_GRP == vspring_grp && z.PDSIZE_CODE == vsize_code && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date) && z.WC_CODE == model.wc_code && z.ENTITY == model.entity && z.MPS_ST == "N" && z.MC_CODE==model.mc_code)
+                //    .OrderBy(z => z.PCS_BARCODE)
+                //    .FirstOrDefault();
 
+
+                string sqlp = "select pcs_barcode , spring_grp springtype_code , pdsize_desc";
+                sqlp += " from mps_det_in_process";
+                sqlp += " where spring_grp = :p_spring_grp";
+                sqlp += " and pdsize_code =  :p_size_code";
+                sqlp += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
+                sqlp += " and entity = :p_entity";
+                sqlp += " and wc_code =:p_wc_code";
+                sqlp += " and mc_code =:p_mc_code";
+                sqlp += " and mps_st =  'N'";
+                sqlp += " and rownum = 1";
+
+                JobInProcessView mps_in_process = ctx.Database.SqlQuery<JobInProcessView>(sqlp, new OracleParameter("p_spring_grp", vspring_grp) ,new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code)).FirstOrDefault(); ;
 
                 if (mps_in_process == null)
                 {
@@ -211,9 +238,9 @@ namespace api.Services
                 //define model view
                 JobInProcessView view = new ModelViews.JobInProcessView()
                 {
-                    pcs_barcode = mps_in_process.PCS_BARCODE,
-                    springtype_code = mps_in_process.SPRINGTYPE_CODE,
-                    pdsize_desc = mps_in_process.PDSIZE_DESC,
+                    pcs_barcode = mps_in_process.pcs_barcode,
+                    springtype_code = mps_in_process.springtype_code,
+                    pdsize_desc = mps_in_process.pdsize_desc,
                     qty = 1,
                     datas = new List<ModelViews.JobInProcessScanView>()
                 };

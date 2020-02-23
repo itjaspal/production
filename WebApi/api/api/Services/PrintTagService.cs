@@ -363,28 +363,176 @@ namespace api.Services
             }
         }
 
-        //public List<Dropdownlist> searchProcessTagNo(ProcessTagSearchView model)
-        //{
-        //    using (var ctx = new ConXContext())
-        //    {
-        //        string sql = "select distinct process_tag_no key";
-        //        sql += " from mps_det_in_process_tag";
-        //        sql += " where entity = :p_entity";
-        //        sql += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
-        //        sql += " and mc_code = :p_mc_code";
+        public PrintTagView searchProcessTagNo(ProcessTagNoSearch model)
+        {
+            using (var ctx = new ConXContext())
+            {
 
-        //        List<Dropdownlist> tag_no = ctx.Database.SqlQuery<Dropdownlist>(sql, new OracleParameter("p_entity", model.entity),new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_mc_code", model.mc_code))
-        //        .Select(x => new Dropdownlist()
-        //         {
-        //             key = x.key.ToString(),
-        //             value = x.key,
-        //         })
-        //            .ToList();
+                var ventity = model.entity;
+                var vreq_date = model.req_date;
+                var vwc_code = model.wc_code;
+                var vmc_code = model.mc_code;
+                var vspring_grp = model.spring_grp;
+                var vsize_desc = model.size_desc;
+                var vqty = model.qty;
+                //var vuser_id = model.user_id;
+                var vprinter = model.printer;
+                int vprocess_tag_no = model.process_tag_no;
+
+                PrintTagView view = new ModelViews.PrintTagView()
+                {
+                    datas = new List<ModelViews.RawMatitemView>()
+                };
+
+                string sqlp = "select prnt_point_name from whmobileprnt_ctl where grp_type='SPRING' and series_no=:p_printer";
+                string vprinter_name = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_printer", vprinter)).FirstOrDefault();
 
 
-        //        return tag_no;
-        //    }
-        //}
+                string sqls = "select pdsize_tname from pdsize_mast where pdsize_code=:p_size_code";
+                string vsize_name = ctx.Database.SqlQuery<string>(sqls, new OracleParameter("p_size_code", vsize_desc)).FirstOrDefault();
+
+
+                //string sql = "select max(process_tag_no) process_tag_no , max(to_char(req_date,'dd/mm/yyyy')) req_date , max(mc_code) , max(to_char(fin_date,'dd/mm/yyyy')) fin_date";
+                string sql = "select process_tag_no , to_char(req_date,'dd/mm/yyyy') req_date , mc_code , to_char(fin_date,'dd/mm/yyyy') fin_date";
+                sql += " from mps_det_in_process_tag";
+                sql += " where entity = :p_entity";
+                sql += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
+                sql += " and mc_code = :p_mc_code";
+                sql += " and process_tag_no = :p_process_tag_no";
+                sql += " order by process_tag_no desc";
+
+
+                PrintTagView tag = ctx.Database.SqlQuery<PrintTagView>(sql, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_process_tag_no", vprocess_tag_no)).SingleOrDefault();
+
+
+                if (tag == null)
+                {
+                    vprocess_tag_no = 1;
+
+                    view.entity = ventity;
+                    view.process_tag_no = vprocess_tag_no;
+                    view.req_date = vreq_date;
+                    view.wc_code = vwc_code;
+                    view.mc_code = vmc_code;
+                    view.spring_grp = vspring_grp;
+                    view.size_desc = vsize_name;
+                    view.qty = vqty;
+                    view.fin_date = DateTime.Now.ToShortDateString();
+                    view.printer = vprinter_name;
+
+                }
+                else
+                {
+                    //vprocess_tag_no = tag.process_tag_no;
+
+                    
+
+                    view.entity = ventity;
+                    view.process_tag_no = tag.process_tag_no;
+                    view.req_date = tag.req_date;
+                    view.wc_code = tag.wc_code;
+                    view.mc_code = vmc_code;
+                    view.spring_grp = vspring_grp;
+                    view.size_desc = vsize_name;
+                    view.qty = vqty;
+                    view.fin_date = tag.fin_date;
+                    view.printer = vprinter_name;
+                }
+
+
+
+                string sqlr = "select process_tag_no , ref_doc_no doc_no , prod_code , prod_tname prod_name";
+                sqlr += " from mps_det_in_process_tag";
+                sqlr += " where entity = :p_entity";
+                sqlr += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
+                sqlr += " and mc_code = :p_mc_code";
+                sqlr += " and process_tag_no = :p_process_tag_no";
+                sqlr += " order by seq_no";
+
+                List<RawMatitemView> scan = ctx.Database.SqlQuery<RawMatitemView>(sqlr, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_process_tag_no", vprocess_tag_no)).ToList();
+
+                foreach (var i in scan)
+                {
+
+                    view.datas.Add(new ModelViews.RawMatitemView()
+                    {
+                        process_tag_no = i.process_tag_no,
+                        doc_no = i.doc_no,
+                        prod_code = i.prod_code,
+                        prod_name = i.prod_name
+
+                    });
+                }
+
+
+                //return data to contoller
+                return view;
+            }
+        }
+
+        public CommonSearchView<ProcessTagView>  searchProcessTagNoList(ProcessTagSearchView model)
+        {
+            using (var ctx = new ConXContext())
+            {
+                var ventity = model.entity;
+                var vreq_date = model.req_date;
+                var vmc_code = model.mc_code;
+
+                CommonSearchView<ProcessTagView> view = new ModelViews.CommonSearchView<ModelViews.ProcessTagView>()
+                {
+                    
+
+
+                    datas = new List<ModelViews.ProcessTagView>()
+                };
+
+
+                string sql = "select distinct process_tag_no";
+                sql += " from mps_det_in_process_tag";
+                sql += " where entity = :p_entity";
+                sql += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
+                sql += " and mc_code = :p_mc_code";
+                
+
+                List<ProcessTagView> tag_no = ctx.Database.SqlQuery<ProcessTagView>(sql, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_mc_code", vmc_code)).ToList();
+
+
+                foreach (var i in tag_no)
+                {
+
+                    view.datas.Add(new ModelViews.ProcessTagView()
+                    {
+
+                        //ic_entity = i.IC_ENTITY,
+                        process_tag_no = i.process_tag_no,
+                        //wh_code = i.WH_CODE,
+                        //qty_oh = i.QTY_OH,
+                        //qty_all = i.QTY_ALL,
+                        //qty_ship = i.QTY_SHIP,
+                        //qty_build = i.QTY_BUILD_DISPLAY,
+                        //qty_avai = i.QTY_AVAI
+
+                    });
+                }
+
+                //ProcessTagView view = new ModelViews.ProcessTagView();
+
+
+                //foreach (var i in tag_no)
+                //{
+                //    view.process_tag_no = i.process_tag_no;
+
+                //}
+
+
+                //return data to contoller
+                return view;
+            }
+        }
+
+
+
+       
 
         public RawMatView searchRawData(RawMatSearchView model)
         {

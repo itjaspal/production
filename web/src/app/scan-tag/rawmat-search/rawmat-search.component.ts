@@ -76,17 +76,17 @@ export class RawmatSearchComponent implements OnInit {
   }
 
 
-  private buildForm() {
-    this.validationForm = this._fb.group({
-    doc_date: [null, []]
-    });
-  }
+  // private buildForm() {
+  //   this.validationForm = this._fb.group({
+  //   doc_date: [null, []]
+  //   });
+  // }
 
-  async search() {
+  // async search() {
 
-    this.datas = await this._tagSvc.searchRawItem(this.model);
+  //   this.datas = await this._tagSvc.searchRawItem(this.model);
 
-  }
+  // }
 
 
   close() {

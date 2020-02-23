@@ -14,6 +14,7 @@ namespace api.Interfaces
         PrintTagView AddTag(PrintTagSearchView model);
         void DeleteTag(PrintTagProcView model);
         void PringTag(PrintTagView model);
-        //List<Dropdownlist> searchProcessTagNo(ProcessTagSearchView model);
+        CommonSearchView<ProcessTagView>  searchProcessTagNoList(ProcessTagSearchView model);
+        PrintTagView searchProcessTagNo(ProcessTagNoSearch model);
     }
 }

@@ -43,42 +43,6 @@ namespace api.ModelViews
     }
 
 
-    public class SpringTagSearchView
-    {
-        public int pageIndex { get; set; }
-        public int itemPerPage { get; set; }
-        public string entity { get; set; }
-        public string user_id { get; set; }
-        public string mc_code { get; set; }
-        public string wc_code { get; set; }
-
-    }
-
-    public class SpringTagView
-    {
-        public DateTime req_date { get; set; }
-        public string spring_grp { get; set; }
-        public int total_plan_qty { get; set; }
-        public int total_actual_qty { get; set; }
-        public int total_diff_qty { get; set; }
-        public List<SpringTagDataView> datas { get; set; }
-
-    }
-
-    public class SpringTagDataView
-    {
-        public int pageIndex { get; set; }
-        public int itemPerPage { get; set; }
-        public int totalItem { get; set; }
-        public DateTime req_date { get; set; }
-        public string pdsize_code { get; set; }
-        public string pdsize_desc { get; set; }
-        public string spring_grp { get; set; }
-        public int plan_qty { get; set; }
-        public int actual_qty { get; set; }
-        public int diff_qty { get; set; }
-    }
-
     public class RawMatSearchView
     {
         //public bool isEdit { get; set; }
@@ -140,4 +104,25 @@ namespace api.ModelViews
         public string req_date { get; set; }
         public string mc_code { get; set; }
     }
+
+    public class ProcessTagView
+    {
+        public int process_tag_no { get; set; }
+    }
+
+    public class ProcessTagNoSearch
+    {
+        public string entity { get; set; }
+        public string req_date { get; set; }
+        public string wc_code { get; set; }
+        public string mc_code { get; set; }
+        public string spring_grp { get; set; }
+        public string size_desc { get; set; }
+        public int qty { get; set; }
+        public string printer { get; set; }
+        public int process_tag_no { get; set; }
+    }
+
+
+    
 }
