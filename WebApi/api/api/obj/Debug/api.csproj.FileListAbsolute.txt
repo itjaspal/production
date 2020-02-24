@@ -188,5 +188,4 @@ D:\Angular\project\production\WebApi\WebApi\api\api\obj\Debug\api.csproj.CoreCom
 D:\Angular\project\production\WebApi\WebApi\api\api\obj\Debug\api.csproj.CopyComplete
 D:\Angular\project\production\WebApi\WebApi\api\api\obj\Debug\api.dll
 D:\Angular\project\production\WebApi\WebApi\api\api\obj\Debug\api.pdb
-D:\Angular\project\production\WebApi\api\api\obj\Debug\api.csprojAssemblyReference.cache
-D:\Angular\project\production\WebApi\api\api\obj\Debug\api.csproj.CopyComplete
+D:\Angular\Project\production\WebApi\api\api\obj\Debug\api.csprojResolveAssemblyReference.cache

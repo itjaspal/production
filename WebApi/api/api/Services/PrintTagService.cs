@@ -211,6 +211,13 @@ namespace api.Services
                 string[] tag_sticker;
                 tag_sticker = new string[vqty];
 
+                string sqlp = "select filepath_txt from whmobileprnt_ctl where series_no =:p_printer";
+                //string docPath = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_printer", vprinter)).SingleOrDefault();
+                //string docPath = "d:\\data\\trigger.txt";
+                string docPath = "L:\\PRINT_POINT7\\trigger.txt";
+
+
+
                 foreach (var k in model.datas)
                 {
                     if (k.process_tag_no == vprocess_tag_no)
@@ -220,29 +227,29 @@ namespace api.Services
                     }
                 }
 
+                System.Diagnostics.Process.Start("net.exe", @"use L: \\192.168.8.14\Data");
+                string all_txt = "";
                 string txt = vspring_grp + "|" + vsize_desc + "|" + vdoc_no.Trim(',') + "|" + vprod_code.Trim(',') + "|" + model.req_date + "|" + vfin_date;
 
 
                 for (int j = 0; j < vqty; j++)
                 {
-                    tag_sticker[j] = txt;
+                    //tag_sticker[j] = txt;
+                    if (j == 0)
+                    {
+                        all_txt = txt + Environment.NewLine; ; 
+                    }
+                    else
+                    {
+                        all_txt = all_txt + txt + Environment.NewLine;
+                    }
+
                 }
+                
+                File.WriteAllText(Path.Combine(docPath), all_txt);
 
+                System.Diagnostics.Process.Start("net.exe", @"use L: / delete");
 
-
-                string sqlp = "select filepath_txt from whmobileprnt_ctl where series_no =:p_printer";
-                string txt_path = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_printer", vprinter)).SingleOrDefault();
-
-                string docPath = "d:\\data\\trigger.txt";
-
-                //File.CreateText("\\\\192.168.8.14\\Data\\PRNT_POINT5\\trigger.txt");
-                //string docPath = "J:\\PRINT_POINT5\\trigger.txt";
-
-                // Append new lines of text to the file
-                //File.AppendAllLines(Path.Combine(docPath, "WriteFile.txt"), tag_sticker);
-
-                File.AppendAllLines(Path.Combine(docPath), tag_sticker);
-                //File.AppendAllLines(docPath, tag_sticker);
 
             }
         }

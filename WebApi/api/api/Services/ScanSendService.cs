@@ -155,6 +155,8 @@ namespace api.Services
                 var vpcs_barcode = model.pcs_barcode;
                 var vwc_code = model.wc_code;
 
+               
+
                 string sql = "select a.PCS_BARCODE , a.SIZE_NAME as SIZE_DESC , substr(b.SPRING_TYPE,1,2) as SPRING_GRP , 1 as QTY";
                 sql += " from MPS_DET a , PDMODEL_MAST b , MPS_DET_WC c";
                 sql += " where a.pcs_barcode = :p_pcs_barcode";
@@ -210,6 +212,11 @@ namespace api.Services
                 string vspring_grp = strlist[0];
                 string vsize_code = strlist[1];
 
+                string sqlp = "select d.WC_PREV from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code";
+
+                string vprev_wc = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code))
+                            .FirstOrDefault();
+
                 //if(strlist.Length < 1)
                 //{
                 //    throw new Exception("รูปแบบ QR ไม่ถูกต้อง");
@@ -229,11 +236,23 @@ namespace api.Services
                 sql += " and a.pcs_no  = c.pcs_no";
                 //sql += " and c.mps_st  <> 'OCL';
                 sql += " and c.mps_st  = 'N'";
-                sql += " and rownum = 1";
+                //sql += " and rownum = 1";
+                sql += " and a.pcs_barcode in (select d.pcs_barcode from  MPS_DET d, PDMODEL_MAST e , MPS_DET_WC f";
+                sql += " where d.req_date = to_date(:p_req_date2,'dd/mm/yyyy')";
+                sql += " and d.entity = :p_entity2";
+                sql += " and d.pdsize_code = :p_size_code2";
+                sql += " and substr(e.spring_type,1,2)  = :p_spring_grp2";
+                sql += " and f.wc_code = :p_prev_wc";
+                sql += " and d.pddsgn_code = e.pdmodel_code";
+                sql += " and d.entity = f.entity";
+                sql += " and d.req_date = f.req_date";
+                sql += " and d.pcs_no = f.pcs_no";
+                sql += " and f.mps_st = 'Y'";
+                sql += " and rownum = 1)";
 
 
 
-                string pcs_barcode = ctx.Database.SqlQuery<string>(sql, new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_wc_code", model.wc_code))
+                string pcs_barcode = ctx.Database.SqlQuery<string>(sql, new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_req_date2", model.req_date), new OracleParameter("p_entity2", model.entity), new OracleParameter("p_size_code2", vsize_code), new OracleParameter("p_spring_grp2", vspring_grp), new OracleParameter("p_prev_wc", vprev_wc))
                             .FirstOrDefault();
 
                 //string pcs_barcode = ctx.Database.SqlQuery<string>(sql).FirstOrDefault();

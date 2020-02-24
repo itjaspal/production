@@ -73,5 +73,17 @@ namespace api.ModelViews
 
     }
 
-    
+    public class JobMachineDateSearchView
+    {
+        public int pageIndex { get; set; }
+        public int itemPerPage { get; set; }
+        public string entity { get; set; }
+        public string user_id { get; set; }
+        public string mc_code { get; set; }
+        public string wc_code { get; set; }
+        public string req_date { get; set; }
+
+    }
+
+
 }

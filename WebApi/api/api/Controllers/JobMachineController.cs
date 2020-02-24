@@ -65,6 +65,22 @@ namespace api.Controllers
         }
 
 
+        [Route("job/postSearchdate")]
+        public HttpResponseMessage postSearchdate(JobMachineDateSearchView model)
+        {
+            try
+            {
+                var result = jobSvc.SearchDate(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+            }
+        }
+
+
 
     }
 }

@@ -12,7 +12,6 @@ namespace api.Interfaces
         JobMachineView SearchCurrent(JobMachineSearchView model);
         JobMachineView SearchPending(JobMachineSearchView model);
         JobMachineView SearchForward(JobMachineSearchView model);
-
-        //JobMachineView SearchDate(JobMachineDateSearchView model);
+        JobMachineView SearchDate(JobMachineDateSearchView model);
     }
 }
