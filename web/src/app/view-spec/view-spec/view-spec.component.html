@@ -1,189 +1,123 @@
 <div class="container-fluid no-breadcrumbs"> <!-- container-->
-  <mat-card> <!-- mat-card 1 -->
-      <mat-card-title>
-         <h6>Spring Production Order Data Sheet : ( Machine : {{this.user.user_mac.MC_CODE}} )</h6>
-      </mat-card-title>
-      <br />
+    <mat-card> <!-- mat-card 1 -->
+        <mat-card-title>
+           <h6>Spring Production Order Data Sheet : ( Machine : {{this.user.user_mac.MC_CODE}} )</h6>
+        </mat-card-title>
+        <br /> 
+        
+        
+        <mat-card> <!-- mat-card 2 -->
+             <!-- <mat-card-title >
+                <h1>เฉพาะรายการ Scan Quilt Panel แล้ว</h1>
+             </mat-card-title >  -->
+  
+             <div class="panel panel-default">
+                
+                  <div class="row">
+                    <div class="col-lg-2 col-sm-5 col-5">
+                    <form [formGroup]="validationForm">  
+                      <mat-form-field class="full-width">
+                        <input #req_date  matInput [matDatepicker]="picker" placeholder="Req. Date" [(ngModel)]="modelByDate.req_date"
+                        formControlName="req_date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                      
+                    </form> 
+                    </div>
+                    <div class="col-1 col-sm-1">
+                      <mat-card-actions class="no-margin">
+                        <button mat-raised-button color="primary"  type="button" (click)="springSearch()">
+                          <mat-icon class="material-icons">search</mat-icon> ค้นหา 
+                        </button>
+                      </mat-card-actions>
+                    </div>
+                  </div>
+                
+  
+  
+                  <!-- MPS Date 1"> -->
+                  <div class="row">
+                      <div class="col-lg-2 col-sm-3 col-3">
+                      <dt>Mps Date</dt>
+                      <dd *ngIf="data.datas.length != 0;">
+                          {{data.datas[0].req_date | date:'dd/MM/yyyy'}}
+                      </dd>
+                    </div>
+  
+                    
+                  </div>
+  
+            
+                <!-- Table -->
+                <table style="width: 100%" >
+                  <tbody>
+                    <!-- In Process Movement -->
+                    <tr>
+                      <th style="width: 100px" class="text-center">Size</th>
+                      <th style="width: 100px" class="text-center">Spring Type</th>
+                      <th style="width: 100px"  class="text-center">Plan QTY</th>
+                      <th style="width: 100px"  class="text-center">Act QTY</th>
+                      <th style="width: 100px" class="text-center">Diff QTY</th>
+                      <th style="width: 10px">&nbsp;</th>
+                    </tr>
+                    <tr *ngFor="let x of data.datas">
+                      <td>{{x.pdsize_desc}}</td>
+                      <td>{{x.springtype_code}}</td>
+                      <td class="text-center">{{x.plan_qty}}</td>
+                      <td class="text-center">{{x.actual_qty}}</td>
+                      <td class="text-center">{{x.diff_qty}}</td>
+                      <td class="text-center">
+                          <button mat-icon-button [matMenuTriggerFor]="appMenu1">
+                            <mat-icon class="material-icons">more_horiz</mat-icon>
+                          </button>
+                          <mat-menu #appMenu1="matMenu">
+                             <button mat-menu-item [routerLink]="['viewspec/'+ x.pdsize_code + '/' + x.springtype_code + '/' + x.req_date]" action>
+                                <mat-icon class="material-icons">search</mat-icon> <span>View Spec Drawing</span>
+                             </button>
+                          </mat-menu>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th colspan="2" class="text-center">รวม</th>
+                      <th class="text-center">{{data.total_plan_qty}}</th>
+                      <th class="text-center">{{data.total_actual_qty}}</th>
+                      <th class="text-center">{{data.total_diff_qty}}</th>
+                      <th class="text-center">
+                        &nbsp;
+                      </th>
+                    </tr>
+                 
+                  </tbody>
+                </table>
+                
+                
+  
+                <br />
+  
+  
+               </div> <!-- <div class="panel panel-default"></div> --> 
+         
+        </mat-card> <!-- mat-card 2 -->
       
+        <br />
       
-      <mat-card> <!-- mat-card 2 -->
-           <mat-card-title >
-              <h5>ปัจจุบัน</h5>
-           </mat-card-title >
-           <div class="row" *ngIf="dataCurrent.datas.length == 0;else show_current_content">
-                <div class="col-12 text-center">
-                    <h4>ไม่พบรายการ</h4>
-                </div>
-           </div>
-           <ng-template #show_current_content>
-                      <div class="panel panel-default" *ngFor="let x of dataCurrent.datas; let i = index;">
-                               <!-- Column Header--> 
-                               <div *ngIf="i === 0;else show_detail_current"> 
-                                    <div class="row">
-                                        <div class="col-lg-2 col-sm-3 col-3">
-                                            <dt>Machine</dt>
-                                            <dd>{{this.user.user_mac.MC_CODE}}</dd>
-                                        </div>
-                                        <div class="col-lg-2 col-sm-3 col-3">
-                                            <dt>Spring</dt>
-                                            <dd>{{x.springtype_code}}</dd>
-                                        </div>
-                                        <div class="col-lg-2 col-sm-5 col-5">
-                                            <dt>Mps Date</dt>
-                                            <dd>{{x.req_date  | date:'dd/MM/yyyy'}}</dd>
-                                        </div>
-                                    </div>
-                              </div>
-                              <ng-template #show_detail_current>
-                                   <div *ngIf="x.req_date != dataCurrent.datas[i-1].req_date || x.springtype_code != dataCurrent.datas[i-1].springtype_code">
-                                           <!--INSERT Table (Privious) -->  
-                                           <!-- Table -->
-                                          <table style="width: 100%" >
-                                              <tbody> 
-                                                  <tr>
-                                                      <th style="width: 100px" class="text-center">Size</th>
-                                                      <th style="width: 100px" class="text-center">Spring</th>
-                                                      <th style="width: 100px"  class="text-center">Plan QTY</th>
-                                                      <th style="width: 100px" class="text-center">In Act QTY</th>
-                                                      <th style="width: 100px" class="text-center">Diff QTY</th>
-                                                      <th style="width: 10px">&nbsp;</th>
-                                                  </tr>
-                                                  <tr *ngFor="let y of dataCurrent.datas; let j = index;">
-                                                      <td *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
-                                                          {{y.pdsize_desc}}
-                                                      </td>
-                                                      <td *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
-                                                          {{y.springtype_code}}
-                                                      </td>
-                                                      <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
-                                                          {{y.plan_qty}}
-                                                      </td>
-                                                      <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
-                                                          {{y.actual_qty}}
-                                                      </td>
-                                                      <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
-                                                          {{y.diff_qty}}
-                                                      </td>
-                                                      <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i-1].req_date && y.springtype_code === dataCurrent.datas[i-1].springtype_code">
-                                                          <button mat-icon-button [matMenuTriggerFor]="appMenu1">
-                                                            <mat-icon class="material-icons">more_horiz</mat-icon>
-                                                          </button> 
-
-                                                          <mat-menu #appMenu1="matMenu">
-                                                            <button mat-menu-item [routerLink]="['viewspec/'+ y.pdsize_code + '/' + y.springtype_code + '/' + y.req_date]" action>
-                                                              <mat-icon class="material-icons">search</mat-icon> <span>View Spec Drawing</span>
-                                                            </button>
-                                                         </mat-menu>
-                                                     </td>
-                                                       
-
-                                                  </tr>
-                                                  <tr>
-                                                    <th colspan="2" class="text-center">รวม</th>
-                                                    <th class="text-center"> {{ getSumTotal("current","plan", dataCurrent.datas[i-1].req_date, dataCurrent.datas[i-1].springtype_code) }}</th>
-                                                    <th class="text-center"> {{ getSumTotal("current","act", dataCurrent.datas[i-1].req_date, dataCurrent.datas[i-1].springtype_code) }}</th>
-                                                    <th class="text-center"> {{ getSumTotal("current","dif", dataCurrent.datas[i-1].req_date, dataCurrent.datas[i-1].springtype_code) }}</th>
-                                                    <th class="text-center">&nbsp;</th>
-                                                  </tr>
-                                          
-                                              </tbody>
-                                          </table>
-
-                                           <br/>
-
-                                          <div class="row">
-                                              <div class="col-lg-2 col-sm-3 col-3">
-                                                  <dt>Machine</dt>
-                                                  <dd>{{this.user.user_mac.MC_CODE}}</dd>
-                                              </div>
-                                              <div class="col-lg-2 col-sm-3 col-3">
-                                                  <dt>Spring</dt>
-                                                  <dd>{{x.springtype_code}}</dd>
-                                              </div>
-                                              <div class="col-lg-2 col-sm-5 col-5">
-                                                  <dt>Mps Date</dt>
-                                                  <dd>{{x.req_date  | date:'dd/MM/yyyy'}}</dd>
-                                              </div>
-                                          </div>
-                                  </div>
-                              </ng-template> 
-                     
-                              <!--Last Record ? -->
-                              <div *ngIf="i === dataCurrent.datas.length -1;">  
-                                
-                                           <!--INSERT Table (Privious) -->  
-                                           <!-- Table -->
-                                           <table style="width: 100%" >
-                                            <tbody> 
-                                                <!-- In Process Movement -->
-                                                <tr>
-                                                    <th style="width: 100px" class="text-center">Size</th>
-                                                    <th style="width: 100px" class="text-center">Spring</th>
-                                                    <th style="width: 100px"  class="text-center">Plan QTY</th>
-                                                    <th style="width: 100px" class="text-center">In Act QTY</th>
-                                                    <th style="width: 100px" class="text-center">Diff QTY</th>
-                                                    <th style="width: 10px">&nbsp;</th>
-                                                </tr>
-                                                <tr *ngFor="let y of dataCurrent.datas; let j = index;">
-                                                    <td *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
-                                                        {{y.pdsize_desc}}
-                                                    </td>
-                                                    <td *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
-                                                        {{y.springtype_code}}
-                                                    </td>
-                                                    <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
-                                                        {{y.plan_qty}}
-                                                    </td>
-                                                    <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
-                                                        {{y.actual_qty}}
-                                                    </td>
-                                                    <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
-                                                        {{y.diff_qty}}
-                                                    </td>
-                                                    <td class="text-center" *ngIf="y.req_date === dataCurrent.datas[i].req_date && y.springtype_code === dataCurrent.datas[i].springtype_code">
-                                                      <button mat-icon-button [matMenuTriggerFor]="appMenu1">
-                                                        <mat-icon class="material-icons">more_horiz</mat-icon>
-                                                      </button>
-
-                                                      <mat-menu #appMenu1="matMenu">
-                                                        <button mat-menu-item [routerLink]="['viewspec/'+ y.pdsize_code + '/' + y.springtype_code + '/' + y.req_date]" action>
-                                                          <mat-icon class="material-icons">search</mat-icon> <span>View Spec Drawing</span>
-                                                        </button>
-                                                      </mat-menu>
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                  <th colspan="2" class="text-center">รวม</th>
-                                                  <th class="text-center"> {{ getSumTotal("current","plan", dataCurrent.datas[i].req_date, dataCurrent.datas[i].springtype_code) }}</th>
-                                                  <th class="text-center"> {{ getSumTotal("current","act", dataCurrent.datas[i].req_date, dataCurrent.datas[i].springtype_code) }}</th>
-                                                  <th class="text-center"> {{ getSumTotal("current","dif", dataCurrent.datas[i].req_date, dataCurrent.datas[i].springtype_code) }}</th>
-                                                  <th class="text-center">&nbsp;</th>
-                                                </tr>
-                                        
-                                            </tbody>
-                                        </table>
-                                               
-                              </div> <!--end *ngIf Last Record -->
-                      </div> <!--*ngFor=" -->
-           </ng-template> <!--end show_current_content --> 
-     
-      </mat-card> <!-- mat-card 2 -->
-    
-      <br />
-    
-   
-
-      <mat-card-actions class="no-margin">
-        <div class="row">
-          <div class="col-2 col-sm-2">
-            <button (click)="close();" mat-raised-button color="primary">
-              <mat-icon class="material-icons">close</mat-icon> ปิด
-            </button>
-          </div>
-      </div>
-      </mat-card-actions>
-      
-
-  </mat-card> <!-- mat-card 1 -->
-</div> <!-- container-->
+        <mat-card-content *ngIf="data.datas != undefined">
+          <ngb-pagination [collectionSize]="data.totalItem" [pageSize]="model.itemPerPage" [maxSize]="5"
+              [(page)]="model.pageIndex" (pageChange)="springSearch()" [boundaryLinks]="true"></ngb-pagination>
+        </mat-card-content>
+  
+  
+        <mat-card-actions class="no-margin">
+          <div class="row">
+            <div class="col-2 col-sm-2">
+              <button (click)="close();" mat-raised-button color="primary">
+                <mat-icon class="material-icons">close</mat-icon> ปิด
+              </button>
+            </div>
+        </div>
+        </mat-card-actions>
+        
+  
+    </mat-card> <!-- mat-card 1 -->
+  </div> <!-- container-->

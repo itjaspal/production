@@ -57,7 +57,7 @@
                         </mat-form-field>
                         <mat-error class="error-message"
                             *ngIf="validationForm.get('serial_no').hasError('required') && (validationForm.get('serial_no').dirty || validationForm.get('serial_no').touched)">
-                            โปรดระบุข้อมูล
+                            โปรดระบุข้อมูล 
                         </mat-error>
                     </div>
                 </div> 
@@ -69,7 +69,7 @@
             <br />
             <mat-card-actions class="no-margin">
               <div class="row">
-                <div class="col-2 col-sm-2">
+                <div class="col-3 col-sm-2">
                   <button (click)="close();" mat-raised-button color="primary">
                     <mat-icon class="material-icons">close</mat-icon> ปิด
                   </button>

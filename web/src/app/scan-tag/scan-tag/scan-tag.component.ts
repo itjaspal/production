@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DisplayJobService } from '../../_service/displayJob.service';
 import { AuthenticationService } from '../../_service/authentication.service';
-import { DisplayJobSearchView, DisplayJobView } from '../../_model/displayJob';
-import { CommonSearchView } from '../../_model/common-search-view';
+import { DisplayJobSearchView, DisplayJobView, SearchSpringByDateSearchView } from '../../_model/displayJob';
 import { PageEvent } from '@angular/material';
 import { DatePipe } from '@angular/common'
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
+import * as moment from 'moment';
+import { CommonSearchView } from '../../_model/common-search-view';
+
+
 
 @Component({
   selector: 'app-scan-tag',
@@ -15,66 +19,69 @@ import { Router } from '@angular/router';
 export class ScanTagComponent implements OnInit {
 
   public model: DisplayJobSearchView = new DisplayJobSearchView();
-  public dataCurrent: CommonSearchView<DisplayJobView> = new CommonSearchView<DisplayJobView>();
-  public dataPending: CommonSearchView<DisplayJobView> = new CommonSearchView<DisplayJobView>();
-  public dataForward: CommonSearchView<DisplayJobView> = new CommonSearchView<DisplayJobView>();
-  
+  public modelByDate: SearchSpringByDateSearchView = new SearchSpringByDateSearchView();
+ // public data: SearchSpringHeaderView<SearchSpringDetailView> = new SearchSpringHeaderView<SearchSpringDetailView>();
+  public data: CommonSearchView<DisplayJobView> = new CommonSearchView<DisplayJobView>();
   public user: any;
   public datePipe = new DatePipe('en-US');
+  public validationForm: FormGroup;
+ 
+  @ViewChild('req_date') req_date: ElementRef;
+
 
   constructor(
     private _displayJobMacSvc: DisplayJobService,
     private _authSvc: AuthenticationService,
-    private _router: Router,
+    private _formBuilder: FormBuilder,
   ) {
   }
 
  
   async ngOnInit() {
+      this.buildForm();
       this.user = this._authSvc.getLoginUser();
-
-      this.searchJobMacCurrent();
-      //this.searchJobMacPending();
-      //this.searchJobMacForward();
+     
+      this.springSearch();
+    
         
 
   }
 
-
-  async searchJobMacCurrent(event: PageEvent = null) {  
-
-      if (event != null) {
-        this.model.pageIndex = event.pageIndex;
-        this.model.itemPerPage = event.pageSize;
-      }
-      this.dataCurrent =  await this._displayJobMacSvc.searchJobByMacCurrent(this.model);
+  buildForm() {
+    this.validationForm = this._formBuilder.group({
+      req_date: ['', Validators.compose([Validators.required, YourValidator.dateVaidator])]
+    });
   }  
 
-  async searchJobMacPending(event: PageEvent = null) { 
 
-      console.log('model.pageIndex' + this.model.pageIndex);
+ async springSearch(event: PageEvent = null) {  
 
-      if (event != null) {
-        console.log('event.pageIndex : ' + event.pageIndex);
-
-        this.model.pageIndex = event.pageIndex;
-        this.model.itemPerPage = event.pageSize;
-      } 
-      this.dataPending =  await this._displayJobMacSvc.searchJobByMacPending(this.model);
-  }
-
-async searchJobMacForward(event: PageEvent = null) {  
       if (event != null) {
         this.model.pageIndex = event.pageIndex;
         this.model.itemPerPage = event.pageSize;
       }
-      this.dataForward =  await this._displayJobMacSvc.searchJobByMacForward(this.model);
-}
+
+      //console.log("this.req_date.nativeElement.value : " + this.req_date.nativeElement.value)
+      //console.log("this.validationForm.valid :  " + this.validationForm.valid)
+
+      if ((!this.validationForm.valid)&&(this.req_date.nativeElement.value == "")) {
+         console.log("searchSpring");
+         this.data =  await this._displayJobMacSvc.searchJobByMacCurrent(this.model);
+
+      } else if ((this.validationForm.valid)&&(this.req_date.nativeElement.value != "")) {
+         console.log("searchSpring By Date");
+         this.modelByDate.req_date = this.req_date.nativeElement.value;
+         this.data =  await this._displayJobMacSvc.searchJobMacCurrentByDate(this.modelByDate);
+         this.req_date.nativeElement.value = this.modelByDate.req_date;
+      }
+  }  
+
+  
+
 
 
 close() {
-  //window.history.back();
-  this._router.navigateByUrl('/app/home');
+  window.history.back();
  }
 
 async save() {
@@ -87,59 +94,14 @@ async save() {
  
 }
 
-getSumTotal(pViewData: string, pSumType: string, pReqDate: string, pSpringType: string) : number {
-  var  vReqDate = this.datePipe.transform(pReqDate, 'dd/MM/yyyy');
-  var  vSumTotal : number = 0;
-  //console.log(" vReqDate : " + vReqDate);
-
-  if (pViewData == "current") {
-
-    for (let x of this.dataCurrent.datas) {
-        if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
-             if (pSumType == "plan") {
-               vSumTotal = vSumTotal + x.plan_qty;
-             } else if (pSumType == "act") {
-               vSumTotal = vSumTotal + x.actual_qty;
-             } else {
-               vSumTotal = vSumTotal + x.diff_qty;  
-             }
-        }
-    }
-
-  }
-  else if (pViewData == "pending"){
-
-    for (let x of this.dataPending.datas) {
-         if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
-             if (pSumType == "plan") {
-               vSumTotal = vSumTotal + x.plan_qty;
-             } else if (pSumType == "act") {
-               vSumTotal = vSumTotal + x.actual_qty;
-             } else {
-               vSumTotal = vSumTotal + x.diff_qty;  
-             }
-         }
-    }
-
-  }
-  else { // pViewData == "forward"
-
-    for (let x of this.dataForward.datas) {
-         if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
-             if (pSumType == "plan") {
-               vSumTotal = vSumTotal + x.plan_qty;
-             } else if (pSumType == "act") {
-               vSumTotal = vSumTotal + x.actual_qty;
-             } else {
-               vSumTotal = vSumTotal + x.diff_qty;  
-             }
-        }
-    }
-
-  }
- 
-  return vSumTotal;
 }
 
+export class YourValidator {
+  static dateVaidator(AC: AbstractControl) {
 
-}
+    if (AC && AC.value && !moment(AC.value, 'YYYY-MM-DD',true).isValid()) {
+      return {'dateVaidator': true};
+    }
+    return null; 
+  }
+} 

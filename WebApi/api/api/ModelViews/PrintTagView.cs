@@ -123,6 +123,11 @@ namespace api.ModelViews
         public int process_tag_no { get; set; }
     }
 
-
+    public class PrinterDataView
+    {
+        public string printer_name { get; set; }
+        public string filepath_data { get; set; }
+        public string filepath_txt { get; set; }
+    }
     
 }

@@ -51,7 +51,7 @@
                     <dd>{{dataViewSpec.size_desc}}</dd>
                 </div>
                 <div class="col-2 col-lg-2">
-                    <small>Spring</small>  
+                    <small>Spring Type</small>  
                     <dd>{{dataViewSpec.spring_type}}</dd>
                 </div>
                 <div class="col-12">
@@ -68,7 +68,7 @@
                 </div>
                 <table style="width: 100%" > 
                   <tbody>     
-                          <div class="col-md-12">
+                          <div class="col-md-12" *ngIf="dataViewSpec.drawing_name != '';">
                               <img style="-webkit-user-select: none;margin: auto;  max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; width: 80%;" [src]="imageSource" alt="Image Source">
                               <!--<img style="-webkit-user-select: none;margin: auto; cursor: zoom-in; max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; width: 80%;" [src]="imageSource" alt="Image Source">-->
                           </div>

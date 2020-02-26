@@ -6,6 +6,7 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
@@ -37,8 +38,9 @@ namespace api.Services
                     datas = new List<ModelViews.RawMatitemView>()
                 };
 
-                string sqlp = "select prnt_point_name from whmobileprnt_ctl where grp_type='SPRING' and series_no=:p_printer";
-                string vprinter_name = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_printer", vprinter)).FirstOrDefault();
+                //string sqlp = "select a.prnt_point_name from whmobileprnt_ctl where grp_type='SPRING' and series_no=:p_printer";\
+                string sqlp = "select  a.prnt_point_name printer_name from whmobileprnt_ctl a , whmobileprnt_default b where a.series_no = b.series_no and b.mc_code= :p_mc_code";
+                string printer_name = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_mc_code", vmc_code)).FirstOrDefault();
 
 
                 string sqls = "select pdsize_tname from pdsize_mast where pdsize_code=:p_size_code";
@@ -69,7 +71,7 @@ namespace api.Services
                     view.size_desc = vsize_name;
                     view.qty = vqty;
                     view.fin_date = DateTime.Now.ToShortDateString();
-                    view.printer = vprinter_name;
+                    view.printer = printer_name;
 
                 }
                 else
@@ -85,7 +87,7 @@ namespace api.Services
                     view.size_desc = vsize_name;
                     view.qty = vqty;
                     view.fin_date = tag.fin_date;
-                    view.printer = vprinter_name;
+                    view.printer = printer_name;
                 }
 
 
@@ -144,6 +146,9 @@ namespace api.Services
                 var vuser_id = model.user_id;
                 DateTime vreq_date = Convert.ToDateTime(model.req_date);
                 //int vitem = 1;
+
+                string sqls = "select pdsize_tname from pdsize_mast where pdsize_code=:p_size_code";
+                string vsize_name = ctx.Database.SqlQuery<string>(sqls, new OracleParameter("p_size_code", vsize_desc)).FirstOrDefault();
 
 
                 string sqli = "select count(seq_no)+1 from mps_det_in_process_tag where entity=:p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and mc_code = :p_mc_code";
@@ -204,19 +209,36 @@ namespace api.Services
                     }
                 }
 
-                
 
                 var vdoc_no = "";
                 var vprod_code = "";
                 string[] tag_sticker;
                 tag_sticker = new string[vqty];
 
-                string sqlp = "select filepath_txt from whmobileprnt_ctl where series_no =:p_printer";
+
+                string sqlp = "select  a.prnt_point_name printer_name , filepath_data , filepath_txt  from whmobileprnt_ctl a , whmobileprnt_default b where a.series_no = b.series_no and b.mc_code= :p_mc_code";
+                PrinterDataView printer = ctx.Database.SqlQuery<PrinterDataView>(sqlp, new OracleParameter("p_mc_code", vmc_code)).SingleOrDefault();
+
+                //string sqlp = "select filepath_txt from whmobileprnt_ctl where series_no =:p_printer";
                 //string docPath = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_printer", vprinter)).SingleOrDefault();
                 //string docPath = "d:\\data\\trigger.txt";
-                string docPath = "L:\\PRINT_POINT7\\trigger.txt";
+                //string docPath = "L:\\PRINT_POINT7\\trigger.txt";
+
+                //Map Drive
+                System.Diagnostics.Process.Start("net.exe", @"use L: \\192.168.8.14\Data").WaitForExit(); 
+
+                //string txtPath = @"L:\PRINT_POINT7\trigger.txt";
+                //string dataPath = @"L:\PRINT_POINT7\barcfmic.txt";
+
+                string txtPath = @printer.filepath_txt;
+                string dataPath = @printer.filepath_data;
 
 
+                Console.WriteLine("Data File", printer.filepath_data);
+                Console.WriteLine("Data File", printer.filepath_txt);
+
+
+                //Write Text File
 
                 foreach (var k in model.datas)
                 {
@@ -227,9 +249,8 @@ namespace api.Services
                     }
                 }
 
-                System.Diagnostics.Process.Start("net.exe", @"use L: \\192.168.8.14\Data");
                 string all_txt = "";
-                string txt = vspring_grp + "|" + vsize_desc + "|" + vdoc_no.Trim(',') + "|" + vprod_code.Trim(',') + "|" + model.req_date + "|" + vfin_date;
+                string txt = vspring_grp + "@" + vsize_desc + "@" + vsize_name + "@" + vdoc_no.Trim(',') + "@" + vprod_code.Trim(',') + "@" + model.req_date + "@" + vfin_date+"@"+vspring_grp + "|" + vsize_desc + "|" + "" + vsize_name + "|" + vdoc_no.Trim(',') + "|" + vprod_code.Trim(',') + "|" + model.req_date;
 
 
                 for (int j = 0; j < vqty; j++)
@@ -245,10 +266,15 @@ namespace api.Services
                     }
 
                 }
-                
-                File.WriteAllText(Path.Combine(docPath), all_txt);
 
-                System.Diagnostics.Process.Start("net.exe", @"use L: / delete");
+                //File.WriteAllText(Path.Combine(dataPath), all_txt);
+                //File.WriteAllText(Path.Combine(txtPath), "");
+                File.WriteAllText(dataPath, all_txt);
+                File.WriteAllText(txtPath, "");
+
+
+
+                //System.Diagnostics.Process.Start("net.exe", @"use L: / delete");
 
 
             }
@@ -275,8 +301,8 @@ namespace api.Services
                     datas = new List<ModelViews.RawMatitemView>()
                 };
 
-                string sqlp = "select prnt_point_name from whmobileprnt_ctl where grp_type='SPRING' and series_no=:p_printer";
-                string vprinter_name = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_printer", vprinter)).FirstOrDefault();
+                string sqlp = "select  a.prnt_point_name  from whmobileprnt_ctl a , whmobileprnt_default b where a.series_no = b.series_no and b.mc_code= :p_mc_code";
+                string vprinter_name = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_mc_code", vmc_code)).FirstOrDefault();
 
 
                 string sqls = "select pdsize_tname from pdsize_mast where pdsize_code=:p_size_code";

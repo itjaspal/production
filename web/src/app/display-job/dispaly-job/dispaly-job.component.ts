@@ -14,7 +14,7 @@ import { DatePipe } from '@angular/common'
   templateUrl: './dispaly-job.component.html',
   styleUrls: ['./dispaly-job.component.scss']
 })
-export class DispalyJobComponent implements OnInit {
+export class DispalyJobComponent implements OnInit { 
 
   public model: DisplayJobSearchView = new DisplayJobSearchView();
   public dataCurrent: CommonSearchView<DisplayJobView> = new CommonSearchView<DisplayJobView>();
@@ -54,7 +54,7 @@ export class DispalyJobComponent implements OnInit {
       
    }  
 
-  async searchJobMacPending(event: PageEvent = null) { 
+  async searchJobMacPending(event: PageEvent = null) {  
     if (event != null) {
       this.model.pageIndex = event.pageIndex;
       this.model.itemPerPage = event.pageSize;
@@ -75,11 +75,11 @@ export class DispalyJobComponent implements OnInit {
     //let result = await this._productSvc.update(this.model);
 
     //await this._msgSvc.successPopup("บันทึกข้อมูลเรียบร้อย");
-    //this._router.navigateByUrl('/app/product');
+    //this._router.navigateByUrl('/app/product'); 
     
   }
 
-  getSumTotal(pViewData: string, pSumType: string, pReqDate: string, pSpringType: string) : number {
+  getSumTotal(pViewData: string, pSumType: string, pReqDate: string, pSpringGrp: string) : number {
      var  vReqDate = this.datePipe.transform(pReqDate, 'dd/MM/yyyy');
      var  vSumTotal : number = 0;
      //console.log(" vReqDate : " + vReqDate);
@@ -87,7 +87,7 @@ export class DispalyJobComponent implements OnInit {
      if (pViewData == "current") {
 
        for (let x of this.dataCurrent.datas) {
-           if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+           if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringGrp == x.spring_grp)) {
                 if (pSumType == "plan") {
                   vSumTotal = vSumTotal + x.plan_qty;
                 } else if (pSumType == "act") {
@@ -102,7 +102,7 @@ export class DispalyJobComponent implements OnInit {
      else if (pViewData == "pending"){
 
        for (let x of this.dataPending.datas) {
-            if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+            if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringGrp == x.spring_grp)) {
                 if (pSumType == "plan") {
                   vSumTotal = vSumTotal + x.plan_qty;
                 } else if (pSumType == "act") {
@@ -117,7 +117,7 @@ export class DispalyJobComponent implements OnInit {
      else { // pViewData == "forward"
 
        for (let x of this.dataForward.datas) {
-            if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringType == x.springtype_code)) {
+            if ((vReqDate == this.datePipe.transform(x.req_date, 'dd/MM/yyyy'))&&(pSpringGrp == x.spring_grp)) {
                 if (pSumType == "plan") {
                   vSumTotal = vSumTotal + x.plan_qty;
                 } else if (pSumType == "act") {

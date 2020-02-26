@@ -36,7 +36,7 @@ namespace api.ModelViews
         public DateTime req_date { get; set; }
         public string pdsize_code { get; set; }
         public string pdsize_desc { get; set; }
-        public string spring_grp { get; set; }
+        public string springtype_code { get; set; }
         public int plan_qty { get; set; }
         public int actual_qty { get; set; }
         public int diff_qty { get; set; }
