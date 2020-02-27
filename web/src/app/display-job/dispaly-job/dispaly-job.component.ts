@@ -22,7 +22,7 @@ export class DispalyJobComponent implements OnInit {
   public dataForward: CommonSearchView<DisplayJobView> = new CommonSearchView<DisplayJobView>();
   
   public user: any; 
-  public datePipe = new DatePipe('en-US');
+  public datePipe = new DatePipe('en-US'); 
 
   constructor(
     private _displayJobMacSvc: DisplayJobService,
@@ -40,7 +40,7 @@ export class DispalyJobComponent implements OnInit {
   }
 
   close() {
-    window.history.back();
+    window.history.back(); 
   }
 
   async searchJobMacCurrent(event: PageEvent = null) {   
@@ -49,6 +49,11 @@ export class DispalyJobComponent implements OnInit {
         this.model.pageIndex = event.pageIndex;
         this.model.itemPerPage = event.pageSize;
       }
+      this.model.mc_code = this.user.user_mac.MC_CODE;
+      this.model.user_id = this.user.username;
+      this.model.wc_code = this.user.def_wc_code;
+      this.dataCurrent.datas  = [];
+
       this.dataCurrent =  await this._displayJobMacSvc.searchJobByMacCurrent(this.model);
 
       
@@ -59,6 +64,12 @@ export class DispalyJobComponent implements OnInit {
       this.model.pageIndex = event.pageIndex;
       this.model.itemPerPage = event.pageSize;
     } 
+
+    this.model.mc_code = this.user.user_mac.MC_CODE;
+    this.model.user_id = this.user.username;
+    this.model.wc_code = this.user.def_wc_code;
+    this.dataPending.datas  = [];
+
     this.dataPending =  await this._displayJobMacSvc.searchJobByMacPending(this.model);
   }
 
@@ -67,6 +78,11 @@ export class DispalyJobComponent implements OnInit {
       this.model.pageIndex = event.pageIndex;
       this.model.itemPerPage = event.pageSize;
     }
+    this.model.mc_code = this.user.user_mac.MC_CODE;
+    this.model.user_id = this.user.username;
+    this.model.wc_code = this.user.def_wc_code;
+    this.dataForward.datas  = [];
+    
     this.dataForward =  await this._displayJobMacSvc.searchJobByMacForward(this.model);
   }
 
@@ -94,7 +110,7 @@ export class DispalyJobComponent implements OnInit {
                   vSumTotal = vSumTotal + x.actual_qty;
                 } else {
                   vSumTotal = vSumTotal + x.diff_qty;  
-                }
+                } 
            }
        }
 

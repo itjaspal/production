@@ -63,15 +63,26 @@ async springSearch(event: PageEvent = null) {
 
   if ((!this.validationForm.valid)&&(this.req_date.nativeElement.value == "")) {
      console.log("searchSpring");
+     this.model.mc_code = this.user.user_mac.MC_CODE;
+     this.model.user_id = this.user.username;
+     this.model.wc_code = this.user.def_wc_code;
+     this.data.datas  = [];
+
      this.data =  await this._displayJobMacSvc.searchJobByMacCurrent(this.model);
 
   } else if ((this.validationForm.valid)&&(this.req_date.nativeElement.value != "")) {
      console.log("searchSpring By Date");
+    
+     this.modelByDate.mc_code  = this.user.user_mac.MC_CODE;
+     this.modelByDate.user_id  = this.user.username;
+     this.modelByDate.wc_code  = this.user.def_wc_code;
      this.modelByDate.req_date = this.req_date.nativeElement.value;
+     this.data.datas  = [];
+
      this.data =  await this._displayJobMacSvc.searchJobMacCurrentByDate(this.modelByDate);
      this.req_date.nativeElement.value = this.modelByDate.req_date;
   }
-} 
+}  
 
 async save() { 
 

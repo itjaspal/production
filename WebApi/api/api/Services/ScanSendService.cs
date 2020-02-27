@@ -335,7 +335,7 @@ namespace api.Services
                 sql += " and a.pcs_no = c.pcs_no";
                 sql += " and c.mps_st <> 'OCL'";
                 sql += " group by c.entity , c.req_date   ,b.spring_type, c.pdsize_code , c.pdsize_desc";
-                sql += " UNION ALL";
+                sql += " UNION";
                 sql += " select c.ENTITY , c.REQ_DATE , b.SPRING_TYPE as SPRINGTYPE_CODE, c.PDSIZE_CODE , c.PDSIZE_DESC , 0 as PLAN_QTY , sum(1) as INACT_QTY ,0 as QP_QTY ,0 as ACT_QTY";
                 sql += " from MPS_DET a, PDMODEL_MAST b, MPS_DET_WC c";
                 sql += " where trunc(a.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";
@@ -348,7 +348,7 @@ namespace api.Services
                 sql += " and c.mps_st <> 'OCL'";
                 sql += " and c.pcs_no  in (select PCS_NO from MPS_DET_IN_PROCESS where req_date = to_date(:p_req_date,'dd/mm/yyyy') and entity = :p_entity and mps_st = 'Y' and wc_code = :p_wc_code)";
                 sql += " group by c.entity , c.req_date , b.spring_type , c.pdsize_code , c.pdsize_desc";
-                sql += " UNION ALL";
+                sql += " UNION";
                 sql += " select c.ENTITY , c.REQ_DATE , b.SPRING_TYPE as SPRINGTYPE_CODE , c.PDSIZE_CODE , c.PDSIZE_DESC ,0 as PLAN_QTY  ,0 as INACT_QTY  ,sum(1) as QP_QTY ,0 as ACT_QTY";
                 sql += " FROM MPS_DET a,PDMODEL_MAST b,MPS_DET_WC c";
                 sql += " where trunc(a.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";
@@ -360,7 +360,7 @@ namespace api.Services
                 sql += " and c.mps_st = 'Y'";
                 sql += " and c.wc_code = (select  WC_PREV from PD_WCCTL_SEQ where pd_entity = :p_entity  and wc_code = :p_wc_code)";
                 sql += " group by  c.entity , c.req_date , b.spring_type , c.pdsize_code , c.pdsize_desc";
-                sql += " UNION ALL";
+                sql += " UNION";
                 sql += " select c.ENTITY , c.REQ_DATE , b.SPRING_TYPE as SPRINGTYPE_CODE , c.PDSIZE_CODE , c.PDSIZE_DESC , 0 as PLAN_QTY  ,0 as INACT_QTY ,0 as QP_QTY ,sum(1) as  ACT_QTY";
                 sql += " from MPS_DET a,PDMODEL_MAST b,MPS_DET_WC c";
                 sql += " where trunc(a.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";

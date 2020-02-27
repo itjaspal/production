@@ -50,13 +50,17 @@ namespace api.Services
                     throw new Exception("ไม่มีการกำหนดรูปให้กับ Spring Type นี้");
                 }
 
+                //System.Diagnostics.Process.Start("net.exe", @"use Z: \\128.1.1.23\prog").WaitForExit();
+
                 string sqlp = "select spring_path from bm_basic_mast";
                 string spring_path = ctx.Database.SqlQuery<string>(sqlp).SingleOrDefault();
 
                 string imagePath = @spring_path+spring_file;
+                //string imagePath = @"\\128.1.1.23\prog\Picture\Spring\" + spring_file;
                 string imgBase64String = GetBase64StringForImage(imagePath);
 
-
+                
+                
 
                 //define model view
                 SpecDrawingView view = new ModelViews.SpecDrawingView()

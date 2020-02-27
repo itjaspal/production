@@ -20,73 +20,46 @@ export class DisplayJobService {
 
   ) { 
     
-    this.user = this._authSvc.getLoginUser();
+   // this.user = this._authSvc.getLoginUser();
 
   }
 
-  public async searchJobByMacCurrent(_model: DisplayJobSearchView) {
+  public async searchJobByMacCurrent(_model: DisplayJobSearchView) { 
 
-        //this.user = this._authSvc.getLoginUser();
+    console.log('searchJobByMacCurrent _model.mc_code: '+ _model.mc_code);
+    console.log('searchJobByMacCurrent _model.user_id : '+ _model.user_id);
+    console.log('searchJobByMacCurrent _model.wc_code : '+ _model.wc_code); 
 
-        console.log('Current cur_userID : '+ this.user.username);
-        console.log('Current cur_deptCode : '+ this.user.dept_code);
-        console.log('Current cur_mcCode : '+ this.user.user_mac.MC_CODE);
-        console.log('Current cur_wcCode : '+ this.user.def_wc_code);
-
-        _model.mc_code = this.user.user_mac.MC_CODE;
-        _model.user_id = this.user.username;
-        _model.wc_code = this.user.def_wc_code;
-
-        return await this.http.post<CommonSearchView<DisplayJobView>>(environment.API_URL + 'job/postSearchcurrent', _model).toPromise(); 
+    return await this.http.post<CommonSearchView<DisplayJobView>>(environment.API_URL + 'job/postSearchcurrent', _model).toPromise(); 
  
   } 
 
   public async searchJobByMacPending(_model: DisplayJobSearchView) {
 
-        console.log('pending cur_userID : '+ this.user.username);
-        console.log('pending cur_deptCode : '+ this.user.dept_code);
-        console.log('pending cur_mcCode : '+ this.user.user_mac.MC_CODE);
-        console.log('pending cur_wcCode : '+ this.user.def_wc_code);
+        console.log('searchJobByMacPending _model.mc_code: '+ _model.mc_code);
+        console.log('searchJobByMacPending _model.user_id : '+ _model.user_id);
+        console.log('searchJobByMacPending _model.wc_code : '+ _model.wc_code);
+       
 
-        _model.mc_code = this.user.user_mac.MC_CODE;
-        //_model.mc_code = "PT001";
-        _model.user_id = this.user.username;
-        _model.wc_code = this.user.def_wc_code; 
-
-        //this.user = this._authSvc.getLoginUser();
-        return await this.http.post<CommonSearchView<DisplayJobView>>(environment.API_URL + 'job/postSearchpending', _model).toPromise(); 
+       return await this.http.post<CommonSearchView<DisplayJobView>>(environment.API_URL + 'job/postSearchpending', _model).toPromise(); 
 
 }
 
 public async searchJobByMacForward(_model: DisplayJobSearchView) {
 
-        //this.user = this._authSvc.getLoginUser();
+      console.log('searchJobByMacForward _model.mc_code: '+ _model.mc_code);
+      console.log('searchJobByMacForward _model.user_id : '+ _model.user_id);
+      console.log('searchJobByMacForward _model.wc_code : '+ _model.wc_code);
 
-        console.log('Forward cur_userID : '+ this.user.username);
-        console.log('Forward cur_deptCode : '+ this.user.dept_code);
-        console.log('Forward cur_mcCode : '+ this.user.user_mac.MC_CODE);
-        console.log('Forward cur_wcCode : '+ this.user.def_wc_code);
-
-        _model.mc_code = this.user.user_mac.MC_CODE;
-        _model.user_id = this.user.username;
-        _model.wc_code = this.user.def_wc_code;
-
-        return await this.http.post<CommonSearchView<DisplayJobView>>(environment.API_URL + 'job/postSearchforward', _model).toPromise(); 
+      return await this.http.post<CommonSearchView<DisplayJobView>>(environment.API_URL + 'job/postSearchforward', _model).toPromise(); 
 
 }
 
 public async searchSpring(_model: DisplayJobSearchView) {
 
-  //this.user = this._authSvc.getLoginUser();
-
-  console.log('searchSpring cur_userID : '+ this.user.username);
-  console.log('searchSpring cur_deptCode : '+ this.user.dept_code);
-  console.log('searchSpring cur_mcCode : '+ this.user.user_mac.MC_CODE);
-  console.log('searchSpring cur_wcCode : '+ this.user.def_wc_code);
-
-  _model.mc_code = this.user.user_mac.MC_CODE;
-  _model.user_id = this.user.username;
-  _model.wc_code = this.user.def_wc_code;
+  console.log('searchSpring _model.mc_code: '+ _model.mc_code);
+  console.log('searchSpring _model.user_id : '+ _model.user_id);
+  console.log('searchSpring _model.wc_code : '+ _model.wc_code);
 
   return await this.http.post<SearchSpringHeaderView<SearchSpringDetailView>>(environment.API_URL + 'spring/postSearchspring', _model).toPromise(); 
 
@@ -94,17 +67,9 @@ public async searchSpring(_model: DisplayJobSearchView) {
 
 public async searchSpringByDate(_model: SearchSpringByDateSearchView) {
 
-  //this.user = this._authSvc.getLoginUser();
-
-  console.log('searchSpringByDate cur_userID : '+ this.user.username);
-  console.log('searchSpringByDate cur_deptCode : '+ this.user.dept_code);
-  console.log('searchSpringByDate cur_mcCode : '+ this.user.user_mac.MC_CODE);
-  console.log('searchSpringByDate cur_req_date : '+ _model.req_date);
-  
-
-  _model.mc_code = this.user.user_mac.MC_CODE; 
-  _model.user_id = this.user.username;
-  _model.wc_code = this.user.def_wc_code;
+  console.log('searchSpringByDate _model.mc_code: '+ _model.mc_code);
+  console.log('searchSpringByDate _model.user_id : '+ _model.user_id);
+  console.log('searchSpringByDate _model.wc_code : '+ _model.wc_code);
 
   return await this.http.post<SearchSpringHeaderView<SearchSpringDetailView>>(environment.API_URL + 'spring/postSearchspringdate', _model).toPromise(); 
 
@@ -112,17 +77,9 @@ public async searchSpringByDate(_model: SearchSpringByDateSearchView) {
 
 public async searchJobMacCurrentByDate(_model: SearchSpringByDateSearchView) {
 
-  //this.user = this._authSvc.getLoginUser(); Test
-
-  console.log('searchJobMacCurrentByDate cur_userID : '+ this.user.username);
-  console.log('searchJobMacCurrentByDate cur_deptCode : '+ this.user.dept_code);
-  console.log('searchJobMacCurrentByDate cur_mcCode : '+ this.user.user_mac.MC_CODE);
-  console.log('searchJobMacCurrentByDate cur_wcCode : '+ this.user.def_wc_code);  
-  
-
-  _model.mc_code = this.user.user_mac.MC_CODE;
-  _model.user_id = this.user.username;
-  _model.wc_code = this.user.def_wc_code; 
+  console.log('searchJobMacCurrentByDate _model.mc_code: '+ _model.mc_code);
+  console.log('searchJobMacCurrentByDate _model.user_id : '+ _model.user_id);
+  console.log('searchJobMacCurrentByDate _model.wc_code : '+ _model.wc_code); 
 
   return await this.http.post<CommonSearchView<DisplayJobView>>(environment.API_URL + 'job/postSearchdate', _model).toPromise(); 
 

@@ -49,7 +49,7 @@ export class PrintTagComponent implements OnInit {
     this.printTagData();
     this.tagList();
 
-    console.log(this.user);
+    //console.log(this.user);
     
   }
 
@@ -67,7 +67,15 @@ export class PrintTagComponent implements OnInit {
     this.model_search.printer = this.user.def_printer;
     this.model_search.req_date  = datePipe.transform(this.model_search.req_date, 'dd/MM/yyyy');
 
-    this.model.qty = this.model_search.qty;
+    if(this.model_search.qty==0)
+    {
+      this.model.qty = 10;
+    }
+    else
+    {
+      this.model.qty = this.model_search.qty;
+    }
+    
     this.datas =  await this._tagSvc.searchPrintTag(this.model_search);
     
     this.add(this.datas.datas);

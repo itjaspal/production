@@ -1,7 +1,7 @@
 <div class="container-fluid no-breadcrumbs"> <!-- container-->
     <mat-card> <!-- mat-card 1 -->
         <mat-card-title>
-           <h6>Spring Production Order Data Sheet : ( Machine : {{this.user.user_mac.MC_CODE}} )</h6>
+           <h6>Scan Tag PO and Print Tag In Process : ( Machine : {{this.user.user_mac.MC_CODE}} )</h6>
         </mat-card-title>
         <br />
         
@@ -43,7 +43,7 @@
                       <dd *ngIf="data.datas.length != 0;">
                         {{data.datas[0].req_date | date:'dd/MM/yyyy'}}
                       </dd>
-                    </div>
+                    </div> 
   
                     
                   </div>
@@ -72,7 +72,7 @@
                             <mat-icon class="material-icons">more_horiz</mat-icon>
                           </button>
                           <mat-menu #appMenu1="matMenu">
-                            <button mat-menu-item [routerLink]="['printtag/'+ x.req_date + '/' + x.spring_grp + '/' + x.pdsize_code + '/' + x.plan_qty]" action>
+                            <button mat-menu-item [routerLink]="['printtag/'+ x.req_date + '/' + x.spring_grp + '/' + x.pdsize_code + '/' + x.diff_qty]" action>
                             <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process</span>
                             </button>
                           </mat-menu>
