@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {AbstractControl} from '@angular/forms';
 import * as moment from 'moment';
 import { CommonSearchView } from '../../_model/common-search-view';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scan-inprocess',
@@ -29,6 +30,7 @@ export class ScanInprocessComponent implements OnInit {
     private _displayJobMacSvc: DisplayJobService,
     private _authSvc: AuthenticationService,
     private _formBuilder: FormBuilder,
+    private _router: Router
   ) {
   }
 
@@ -48,7 +50,8 @@ buildForm() {
 }
 
 close() {
- window.history.back();
+  //window.history.back();
+  this._router.navigateByUrl('/app/home');
 }
 
 async springSearch(event: PageEvent = null) {  

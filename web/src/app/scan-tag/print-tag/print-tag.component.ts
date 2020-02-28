@@ -1,7 +1,7 @@
 import { PrintTagService } from './../../_service/print-tag.service';
 import { PrintTagView, RawMatitemView, PrintTagAddView, PrintTagProcView, ProcessTagSearchView, ProcessTagNoSearch } from './../../_model/print-tag';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { PrintTagSearchView } from '../../_model/print-tag';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
@@ -48,8 +48,6 @@ export class PrintTagComponent implements OnInit {
     this.user = this._authSvc.getLoginUser();
     this.printTagData();
     this.tagList();
-
-    //console.log(this.user);
     
   }
 
@@ -65,6 +63,7 @@ export class PrintTagComponent implements OnInit {
     this.model_search.wc_code = this.user.def_wc_code;
     this.model_search.mc_code = this.user.user_mac.MC_CODE;
     this.model_search.printer = this.user.def_printer;
+    this.model_search.user_id = this.user.username;
     this.model_search.req_date  = datePipe.transform(this.model_search.req_date, 'dd/MM/yyyy');
 
     if(this.model_search.qty==0)
@@ -78,10 +77,10 @@ export class PrintTagComponent implements OnInit {
     
     this.datas =  await this._tagSvc.searchPrintTag(this.model_search);
     
+    console.log(this.datas.datas);
     this.add(this.datas.datas);
     
-    console.log(this.model)
-    //this.printTagData();
+
   }
 
   async tagList() {  
@@ -114,7 +113,7 @@ export class PrintTagComponent implements OnInit {
   add(datas: any) {
 
     //const control = <FormArray>this.validationForm.controls['RawMatitemView'];
-    this.model.datas = [];
+    //this.model.datas = [];
     console.log(this.model.datas);
     datas.forEach(product => {
 
@@ -135,9 +134,36 @@ export class PrintTagComponent implements OnInit {
     });
   }
 
+  add_search(datas: any) {
+
+    //const control = <FormArray>this.validationForm.controls['RawMatitemView'];
+    this.model.datas = [];
+    console.log(this.model.datas);
+    datas.forEach(product => {
+
+        let newProd: RawMatitemView = new RawMatitemView();
+        newProd.process_tag_no = product.process_tag_no;
+        newProd.doc_no = product.doc_no;
+        newProd.prod_code = product.prod_code;
+        newProd.prod_name = product.prod_name;
+        
+        
+        this.model.datas.push(newProd);
+        
+
+        //console.log(this.model.raw_item);
+
+       
+      
+    });
+  }
+
 
   close() {
-    window.history.back();
+    //window.history.back();
+    console.log(this._actRoute.snapshot.params.req_date);
+    this._router.navigateByUrl('/app/scantag/search/'+this._actRoute.snapshot.params.req_date);
+    
   }
 
   async print()
@@ -173,6 +199,7 @@ export class PrintTagComponent implements OnInit {
     this.model_search.req_date  = datePipe.transform(this.model_search.req_date, 'dd/MM/yyyy');
 
     this.model.qty = this.model_search.qty;
+    //this.model.datas = [];
     this.datas =  await this._tagSvc.AddTag(this.model_search);
     
     this.add(this.datas.datas);
@@ -214,7 +241,7 @@ export class PrintTagComponent implements OnInit {
     this.model_tagsearch.qty = this.model.qty;
     this.datas =  await this._tagSvc.searchtagno(this.model_tagsearch);
     
-    this.add(this.datas.datas);
+    this.add_search(this.datas.datas);
     
     console.log(this.model_tagsearch)
     //this.printTagData();
@@ -236,8 +263,21 @@ export class PrintTagComponent implements OnInit {
     this.datas =  await this._tagSvc.searchPrintTag(this.model_search);
     
     
-    console.log(this.model_search)
+    //console.log(this.model_search)
     //this.printTagData();
+  }
+
+  isNewTag()
+  {
+    //console.log(this.datas.datas.lenght);
+    if(this.datas.datas.lenght == 0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   // print() {

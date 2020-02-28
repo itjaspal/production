@@ -70,7 +70,10 @@ async springSearch(event: PageEvent = null) {
      this.modelByDate.req_date = this.req_date.nativeElement.value;
      this.data =  await this._displayJobMacSvc.searchSpringByDate(this.modelByDate);
      this.req_date.nativeElement.value = this.modelByDate.req_date;
+
+
   }
+
 }
 
 async save() {

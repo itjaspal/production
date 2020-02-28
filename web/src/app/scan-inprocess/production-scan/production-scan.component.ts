@@ -43,7 +43,7 @@ export class ProductionScanComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     this.user = this._authSvc.getLoginUser();
-  
+    
     
     
   }
@@ -68,7 +68,8 @@ export class ProductionScanComponent implements OnInit {
     this.searchModel.req_date  = datePipe.transform(this.searchModel.req_date, 'dd/MM/yyyy');
     this.searchModel.mc_code = this.user.user_mac.MC_CODE;
     this.searchModel.user_id = this.user.username;
-    
+    this.searchModel.spring_grp = this._actRoute.snapshot.params.spring_grp;
+    this.searchModel.size_code = this._actRoute.snapshot.params.size_code;
    
 
 
@@ -84,9 +85,12 @@ export class ProductionScanComponent implements OnInit {
       this._msgSvc.warningPopup("ไม่พบ PCS Barcode " + _qr + " ในระบบ");
     }
 
-    this.model = await this._jobInprocessSvc.searchscanpcs(this.searchModel);
-    console.log(this.model);
+    // this.model = await this._jobInprocessSvc.searchscanpcs(this.searchModel);
+    // console.log(this.model);
 
+    this.model_scan = await this._jobInprocessSvc.searchfinpcs(this.searchModel);
+
+    this.qrElement.nativeElement.focus();
     
     
     // if (pcs_barcode.length > 0) {
@@ -99,27 +103,28 @@ export class ProductionScanComponent implements OnInit {
   }
 
   close() {
+    console.log(this.searchModel);
     window.history.back();
   }
 
-  async save() {
-    console.log(this.model);
-    console.log(this.searchModel);
+  // async save() {
+  //   console.log(this.model);
+  //   console.log(this.searchModel);
 
-    this.searchModel.pcs_barcode = this.model.pcs_barcode;
+  //   this.searchModel.pcs_barcode = this.model.pcs_barcode;
 
-    this.data = await this._jobInprocessSvc.scanpcs(this.searchModel);
+  //   this.data = await this._jobInprocessSvc.scanpcs(this.searchModel);
     
-    this.model_scan = await this._jobInprocessSvc.searchfinpcs(this.searchModel);
+  //   this.model_scan = await this._jobInprocessSvc.searchfinpcs(this.searchModel);
 
-    this.qrElement.nativeElement.focus();
+  //   this.qrElement.nativeElement.focus();
 
-    this.model.springtype_code =  "";
-    this.model.pdsize_desc= "";
-    this.model.qty= null;
+  //   this.model.springtype_code =  "";
+  //   this.model.pdsize_desc= "";
+  //   this.model.qty= null;
 
-    console.log(this.model);
+  //   console.log(this.model);
 
-  }
+  // }
 
 }

@@ -11,7 +11,7 @@
         <dt>Machine</dt>
         <dd>{{datas.mc_code}}</dd>
       </div>
-     <div class="col-lg-5 col-sm-5 col-7">
+     <div class="col-lg-5 col-sm-5 col-6">
       <dt>Print</dt>
       <dd>{{datas.printer}}</dd>
       
@@ -74,7 +74,7 @@
         </div>  -->
 
         <div class="row card-table-body">
-          <div class="col-2 col-lg-1">
+          <div class="col-3 col-lg-1">
             <small>ครั้งที่</small>
             <dd>{{datas.process_tag_no}}</dd>
         </div>
@@ -92,19 +92,19 @@
         <div class="row card-table-body">
         
             <!-- Row 1-->
-            <div class="col-3 col-lg-2">
+            <div class="col-4 col-lg-2">
                 <small>Spring Type</small>
                 <dd>{{datas.spring_grp}}</dd>
             </div>
-            <div class="col-3 col-lg-2">
+            <div class="col-5 col-lg-2">
                 <small>Spring Size</small>  
                 <dd>{{datas.size_desc}}</dd>
            </div>
-           <div class="col-3 col-lg-2">
+           <div class="col-4 col-lg-2">
                 <small>JIT Date</small>  
                 <dd>{{datas.req_date }}</dd>
            </div>
-           <div class="col-3 col-lg-2">
+           <div class="col-4 col-lg-2">
                 <small>FIN Date</small>  
                 <dd>{{datas.fin_date }}</dd>
            </div>
@@ -122,7 +122,7 @@
       </div>
 
       <div class="row card-table-body">
-        <div class="col-3 col-lg-2">
+        <div class="col-4 col-lg-2">
          
           <mat-card-actions class="no-margin">
             <button mat-raised-button color="primary"  type="button" (click)="add_tag()">
@@ -131,10 +131,10 @@
           </mat-card-actions>
         </div>
 
-        <div class="col-3 col-lg-2">
+        <div class="col-4 col-lg-2">
          
           <mat-card-actions class="no-margin">
-            <button mat-raised-button color="primary"  type="button" (click)="del_tag()">
+            <button mat-raised-button color="primary"  type="button" (click)="del_tag()" >
               <mat-icon class="material-icons">delete</mat-icon> ลบ
             </button>
           </mat-card-actions>
@@ -168,17 +168,18 @@
             
             <!-- <ng-template #show_raw_mat> -->
               <!-- <div class="row"> -->
-                <div class="col-2 col-lg-1">
+                <div class="col-3 col-lg-1">
                   <small>ครั้งที่</small>
                   <dd>{{x.process_tag_no}}</dd>
                 </div>
-                <div class="col-3 col-lg-2">
+                <div class="col-4 col-lg-2">
                   <small>PO No.</small>
                   <dd>{{x.doc_no}}</dd>
                 </div>
-                <div class="col-7 col-lg-9">
+                <div class="col-5 col-lg-9">
                   <small>รายละเอียดวัตถุดิบ</small>  
                   <dd>{{x.prod_code}}-{{x.prod_name}}</dd>
+                  
                 </div>
             <!-- </div> -->
             <!-- </ng-template>   -->
@@ -198,24 +199,34 @@
           </mat-menu>
 
           <br />
-          <br />
+          
           <mat-card-actions class="no-margin">
             <div class="row">
-              <div class="col-2 col-sm-2">
-                <button (click)="close();" mat-raised-button color="primary">
-                  <mat-icon class="material-icons">close</mat-icon> ปิด
-                </button>
+              
+              <div class="col-2 col-sm-7">
+              
               </div>
-              <div class="col-4 col-sm-3">
+              <div class="col-6 col-sm-3">
                   <button  mat-raised-button color="default" (click)="setDefaultPrint()">
                     <mat-icon class="material-icons" >schedule</mat-icon> กำหนดเครื่องพิมพ์
                   </button>
               </div>
-              <div class="col-2 col-sm-1">
+              <div class="col-4 col-sm-2" >
                 <button mat-raised-button color="default" (click)="print()">
                   <mat-icon class="material-icons">print</mat-icon> Print
                 </button>
               </div>
+            </div>
+            <br/>
+            <div class="row">
+              <div class="col-3 col-sm-2">
+                <button (click)="close();" mat-raised-button color="primary">
+                  <mat-icon class="material-icons">close</mat-icon> ปิด
+                </button>
+              </div>
+              <!-- <a routerLink="/app/scantag/{{datas.req_date | date:'dd-MM-yyyy'}}" routerLinkActive="active">INSERT</a> -->
+              
+              
             </div>
           </mat-card-actions> 
 

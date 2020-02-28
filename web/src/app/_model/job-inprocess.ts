@@ -9,6 +9,8 @@ export class JobInProcessSearchView {
     public wc_code : string = "";  
     public mc_code : string = "";  
     public user_id : string = "";  
+    public spring_grp : string = "";  
+    public size_code : string = "";  
 }
 
 export class JobInProcessView {

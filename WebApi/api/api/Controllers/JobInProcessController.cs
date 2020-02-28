@@ -19,20 +19,20 @@ namespace api.Controllers
             inprocSvc = new JobInProcessService();
         }
 
-        [Route("job-inprocess/postSearchPcs")]
-        public HttpResponseMessage postSearchPcs(JobInProcessSearchView model)
-        {
-            try
-            {
-                var result = inprocSvc.SearchPcs(model);
+        //[Route("job-inprocess/postSearchPcs")]
+        //public HttpResponseMessage postSearchPcs(JobInProcessSearchView model)
+        //{
+        //    try
+        //    {
+        //        var result = inprocSvc.SearchPcs(model);
 
-                return Request.CreateResponse(HttpStatusCode.OK, result);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
-            }
-        }
+        //        return Request.CreateResponse(HttpStatusCode.OK, result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+        //    }
+        //}
 
         
 
@@ -96,34 +96,34 @@ namespace api.Controllers
             }
         }
 
-        [Route("job-inprocess/postScanPcs")]
-        public HttpResponseMessage postScanPcs(JobInProcessSearchView model)
-        {
-            try
-            {
-                inprocSvc.UpdatePcs(model);
+        //[Route("job-inprocess/postScanPcs")]
+        //public HttpResponseMessage postScanPcs(JobInProcessSearchView model)
+        //{
+        //    try
+        //    {
+        //        inprocSvc.UpdatePcs(model);
 
-                return Request.CreateResponse(HttpStatusCode.OK, "บันทึกข้อมูลสำเร็จ");
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
-            }
-        }
+        //        return Request.CreateResponse(HttpStatusCode.OK, "บันทึกข้อมูลสำเร็จ");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+        //    }
+        //}
 
-        [Route("job-inprocess/postCancelPcs")]
-        public HttpResponseMessage postCancelPcs(JobInProcessSearchView model)
-        {
-            try
-            {
-                inprocSvc.CancelPcs(model);
+        //[Route("job-inprocess/postCancelPcs")]
+        //public HttpResponseMessage postCancelPcs(JobInProcessSearchView model)
+        //{
+        //    try
+        //    {
+        //        inprocSvc.CancelPcs(model);
 
-                return Request.CreateResponse(HttpStatusCode.OK, "ยกเลิกข้อมูลสำเร็จ");
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
-            }
-        }
+        //        return Request.CreateResponse(HttpStatusCode.OK, "ยกเลิกข้อมูลสำเร็จ");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+        //    }
+        //}
     }
 }

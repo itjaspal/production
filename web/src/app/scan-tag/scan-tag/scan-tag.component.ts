@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {AbstractControl} from '@angular/forms';
 import * as moment from 'moment';
 import { CommonSearchView } from '../../_model/common-search-view';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 
@@ -33,6 +34,8 @@ export class ScanTagComponent implements OnInit {
     private _displayJobMacSvc: DisplayJobService,
     private _authSvc: AuthenticationService,
     private _formBuilder: FormBuilder,
+    private _actRoute: ActivatedRoute,
+    private _router: Router
   ) {
   }
 
@@ -42,7 +45,23 @@ export class ScanTagComponent implements OnInit {
       this.user = this._authSvc.getLoginUser();
      
       this.springSearch();
-    
+      console.log(this._actRoute.snapshot.params.req_date)
+
+      // var datePipe = new DatePipe("en-US");
+
+      // if(this._actRoute.snapshot.params.req_date != null)
+      // {
+      //     this.modelByDate.mc_code  = this.user.user_mac.MC_CODE;
+      //    this.modelByDate.user_id  = this.user.username;
+      //    this.modelByDate.wc_code  = this.user.def_wc_code;
+      //    this.modelByDate.req_date = this._actRoute.snapshot.params.req_date;
+      //    this.modelByDate.req_date  = datePipe.transform(this.modelByDate.req_date, 'dd/MM/yyyy');
+      //    this.data.datas  = [];
+      //   console.log(this.modelByDate)
+
+      //    this.data =  await this._displayJobMacSvc.searchJobMacCurrentByDate(this.modelByDate);
+      //    this.req_date.nativeElement.value = this.modelByDate.req_date;
+      // }
         
 
   }
@@ -93,8 +112,10 @@ export class ScanTagComponent implements OnInit {
 
 
 close() {
-  window.history.back();
- }
+  //window.history.back();
+  //this._router.navigateByUrl('/app/scantag/'+this.req_date.nativeElement.value);
+  this._router.navigateByUrl('/app/home');
+}
 
 async save() {
 

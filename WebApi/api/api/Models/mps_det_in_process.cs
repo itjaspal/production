@@ -96,5 +96,10 @@ namespace api.Models
         [Column("UPD_DATE")]
         public DateTime? UPD_DATE { get; set; }
 
+        [Column("PROCESS_TAG_QR")]
+        [StringLength(500)]
+        public string PROCESS_TAG_QR { get; set; }
+
+
     }
 }

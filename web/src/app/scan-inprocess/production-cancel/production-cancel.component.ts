@@ -70,7 +70,8 @@ export class ProductionCancelComponent implements OnInit {
     this.searchModel.req_date  = datePipe.transform(this.searchModel.req_date, 'dd/MM/yyyy');
     this.searchModel.mc_code = this.user.user_mac.MC_CODE;
     this.searchModel.user_id = this.user.username;
-    
+    this.searchModel.spring_grp = this._actRoute.snapshot.params.spring_grp;
+    this.searchModel.size_code = this._actRoute.snapshot.params.size_code;
    
 
 
@@ -86,17 +87,14 @@ export class ProductionCancelComponent implements OnInit {
       this._msgSvc.warningPopup("ไม่พบ PCS Barcode " + _qr + " ในระบบ");
     }
 
-    this.model = await this._jobInprocessSvc.searchscancancelpcs(this.searchModel);
+    //this.model = await this._jobInprocessSvc.searchscancancelpcs(this.searchModel);
     console.log(this.model);
 
-    
-    
-    // if (pcs_barcode.length > 0) {
-    //   this.itemSelected(pcs_barcode[0]);
-    // } else {
-    //   this._msgSvc.warningPopup("ไม่พบสินค้าบาร์โค้ด " + _qr + " ในระบบ");
+    this.model_scan = await this._jobInprocessSvc.searchcancelpcs(this.searchModel);
 
-    // }
+    this.qrElement.nativeElement.focus();
+
+   
     
   }
 
@@ -104,24 +102,24 @@ export class ProductionCancelComponent implements OnInit {
     window.history.back();
   }
 
-  async save() {
-    console.log(this.model);
-    console.log(this.searchModel);
+  // async save() {
+  //   console.log(this.model);
+  //   console.log(this.searchModel);
 
-    this.searchModel.pcs_barcode = this.model.pcs_barcode;
+  //   this.searchModel.pcs_barcode = this.model.pcs_barcode;
     
-    this.data = await this._jobInprocessSvc.cancelpcs(this.searchModel);
+  //   this.data = await this._jobInprocessSvc.cancelpcs(this.searchModel);
     
-    this.model_scan = await this._jobInprocessSvc.searchcancelpcs(this.searchModel);
+  //   this.model_scan = await this._jobInprocessSvc.searchcancelpcs(this.searchModel);
 
-    this.qrElement.nativeElement.focus();
+  //   this.qrElement.nativeElement.focus();
 
-    this.model.springtype_code =  "";
-    this.model.pdsize_desc= "";
-    this.model.qty= null;
+  //   this.model.springtype_code =  "";
+  //   this.model.pdsize_desc= "";
+  //   this.model.qty= null;
 
-    console.log(this.model_scan);
+  //   console.log(this.model_scan);
 
-  }
+  // }
 
 }

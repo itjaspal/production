@@ -45,6 +45,8 @@ namespace api.ModelViews
         public string wc_code { get; set; }
         public string mc_code { get; set; }
         public string user_id { get; set; }
+        public string spring_grp { get; set; }
+        public string size_code { get; set; }
         //public int qty { get; set; }
 
 

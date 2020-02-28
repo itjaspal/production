@@ -151,7 +151,7 @@ namespace api.Services
                 string vsize_name = ctx.Database.SqlQuery<string>(sqls, new OracleParameter("p_size_code", vsize_desc)).FirstOrDefault();
 
 
-                string sqli = "select count(seq_no)+1 from mps_det_in_process_tag where entity=:p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and mc_code = :p_mc_code";
+                string sqli = "select nvl(max(seq_no),0)+1 from mps_det_in_process_tag where entity=:p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and mc_code = :p_mc_code";
                 int item = ctx.Database.SqlQuery<int>(sqli, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_mc_code", vmc_code)).SingleOrDefault();
 
                 string sql = "select prod_code from mps_det_in_process_tag where entity=:p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and mc_code = :p_mc_code and process_tag_no = :p_process_tag_no and rownum = 1";
@@ -372,10 +372,10 @@ namespace api.Services
                 sqlr += " where entity = :p_entity";
                 sqlr += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sqlr += " and mc_code = :p_mc_code";
-                sqlr += " and process_tag_no = :p_process_tag_no";
+                //sqlr += " and process_tag_no = :p_process_tag_no";
                 sqlr += " order by seq_no";
 
-                List<RawMatitemView> scan = ctx.Database.SqlQuery<RawMatitemView>(sqlr, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_process_tag_no", vprocess_tag_no)).ToList();
+                List<RawMatitemView> scan = ctx.Database.SqlQuery<RawMatitemView>(sqlr, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_mc_code", vmc_code)).ToList();
 
                 foreach (var i in scan)
                 {
@@ -432,6 +432,7 @@ namespace api.Services
                 sql += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sql += " and mc_code = :p_mc_code";
                 sql += " and process_tag_no = :p_process_tag_no";
+                sql += " and rownum = 1";
                 sql += " order by process_tag_no desc";
 
 
@@ -479,10 +480,10 @@ namespace api.Services
                 sqlr += " where entity = :p_entity";
                 sqlr += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sqlr += " and mc_code = :p_mc_code";
-                sqlr += " and process_tag_no = :p_process_tag_no";
+                //sqlr += " and process_tag_no = :p_process_tag_no";
                 sqlr += " order by seq_no";
 
-                List<RawMatitemView> scan = ctx.Database.SqlQuery<RawMatitemView>(sqlr, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_process_tag_no", vprocess_tag_no)).ToList();
+                List<RawMatitemView> scan = ctx.Database.SqlQuery<RawMatitemView>(sqlr, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_mc_code", vmc_code)).ToList();
 
                 foreach (var i in scan)
                 {

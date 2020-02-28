@@ -14,97 +14,97 @@ namespace api.Services
 {
     public class JobInProcessService : IJobInProcessService
     {
-        public void CancelPcs(JobInProcessSearchView model)
-        {
-            using (var ctx = new ConXContext())
-            {
-                using (TransactionScope scope = new TransactionScope())
-                {
-                    mps_det_in_process updateObj = ctx.mps_in_process
-                   .Where(z => z.PCS_BARCODE == model.pcs_barcode
-                        && z.ENTITY == model.entity
-                        && z.WC_CODE == model.wc_code).SingleOrDefault();
+        //public void CancelPcs(JobInProcessSearchView model)
+        //{
+        //    using (var ctx = new ConXContext())
+        //    {
+        //        using (TransactionScope scope = new TransactionScope())
+        //        {
+        //            mps_det_in_process updateObj = ctx.mps_in_process
+        //           .Where(z => z.PCS_BARCODE == model.pcs_barcode
+        //                && z.ENTITY == model.entity
+        //                && z.WC_CODE == model.wc_code).SingleOrDefault();
 
 
-                    updateObj.MPS_ST = "N";
-                    updateObj.UPD_BY = model.user_id;
-                    updateObj.UPD_DATE = DateTime.Now;
+        //            updateObj.MPS_ST = "N";
+        //            updateObj.UPD_BY = model.user_id;
+        //            updateObj.UPD_DATE = DateTime.Now;
 
-                    ctx.Configuration.AutoDetectChangesEnabled = true;
-                    ctx.SaveChanges();
-                    scope.Complete();
-                }
-            }
-        }
+        //            ctx.Configuration.AutoDetectChangesEnabled = true;
+        //            ctx.SaveChanges();
+        //            scope.Complete();
+        //        }
+        //    }
+        //}
 
-        public JobInProcessView SearchPcs(JobInProcessSearchView model)
-        {
-            using (var ctx = new ConXContext())
-            {
+        //public JobInProcessView SearchPcs(JobInProcessSearchView model)
+        //{
+        //    using (var ctx = new ConXContext())
+        //    {
 
-                mps_det_in_process mps_in_process = ctx.mps_in_process
-                    .Where(z => z.PCS_BARCODE == model.pcs_barcode  && z.WC_CODE == model.wc_code  && z.ENTITY == model.entity && z.MPS_ST == "N")
-                    .SingleOrDefault();
-
-
-                if (mps_in_process == null)
-                {
-                    throw new Exception("PSC Barcodeไม่ถูกต้อง");
-                }
+        //        mps_det_in_process mps_in_process = ctx.mps_in_process
+        //            .Where(z => z.PCS_BARCODE == model.pcs_barcode  && z.WC_CODE == model.wc_code  && z.ENTITY == model.entity && z.MPS_ST == "N")
+        //            .SingleOrDefault();
 
 
-                //define model view
-                JobInProcessView view = new ModelViews.JobInProcessView()
-                {
-                    pcs_barcode = mps_in_process.PCS_BARCODE,
-                    springtype_code = mps_in_process.SPRINGTYPE_CODE,
-                    pdsize_desc = mps_in_process.PDSIZE_DESC,
-                    qty = 1,
-                    datas = new List<ModelViews.JobInProcessScanView>()
-                };
+        //        if (mps_in_process == null)
+        //        {
+        //            throw new Exception("PSC Barcodeไม่ถูกต้อง");
+        //        }
+
+
+        //        //define model view
+        //        JobInProcessView view = new ModelViews.JobInProcessView()
+        //        {
+        //            pcs_barcode = mps_in_process.PCS_BARCODE,
+        //            springtype_code = mps_in_process.SPRINGTYPE_CODE,
+        //            pdsize_desc = mps_in_process.PDSIZE_DESC,
+        //            qty = 1,
+        //            datas = new List<ModelViews.JobInProcessScanView>()
+        //        };
 
                
 
-                //DateTime vreq_date = DateTime.Now;
+        //        //DateTime vreq_date = DateTime.Now;
 
-                //query data
-                string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME , b.PDMODEL_DESC";
-                sql += " from MPS_DET_IN_PROCESS a , PRODUCT b";
-                sql += " where a.prod_code = b.prod_code";
-                sql += " and a.mps_st = 'Y'";
-                sql += " and a.fin_by = :p_user_id";
-                sql += " and trunc(a.fin_date) = trunc(SYSDATE)";
-                sql += " and a.entity = :p_entity";
-                sql += " and a.wc_code = :p_wc_code";
-
-
-                List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code)).ToList();
+        //        //query data
+        //        string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME , b.PDMODEL_DESC";
+        //        sql += " from MPS_DET_IN_PROCESS a , PRODUCT b";
+        //        sql += " where a.prod_code = b.prod_code";
+        //        sql += " and a.mps_st = 'Y'";
+        //        sql += " and a.fin_by = :p_user_id";
+        //        sql += " and trunc(a.fin_date) = trunc(SYSDATE)";
+        //        sql += " and a.entity = :p_entity";
+        //        sql += " and a.wc_code = :p_wc_code";
 
 
+        //        List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code)).ToList();
 
-                view.totalItem = scan.Count;
-                scan = scan.Skip(view.pageIndex * view.itemPerPage)
-                    .Take(view.itemPerPage)
-                    .ToList();
 
-                ////prepare model to modelView
-                foreach (var i in scan)
-                {
 
-                    view.datas.Add(new ModelViews.JobInProcessScanView()
-                    {
-                        pcs_barcode = i.pcs_barcode,
-                        pdmodel_code = i.pdmodel_code,
-                        prod_code = i.prod_code,
-                        prod_name = i.prod_name
+        //        view.totalItem = scan.Count;
+        //        scan = scan.Skip(view.pageIndex * view.itemPerPage)
+        //            .Take(view.itemPerPage)
+        //            .ToList();
+
+        //        ////prepare model to modelView
+        //        foreach (var i in scan)
+        //        {
+
+        //            view.datas.Add(new ModelViews.JobInProcessScanView()
+        //            {
+        //                pcs_barcode = i.pcs_barcode,
+        //                pdmodel_code = i.pdmodel_code,
+        //                prod_code = i.prod_code,
+        //                prod_name = i.prod_name
                         
-                    });
-                }
+        //            });
+        //        }
 
-                //return data to contoller
-                return view;
-            }
-        }
+        //        //return data to contoller
+        //        return view;
+        //    }
+        //}
 
         public JobInProcessView SearchScanCancelPcs(JobInProcessSearchView model)
         {
@@ -117,11 +117,6 @@ namespace api.Services
                 string vsize_code = strlist[1];
 
                 //DateTime vreq_date = Convert.ToDateTime(model.req_date);
-
-                //mps_det_in_process mps_in_process = ctx.mps_in_process
-                //    .Where(z => z.SPRING_GRP == vspring_grp && z.PDSIZE_CODE == vsize_code && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date) && z.WC_CODE == model.wc_code && z.ENTITY == model.entity && z.MPS_ST == "Y" && z.MC_CODE == model.mc_code)
-                //    .OrderBy(z => z.PCS_BARCODE)
-                //    .FirstOrDefault();
 
                 string sqlp = "select pcs_barcode , spring_grp springtype_code , pdsize_desc";
                 sqlp += " from mps_det_in_process";
@@ -153,6 +148,28 @@ namespace api.Services
                     qty = 1,
                     datas = new List<ModelViews.JobInProcessScanView>()
                 };
+
+                // Udpate
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    mps_det_in_process updateObj = ctx.mps_in_process
+                   .Where(z => z.PCS_BARCODE == mps_in_process.pcs_barcode
+                        && z.ENTITY == model.entity
+                        && z.WC_CODE == model.wc_code).SingleOrDefault();
+
+
+                    updateObj.MPS_ST = "N";
+                    updateObj.UPD_BY = model.user_id;
+                    updateObj.UPD_DATE = DateTime.Now;
+                    updateObj.PROCESS_TAG_QR = model.pcs_barcode;
+
+                    ctx.Configuration.AutoDetectChangesEnabled = true;
+                    ctx.SaveChanges();
+                    scope.Complete();
+                }
+
+                ////////////////////////////////////
+
 
 
 
@@ -208,14 +225,6 @@ namespace api.Services
                 string vspring_grp = strlist[0];
                 string vsize_code = strlist[1];
 
-                //DateTime vreq_date = Convert.ToDateTime(model.req_date);
-
-                //mps_det_in_process mps_in_process = ctx.mps_in_process
-                //    .Where(z => z.SPRING_GRP == vspring_grp && z.PDSIZE_CODE == vsize_code && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date) && z.WC_CODE == model.wc_code && z.ENTITY == model.entity && z.MPS_ST == "N" && z.MC_CODE==model.mc_code)
-                //    .OrderBy(z => z.PCS_BARCODE)
-                //    .FirstOrDefault();
-
-
                 string sqlp = "select pcs_barcode , spring_grp springtype_code , pdsize_desc";
                 sqlp += " from mps_det_in_process";
                 sqlp += " where spring_grp = :p_spring_grp";
@@ -227,7 +236,7 @@ namespace api.Services
                 sqlp += " and mps_st =  'N'";
                 sqlp += " and rownum = 1";
 
-                JobInProcessView mps_in_process = ctx.Database.SqlQuery<JobInProcessView>(sqlp, new OracleParameter("p_spring_grp", vspring_grp) ,new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code)).FirstOrDefault(); ;
+                JobInProcessView mps_in_process = ctx.Database.SqlQuery<JobInProcessView>(sqlp, new OracleParameter("p_spring_grp", vspring_grp) ,new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code)).FirstOrDefault();
 
                 if (mps_in_process == null)
                 {
@@ -246,6 +255,30 @@ namespace api.Services
                 };
 
 
+                // Update PCS Barcode
+
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    mps_det_in_process updateObj = ctx.mps_in_process
+                   .Where(z => z.PCS_BARCODE == mps_in_process.pcs_barcode
+                        && z.ENTITY == model.entity
+                        && z.WC_CODE == model.wc_code).SingleOrDefault();
+
+
+                    updateObj.MPS_ST = "Y";
+                    updateObj.FIN_BY = model.user_id;
+                    updateObj.FIN_DATE = DateTime.Now;
+                    updateObj.UPD_BY = model.user_id;
+                    updateObj.UPD_DATE = DateTime.Now;
+                    updateObj.PROCESS_TAG_QR = model.pcs_barcode;
+
+                    ctx.Configuration.AutoDetectChangesEnabled = true;
+                    ctx.SaveChanges();
+                    scope.Complete();
+                }
+
+
+                ////////////////////////////////////////////////
 
                 //DateTime vreq_date = DateTime.Now;
 
@@ -315,9 +348,11 @@ namespace api.Services
                 sql += " and a.wc_code = :p_wc_code";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " and a.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
+                sql += " and a.spring_grp = :p_spring_grp";
+                sql += " and a.pdsize_code = :p_pdsize_code";
 
 
-                List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code), new OracleParameter("p_req_date", model.req_date)).ToList();
+                List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_spring_grp", model.spring_grp), new OracleParameter("p_pdsize_code", model.size_code)).ToList();
 
 
 
@@ -371,9 +406,11 @@ namespace api.Services
                 sql += " and a.wc_code = :p_wc_code";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " and a.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
+                sql += " and a.spring_grp = :p_spring_grp";
+                sql += " and a.pdsize_code = :p_pdsize_code";
 
 
-                List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code),new OracleParameter("p_req_date", model.req_date)).ToList();
+                List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code),new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_spring_grp", model.spring_grp), new OracleParameter("p_pdsize_code", model.size_code)).ToList();
 
 
 
@@ -401,29 +438,29 @@ namespace api.Services
             }
         }
 
-        public void UpdatePcs(JobInProcessSearchView model)
-        {
-            using (var ctx = new ConXContext())
-            {
-                using (TransactionScope scope = new TransactionScope())
-                {
-                    mps_det_in_process updateObj = ctx.mps_in_process
-                   .Where(z => z.PCS_BARCODE == model.pcs_barcode 
-                        && z.ENTITY == model.entity
-                        && z.WC_CODE == model.wc_code).SingleOrDefault();
+        //public void UpdatePcs(JobInProcessSearchView model)
+        //{
+        //    using (var ctx = new ConXContext())
+        //    {
+        //        using (TransactionScope scope = new TransactionScope())
+        //        {
+        //            mps_det_in_process updateObj = ctx.mps_in_process
+        //           .Where(z => z.PCS_BARCODE == model.pcs_barcode 
+        //                && z.ENTITY == model.entity
+        //                && z.WC_CODE == model.wc_code).SingleOrDefault();
 
 
-                    updateObj.MPS_ST = "Y";
-                    updateObj.FIN_BY = model.user_id;
-                    updateObj.FIN_DATE = DateTime.Now;
-                    updateObj.UPD_BY = model.user_id;
-                    updateObj.UPD_DATE = DateTime.Now;
+        //            updateObj.MPS_ST = "Y";
+        //            updateObj.FIN_BY = model.user_id;
+        //            updateObj.FIN_DATE = DateTime.Now;
+        //            updateObj.UPD_BY = model.user_id;
+        //            updateObj.UPD_DATE = DateTime.Now;
 
-                    ctx.Configuration.AutoDetectChangesEnabled = true;
-                    ctx.SaveChanges();
-                    scope.Complete();
-                }
-            }
-        }
+        //            ctx.Configuration.AutoDetectChangesEnabled = true;
+        //            ctx.SaveChanges();
+        //            scope.Complete();
+        //        }
+        //    }
+        //}
     }
 }
