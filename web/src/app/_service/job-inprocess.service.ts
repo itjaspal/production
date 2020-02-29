@@ -2,7 +2,7 @@ import { environment } from '../../environments/environment';
 import { CommonSearchView } from '../_model/common-search-view';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { JobInProcessSearchView, JobInProcessView, JobInProcessScanFinView } from '../_model/job-inprocess';
+import { JobInProcessSearchView, JobInProcessView, JobInProcessScanFinView, DataEntrySearchView } from '../_model/job-inprocess';
 
 
 
@@ -34,11 +34,11 @@ export class JobinprocessService {
     return await this.http.post<JobInProcessScanFinView>(environment.API_URL + 'job-inprocess/postSerachCanPcs', _model).toPromise();
   }
 
-  public async scanpcs(_model: JobInProcessSearchView) {
-    return await this.http.post(environment.API_URL + 'job-inprocess/postScanPcs', _model).toPromise();  
+  public async updatepcs(_model: DataEntrySearchView) {
+    return await this.http.post(environment.API_URL + 'job-inprocess/postUpdatePcs', _model).toPromise();  
   }
 
-  public async cancelpcs(_model: JobInProcessSearchView) {
+  public async cancelpcs(_model: DataEntrySearchView) {
     return await this.http.post(environment.API_URL + 'job-inprocess/postCancelPcs', _model).toPromise();  
   }
 

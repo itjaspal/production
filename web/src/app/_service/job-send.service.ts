@@ -17,10 +17,16 @@ export class JobSendService {
     return await this.http.post<JobSendView>(environment.API_URL + 'scan-send/postSearchSpring', _model).toPromise();
   }
 
+  // Process Scan / Cancel
   public async searchscanpcs(_model: ScanPcsSearchView) {
     return await this.http.post<ScanPcsView>(environment.API_URL + 'scan-send/postSearchScanPcs', _model).toPromise();
   }
 
+  public async searchscancancelpcs(_model: ScanPcsSearchView) {
+    return await this.http.post<ScanPcsView>(environment.API_URL + 'scan-send/postSearchScanCancelPcs', _model).toPromise();
+  }
+
+  //List PCS ท่ี่มีการ Scan แล้ว
   public async searchfinpcs(_model: ScanSendFinSearchView) {
     return await this.http.post<ScanSendFinView>(environment.API_URL + 'scan-send/postSerachFinPcs', _model).toPromise();
   }

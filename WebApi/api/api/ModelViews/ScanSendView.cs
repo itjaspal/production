@@ -54,7 +54,8 @@ namespace api.ModelViews
         public string req_date { get; set; }
         public string wc_code { get; set; }
         public string pcs_barcode { get; set; }
-    
+        public string user_id { get; set; }
+
     }
 
     public class ScanPcsView
@@ -73,6 +74,8 @@ namespace api.ModelViews
         public string wc_code { get; set; }
         public string req_date { get; set; }
         public string user_id { get; set; }
+        public string springtype_code { get; set; }
+        public string pdsize_code { get; set; }
 
     }
 

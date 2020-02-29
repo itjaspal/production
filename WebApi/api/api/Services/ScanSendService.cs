@@ -15,192 +15,192 @@ namespace api.Services
 {
     public class ScanSendService : IScanSendService
     {
-        public void CancelPcs(ScanSendProcView model)
-        {
-            using (var ctx = new ConXContext())
-            {
-                DateTime vreq_date = Convert.ToDateTime(model.req_date);
+        //public void CancelPcs(ScanSendProcView model)
+        //{
+        //    using (var ctx = new ConXContext())
+        //    {
+        //        DateTime vreq_date = Convert.ToDateTime(model.req_date);
 
-                //Check ส่งมอบหน่วยถัดไปแล้ว
-                string sqlp = "select d.WC_NEXT from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code";
+        //        //Check ส่งมอบหน่วยถัดไปแล้ว
+        //        string sqlp = "select d.WC_NEXT from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code";
 
-                string vnext_wc = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code))
-                            .FirstOrDefault();
+        //        string vnext_wc = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code))
+        //                    .FirstOrDefault();
 
-                string sql = "select a.pcs_barcode from mps_det a, pdmodel_mast b , mps_det_wc c";
-                sql += " where a.entity = :p_entity";
-                sql += " and a.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
-                sql += " and a.pdsize_code = :p_size_code";
-                sql += " and substr(b.spring_type,1,2) = :p_spring_grp";
-                sql += " and a.pddsgn_code= b.pdmodel_code";
-                sql += " and a.entity= c.entity";
-                sql += " and a.req_date = c.req_date";
-                sql += " and a.pcs_no = c.pcs_no";
-                sql += " and c.mps_st='N'";
-                sql += " and c.wc_code  = :p_next_wc";
-                sql += " and rownum =1";
+        //        string sql = "select a.pcs_barcode from mps_det a, pdmodel_mast b , mps_det_wc c";
+        //        sql += " where a.entity = :p_entity";
+        //        sql += " and a.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
+        //        sql += " and a.pdsize_code = :p_size_code";
+        //        sql += " and substr(b.spring_type,1,2) = :p_spring_grp";
+        //        sql += " and a.pddsgn_code= b.pdmodel_code";
+        //        sql += " and a.entity= c.entity";
+        //        sql += " and a.req_date = c.req_date";
+        //        sql += " and a.pcs_no = c.pcs_no";
+        //        sql += " and c.mps_st='N'";
+        //        sql += " and c.wc_code  = :p_next_wc";
+        //        sql += " and rownum =1";
 
-                string pcs_barcode = ctx.Database.SqlQuery<string>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_size_code", model.size_code), new OracleParameter("p_spring_grp", model.spring_grp), new OracleParameter("p_next_wc", vnext_wc)).FirstOrDefault();
-
-
-
-
-                if (pcs_barcode == null)
-                {
-                    throw new Exception("ยกเลิกไม่ได้");
-
-                }
-
-                using (TransactionScope scope = new TransactionScope())
-                {
-                    string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
-                    var dataConn = new OracleConnectionStringBuilder(strConn);
-                    OracleConnection conn = new OracleConnection(dataConn.ToString());
-
-                    conn.Open();
-
-                    OracleCommand oraCommand = conn.CreateCommand();
-                    OracleParameter[] param = new OracleParameter[]
-                    {
-                        new OracleParameter("p_entity", model.entity),
-                        new OracleParameter("p_user_id", model.user_id),
-                        new OracleParameter("p_pcs_barcode", pcs_barcode),
-                        new OracleParameter("p_wc_code", model.wc_code)
-                    };
-                    oraCommand.BindByName = true;
-                    oraCommand.Parameters.AddRange(param);
-                    oraCommand.CommandText = "update MPS_DET_WC set mps_st='N' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code =:p_wc_code";
-
-                    //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
-                    oraCommand.ExecuteNonQuery();
-
-                    conn.Close();
-
-
-                    scope.Complete();
-                }
-            }
-        }
-
-        public void ScanPcs(ScanSendProcView model)
-        {
-            using (var ctx = new ConXContext())
-            {
-                DateTime vreq_date = Convert.ToDateTime(model.req_date);
-
-                //Check QP QTY
-
-                string sqlp = "select d.WC_PREV from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code";
-
-                string vprev_wc = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code))
-                            .FirstOrDefault();
-
-                string sql = "select count(*) from MPS_DET_WC where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code = :p_prev_wc and mps_st = 'Y'";
-
-                int qp_qty = ctx.Database.SqlQuery<int>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_entity", model.pcs_barcode), new OracleParameter("p_prev_wc", vprev_wc)).FirstOrDefault();
+        //        string pcs_barcode = ctx.Database.SqlQuery<string>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_size_code", model.size_code), new OracleParameter("p_spring_grp", model.spring_grp), new OracleParameter("p_next_wc", vnext_wc)).FirstOrDefault();
 
 
 
 
-                if (qp_qty == 0)
-                {
-                    throw new Exception("Scan ส่งมอบเกิน Quit Panel ไม่ได้");
+        //        if (pcs_barcode == null)
+        //        {
+        //            throw new Exception("ยกเลิกไม่ได้");
 
-                }
+        //        }
+
+        //        using (TransactionScope scope = new TransactionScope())
+        //        {
+        //            string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+        //            var dataConn = new OracleConnectionStringBuilder(strConn);
+        //            OracleConnection conn = new OracleConnection(dataConn.ToString());
+
+        //            conn.Open();
+
+        //            OracleCommand oraCommand = conn.CreateCommand();
+        //            OracleParameter[] param = new OracleParameter[]
+        //            {
+        //                new OracleParameter("p_entity", model.entity),
+        //                new OracleParameter("p_user_id", model.user_id),
+        //                new OracleParameter("p_pcs_barcode", pcs_barcode),
+        //                new OracleParameter("p_wc_code", model.wc_code)
+        //            };
+        //            oraCommand.BindByName = true;
+        //            oraCommand.Parameters.AddRange(param);
+        //            oraCommand.CommandText = "update MPS_DET_WC set mps_st='N' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code =:p_wc_code";
+
+        //            //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
+        //            oraCommand.ExecuteNonQuery();
+
+        //            conn.Close();
+
+
+        //            scope.Complete();
+        //        }
+        //    }
+        //}
+
+        //public void ScanPcs(ScanSendProcView model)
+        //{
+        //    using (var ctx = new ConXContext())
+        //    {
+        //        DateTime vreq_date = Convert.ToDateTime(model.req_date);
+
+        //        //Check QP QTY
+
+        //        string sqlp = "select d.WC_PREV from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code";
+
+        //        string vprev_wc = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code))
+        //                    .FirstOrDefault();
+
+        //        string sql = "select count(*) from MPS_DET_WC where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code = :p_prev_wc and mps_st = 'Y'";
+
+        //        int qp_qty = ctx.Database.SqlQuery<int>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_entity", model.pcs_barcode), new OracleParameter("p_prev_wc", vprev_wc)).FirstOrDefault();
+
+
+
+
+        //        if (qp_qty == 0)
+        //        {
+        //            throw new Exception("Scan ส่งมอบเกิน Quit Panel ไม่ได้");
+
+        //        }
 
                
 
-                using (TransactionScope scope = new TransactionScope())
-                {
+        //        using (TransactionScope scope = new TransactionScope())
+        //        {
 
-                    string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
-                    var dataConn = new OracleConnectionStringBuilder(strConn);
-                    OracleConnection conn = new OracleConnection(dataConn.ToString());
+        //            string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+        //            var dataConn = new OracleConnectionStringBuilder(strConn);
+        //            OracleConnection conn = new OracleConnection(dataConn.ToString());
 
-                    conn.Open();
+        //            conn.Open();
 
-                    OracleCommand oraCommand = conn.CreateCommand();
-                    OracleParameter[] param = new OracleParameter[]
-                    {
-                        new OracleParameter("p_entity", model.entity),
-                        new OracleParameter("p_user_id", model.user_id),
-                        new OracleParameter("p_pcs_barcode", model.pcs_barcode),
-                        new OracleParameter("p_wc_code", model.wc_code)
-                    };
-                    oraCommand.BindByName = true;
-                    oraCommand.Parameters.AddRange(param);
-                    oraCommand.CommandText = "update MPS_DET_WC set mps_st='Y' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code =:p_wc_code";
+        //            OracleCommand oraCommand = conn.CreateCommand();
+        //            OracleParameter[] param = new OracleParameter[]
+        //            {
+        //                new OracleParameter("p_entity", model.entity),
+        //                new OracleParameter("p_user_id", model.user_id),
+        //                new OracleParameter("p_pcs_barcode", model.pcs_barcode),
+        //                new OracleParameter("p_wc_code", model.wc_code)
+        //            };
+        //            oraCommand.BindByName = true;
+        //            oraCommand.Parameters.AddRange(param);
+        //            oraCommand.CommandText = "update MPS_DET_WC set mps_st='Y' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code =:p_wc_code";
 
-                    //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
-                    oraCommand.ExecuteNonQuery();
+        //            //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
+        //            oraCommand.ExecuteNonQuery();
 
-                    conn.Close();
+        //            conn.Close();
 
                     
-                    scope.Complete();
-                }
-            }
-        }
+        //            scope.Complete();
+        //        }
+        //    }
+        //}
 
         
 
-        public ScanPcsView SearchPcs(ScanPcsSearchView model)
-        {
-            using (var ctx = new ConXContext())
-            {
+        //public ScanPcsView SearchPcs(ScanPcsSearchView model)
+        //{
+        //    using (var ctx = new ConXContext())
+        //    {
 
 
-                //DateTime vreq_date = Convert.ToDateTime(model.req_date);
-                var ventity = model.entity;
-                var vpcs_barcode = model.pcs_barcode;
-                var vwc_code = model.wc_code;
-
-               
-
-                string sql = "select a.PCS_BARCODE , a.SIZE_NAME as SIZE_DESC , substr(b.SPRING_TYPE,1,2) as SPRING_GRP , 1 as QTY";
-                sql += " from MPS_DET a , PDMODEL_MAST b , MPS_DET_WC c";
-                sql += " where a.pcs_barcode = :p_pcs_barcode";
-                sql += " and a.entity  = :p_entity";
-                sql += " and a.pddsgn_code  = b.pdmodel_code";
-                sql += " and a.entity  = c.entity";
-                sql += " and a.req_date  = c.req_date";
-                sql += " and a.pcs_no  = c.pcs_no";
-                sql += " and c.mps_st  = 'N'";
-                sql += " and c.wc_code  = :p_wc_code";
-
-               
-                List<ScanPcsView> mps_det = ctx.Database.SqlQuery<ScanPcsView>(sql, new OracleParameter("p_pcs_barcode", vpcs_barcode), new OracleParameter("p_entity", ventity),  new OracleParameter("p_wc_code", vwc_code)).ToList();
-               
-
-                if (mps_det.Count == 0)
-                {
-
-                    throw new Exception("PSC Barcodeไม่ถูกต้อง");
-
-                }
-
-
-
-                ////define model view
+        //        //DateTime vreq_date = Convert.ToDateTime(model.req_date);
+        //        var ventity = model.entity;
+        //        var vpcs_barcode = model.pcs_barcode;
+        //        var vwc_code = model.wc_code;
 
                
 
-                ScanPcsView view = new ModelViews.ScanPcsView();
+        //        string sql = "select a.PCS_BARCODE , a.SIZE_NAME as SIZE_DESC , substr(b.SPRING_TYPE,1,2) as SPRING_GRP , 1 as QTY";
+        //        sql += " from MPS_DET a , PDMODEL_MAST b , MPS_DET_WC c";
+        //        sql += " where a.pcs_barcode = :p_pcs_barcode";
+        //        sql += " and a.entity  = :p_entity";
+        //        sql += " and a.pddsgn_code  = b.pdmodel_code";
+        //        sql += " and a.entity  = c.entity";
+        //        sql += " and a.req_date  = c.req_date";
+        //        sql += " and a.pcs_no  = c.pcs_no";
+        //        sql += " and c.mps_st  = 'N'";
+        //        sql += " and c.wc_code  = :p_wc_code";
+
+               
+        //        List<ScanPcsView> mps_det = ctx.Database.SqlQuery<ScanPcsView>(sql, new OracleParameter("p_pcs_barcode", vpcs_barcode), new OracleParameter("p_entity", ventity),  new OracleParameter("p_wc_code", vwc_code)).ToList();
+               
+
+        //        if (mps_det.Count == 0)
+        //        {
+
+        //            throw new Exception("PSC Barcodeไม่ถูกต้อง");
+
+        //        }
+
+
+
+        //        ////define model view
+
+               
+
+        //        ScanPcsView view = new ModelViews.ScanPcsView();
                     
 
-                foreach (var i in mps_det)
-                {
-                    view.pcs_barcode = i.pcs_barcode;
-                    view.spring_grp = i.spring_grp;
-                    view.size_desc = i.size_desc;
-                    view.qty = 1;
-                }
+        //        foreach (var i in mps_det)
+        //        {
+        //            view.pcs_barcode = i.pcs_barcode;
+        //            view.spring_grp = i.spring_grp;
+        //            view.size_desc = i.size_desc;
+        //            view.qty = 1;
+        //        }
 
 
-                //return data to contoller
-                return view;
-            }
-        }
+        //        //return data to contoller
+        //        return view;
+        //    }
+        //}
 
         public ScanPcsView SearchScanPcs(ScanPcsSearchView model)
         {
@@ -235,7 +235,7 @@ namespace api.Services
                 sql += " and a.req_date  = c.req_date";
                 sql += " and a.pcs_no  = c.pcs_no";
                 //sql += " and c.mps_st  <> 'OCL';
-                sql += " and c.mps_st  = 'N'";
+                sql += " and c.mps_st  ='N'";
                 //sql += " and rownum = 1";
                 sql += " and a.pcs_barcode in (select d.pcs_barcode from  MPS_DET d, PDMODEL_MAST e , MPS_DET_WC f";
                 sql += " where d.req_date = to_date(:p_req_date2,'dd/mm/yyyy')";
@@ -247,8 +247,8 @@ namespace api.Services
                 sql += " and d.entity = f.entity";
                 sql += " and d.req_date = f.req_date";
                 sql += " and d.pcs_no = f.pcs_no";
-                sql += " and f.mps_st = 'Y'";
-                sql += " and rownum = 1)";
+                sql += " and f.mps_st = 'Y')";
+                sql += " and rownum = 1";
 
 
 
@@ -264,7 +264,7 @@ namespace api.Services
 
                 if (pcs_barcode == null)
                 {
-                    throw new Exception("PCS Barcodeไม่ถูกต้อง");
+                    throw new Exception("PCS Barcodeไม่ถูกต้อง / Scan ส่งมอบเกิน Quit Panel ไม่ได้");
                 }
 
 
@@ -283,6 +283,62 @@ namespace api.Services
                 };
 
 
+                //Update
+                //DateTime vreq_date = Convert.ToDateTime(model.req_date);
+
+                //Check QP QTY
+
+                //string sqlp = "select d.WC_PREV from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code";
+
+                //string vprev_wc = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code))
+                //            .FirstOrDefault();
+
+                string sqlc = "select count(*) from MPS_DET_WC where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code = :p_prev_wc and mps_st = 'Y'";
+
+                int qp_qty = ctx.Database.SqlQuery<int>(sqlc, new OracleParameter("p_entity", model.entity), new OracleParameter("p_entity", view.pcs_barcode), new OracleParameter("p_prev_wc", vprev_wc)).FirstOrDefault();
+
+
+
+
+                if (qp_qty == 0)
+                {
+                    throw new Exception("Scan ส่งมอบเกิน Quit Panel ไม่ได้");
+
+                }
+
+
+
+                using (TransactionScope scope = new TransactionScope())
+                {
+
+                    string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+                    var dataConn = new OracleConnectionStringBuilder(strConn);
+                    OracleConnection conn = new OracleConnection(dataConn.ToString());
+
+                    conn.Open();
+
+                    OracleCommand oraCommand = conn.CreateCommand();
+                    OracleParameter[] param = new OracleParameter[]
+                    {
+                        new OracleParameter("p_entity", model.entity),
+                        new OracleParameter("p_user_id", model.user_id),
+                        new OracleParameter("p_pcs_barcode", view.pcs_barcode),
+                        new OracleParameter("p_wc_code", model.wc_code)
+                    };
+                    oraCommand.BindByName = true;
+                    oraCommand.Parameters.AddRange(param);
+                    oraCommand.CommandText = "update MPS_DET_WC set mps_st='Y' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code =:p_wc_code";
+
+                    //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
+                    oraCommand.ExecuteNonQuery();
+
+                    conn.Close();
+
+
+                    scope.Complete();
+                }
+
+                /////
 
                 //return data to contoller
                 return view;
@@ -455,17 +511,19 @@ namespace api.Services
                 };
 
 
-                string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME PROD_NAME , b.PDMODEL_DESC MODEL_DESC";
-                sql += " from MPS_DET_WC a , PRODUCT b";
-                sql += " where a.prod_code = b.prod_code";
+                string sql = "select a.PCS_BARCODE , a.PROD_CODE ,a.PROD_NAME , a.MODEL_NAME MODEL_DESC";
+                sql += " from MPS_DET_WC a , PDMODEL_MASt b ";
+                sql += " where a.pddsgn_code = b.pdmodel_code";
                 sql += " and a.mps_st = 'Y'";
                 sql += " and a.fin_by = :p_user_id";
                 sql += " and trunc(a.fin_date) = trunc(SYSDATE)";
                 sql += " and a.entity = :p_entity";
                 sql += " and a.wc_code = :p_wc_code";
+                sql += " and a.pdsize_code = :p_pdsize_code";
+                sql += " and b.spring_type = :p_springtype_code";
 
 
-                List<ScanSendDataView> scan = ctx.Database.SqlQuery<ScanSendDataView>(sql, new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_entity", model.entity),  new OracleParameter("p_wc_code", model.wc_code)).ToList();
+                List<ScanSendDataView> scan = ctx.Database.SqlQuery<ScanSendDataView>(sql, new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_pdsize_code", model.pdsize_code), new OracleParameter("p_springtype_code", model.springtype_code)).ToList();
 
 
 
@@ -509,17 +567,19 @@ namespace api.Services
                 };
 
 
-                string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME PROD_NAME , b.PDMODEL_DESC MODEL_DESC";
-                sql += " from MPS_DET_WC a , PRODUCT b";
-                sql += " where a.prod_code = b.prod_code";
+                string sql = "select a.PCS_BARCODE , a.PROD_CODE ,a.PROD_NAME , a.MODEL_NAME MODEL_DESC";
+                sql += " from MPS_DET_WC a , PDMODEL_MASt b ";
+                sql += " where a.pddsgn_code = b.pdmodel_code";
                 sql += " and a.mps_st = 'N'";
                 sql += " and a.fin_by = :p_user_id";
                 sql += " and trunc(a.fin_date) = trunc(SYSDATE)";
                 sql += " and a.entity = :p_entity";
                 sql += " and a.wc_code = :p_wc_code";
+                sql += " and a.pdsize_code = :p_pdsize_code";
+                sql += " and b.spring_type = :p_springtype_code";
 
 
-                List<ScanSendDataView> scan = ctx.Database.SqlQuery<ScanSendDataView>(sql, new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code)).ToList();
+                List<ScanSendDataView> scan = ctx.Database.SqlQuery<ScanSendDataView>(sql, new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_pdsize_code", model.pdsize_code), new OracleParameter("p_springtype_code", model.springtype_code)).ToList();
 
 
 
@@ -547,6 +607,110 @@ namespace api.Services
             }
         }
 
-        
+        public ScanPcsView SearchScanCanclePcs(ScanPcsSearchView model)
+        {
+            using (var ctx = new ConXContext())
+            {
+
+
+                String[] strlist = model.pcs_barcode.Split('|');
+                string vspring_grp = strlist[0];
+                string vsize_code = strlist[1];
+
+              
+                //DateTime vreq_date = Convert.ToDateTime(model.req_date);
+
+                //Check ส่งมอบหน่วยถัดไปแล้ว
+                string sqlp = "select d.WC_NEXT from PD_WCCTL_SEQ d where d.pd_entity = :p_entity and d.wc_code = :p_wc_code";
+
+                string vnext_wc = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code))
+                            .FirstOrDefault();
+
+
+                string sql = "select a.PCS_BARCODE from MPS_DET a , PDMODEL_MAST b , MPS_DET_WC c";
+                sql += " where a.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
+                sql += " and a.entity  = :p_entity";
+                sql += " and a.pdsize_code  = :p_size_code";
+                sql += " and substr(b.spring_type,1,2)  = :p_spring_grp";
+                sql += " and c.wc_code  = :p_wc_code";
+                sql += " and a.pddsgn_code  = b.pdmodel_code";
+                sql += " and a.entity  = c.entity";
+                sql += " and a.req_date  = c.req_date";
+                sql += " and a.pcs_no  = c.pcs_no";
+                //sql += " and c.mps_st  <> 'OCL';
+                sql += " and c.mps_st  ='Y'";
+                sql += " and rownum = 1";
+                sql += " and a.pcs_barcode in (select d.pcs_barcode from  MPS_DET d, PDMODEL_MAST e , MPS_DET_WC f";
+                sql += " where d.req_date = to_date(:p_req_date2,'dd/mm/yyyy')";
+                sql += " and d.entity = :p_entity2";
+                sql += " and d.pdsize_code = :p_size_code2";
+                sql += " and substr(e.spring_type,1,2)  = :p_spring_grp2";
+                sql += " and f.wc_code = :p_next_wc";
+                sql += " and d.pddsgn_code = e.pdmodel_code";
+                sql += " and d.entity = f.entity";
+                sql += " and d.req_date = f.req_date";
+                sql += " and d.pcs_no = f.pcs_no";
+                sql += " and f.mps_st = 'N')";
+                sql += " and rownum = 1";
+
+
+
+                string pcs_barcode = ctx.Database.SqlQuery<string>(sql, new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_req_date2", model.req_date), new OracleParameter("p_entity2", model.entity), new OracleParameter("p_size_code2", vsize_code), new OracleParameter("p_spring_grp2", vspring_grp), new OracleParameter("p_wc_next", vnext_wc))
+                            .FirstOrDefault();
+
+
+                if (pcs_barcode == null)
+                {
+                    throw new Exception("ยกเลิกไม่ได้ มีการรับในหน่วยถัดไปแล้ว");
+                }
+
+
+                ////define model view
+                ScanPcsView view = new ModelViews.ScanPcsView()
+                {
+                    pcs_barcode = pcs_barcode,
+                    spring_grp = vspring_grp,
+                    size_desc = vsize_code,
+                    qty = 1,
+                    //datas = new List<ModelViews.JobInProcessScanView>()
+                };
+
+          
+
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+                    var dataConn = new OracleConnectionStringBuilder(strConn);
+                    OracleConnection conn = new OracleConnection(dataConn.ToString());
+
+                    conn.Open();
+
+                    OracleCommand oraCommand = conn.CreateCommand();
+                    OracleParameter[] param = new OracleParameter[]
+                    {
+                        new OracleParameter("p_entity", model.entity),
+                        new OracleParameter("p_user_id", model.user_id),
+                        new OracleParameter("p_pcs_barcode", view.pcs_barcode),
+                        new OracleParameter("p_wc_code", model.wc_code)
+                    };
+                    oraCommand.BindByName = true;
+                    oraCommand.Parameters.AddRange(param);
+                    oraCommand.CommandText = "update MPS_DET_WC set mps_st='N' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code =:p_wc_code";
+
+                    //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
+                    oraCommand.ExecuteNonQuery();
+
+                    conn.Close();
+
+
+                    scope.Complete();
+                }
+
+
+                //return data to contoller
+                return view;
+            }
+
+        }
     }
 }

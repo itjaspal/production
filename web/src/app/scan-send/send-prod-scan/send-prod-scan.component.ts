@@ -75,7 +75,7 @@ export class SendProdScanComponent implements OnInit {
     this.searchModel.wc_code = this.user.def_wc_code;
     this.searchModel.pcs_barcode = _qr;
     this.searchModel.req_date  = datePipe.transform(this.searchModel.req_date, 'dd/MM/yyyy');
-    
+    this.searchModel.user_id = this.user.username;
 
     //this.searchfinModel.req_date = this._actRoute.snapshot.params.req_date;
     
@@ -89,10 +89,18 @@ export class SendProdScanComponent implements OnInit {
       this._msgSvc.warningPopup("ไม่พบ PCS Barcode " + _qr + " ในระบบ");
     }
 
-    this.model = await this._jobSendSvc.searchscanpcs(this.searchModel);
-    //console.log(this.scan_data);
-
+    this.searchfinModel.wc_code = this.user.def_wc_code;
+    this.searchfinModel.user_id = this.user.username;
+    this.searchfinModel.req_date  = this.searchModel.req_date;
+    this.searchfinModel.springtype_code = this._actRoute.snapshot.params.spring_grp;
+    this.searchfinModel.pdsize_code = this._actRoute.snapshot.params.size_code;
+   
+    console.log(this.searchfinModel);
     
+
+    this.model_scan = await this._jobSendSvc.searchfinpcs(this.searchfinModel);
+
+    this.qrElement.nativeElement.focus();
     
     // if (pcs_barcode.length > 0) {
     //   this.itemSelected(pcs_barcode[0]);

@@ -5,6 +5,7 @@ using api.ModelViews;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Transactions;
@@ -14,97 +15,7 @@ namespace api.Services
 {
     public class JobInProcessService : IJobInProcessService
     {
-        //public void CancelPcs(JobInProcessSearchView model)
-        //{
-        //    using (var ctx = new ConXContext())
-        //    {
-        //        using (TransactionScope scope = new TransactionScope())
-        //        {
-        //            mps_det_in_process updateObj = ctx.mps_in_process
-        //           .Where(z => z.PCS_BARCODE == model.pcs_barcode
-        //                && z.ENTITY == model.entity
-        //                && z.WC_CODE == model.wc_code).SingleOrDefault();
-
-
-        //            updateObj.MPS_ST = "N";
-        //            updateObj.UPD_BY = model.user_id;
-        //            updateObj.UPD_DATE = DateTime.Now;
-
-        //            ctx.Configuration.AutoDetectChangesEnabled = true;
-        //            ctx.SaveChanges();
-        //            scope.Complete();
-        //        }
-        //    }
-        //}
-
-        //public JobInProcessView SearchPcs(JobInProcessSearchView model)
-        //{
-        //    using (var ctx = new ConXContext())
-        //    {
-
-        //        mps_det_in_process mps_in_process = ctx.mps_in_process
-        //            .Where(z => z.PCS_BARCODE == model.pcs_barcode  && z.WC_CODE == model.wc_code  && z.ENTITY == model.entity && z.MPS_ST == "N")
-        //            .SingleOrDefault();
-
-
-        //        if (mps_in_process == null)
-        //        {
-        //            throw new Exception("PSC Barcodeไม่ถูกต้อง");
-        //        }
-
-
-        //        //define model view
-        //        JobInProcessView view = new ModelViews.JobInProcessView()
-        //        {
-        //            pcs_barcode = mps_in_process.PCS_BARCODE,
-        //            springtype_code = mps_in_process.SPRINGTYPE_CODE,
-        //            pdsize_desc = mps_in_process.PDSIZE_DESC,
-        //            qty = 1,
-        //            datas = new List<ModelViews.JobInProcessScanView>()
-        //        };
-
-               
-
-        //        //DateTime vreq_date = DateTime.Now;
-
-        //        //query data
-        //        string sql = "select a.PCS_BARCODE , a.PROD_CODE , b.PROD_TNAME , b.PDMODEL_DESC";
-        //        sql += " from MPS_DET_IN_PROCESS a , PRODUCT b";
-        //        sql += " where a.prod_code = b.prod_code";
-        //        sql += " and a.mps_st = 'Y'";
-        //        sql += " and a.fin_by = :p_user_id";
-        //        sql += " and trunc(a.fin_date) = trunc(SYSDATE)";
-        //        sql += " and a.entity = :p_entity";
-        //        sql += " and a.wc_code = :p_wc_code";
-
-
-        //        List<JobInProcessScanView> scan = ctx.Database.SqlQuery<JobInProcessScanView>(sql, new OracleParameter("p_entity", model.entity), new OracleParameter("p_user_id", model.user_id), new OracleParameter("p_wc_code", model.wc_code)).ToList();
-
-
-
-        //        view.totalItem = scan.Count;
-        //        scan = scan.Skip(view.pageIndex * view.itemPerPage)
-        //            .Take(view.itemPerPage)
-        //            .ToList();
-
-        //        ////prepare model to modelView
-        //        foreach (var i in scan)
-        //        {
-
-        //            view.datas.Add(new ModelViews.JobInProcessScanView()
-        //            {
-        //                pcs_barcode = i.pcs_barcode,
-        //                pdmodel_code = i.pdmodel_code,
-        //                prod_code = i.prod_code,
-        //                prod_name = i.prod_name
-                        
-        //            });
-        //        }
-
-        //        //return data to contoller
-        //        return view;
-        //    }
-        //}
+        
 
         public JobInProcessView SearchScanCancelPcs(JobInProcessSearchView model)
         {
@@ -438,29 +349,144 @@ namespace api.Services
             }
         }
 
-        //public void UpdatePcs(JobInProcessSearchView model)
-        //{
-        //    using (var ctx = new ConXContext())
-        //    {
-        //        using (TransactionScope scope = new TransactionScope())
-        //        {
-        //            mps_det_in_process updateObj = ctx.mps_in_process
-        //           .Where(z => z.PCS_BARCODE == model.pcs_barcode 
-        //                && z.ENTITY == model.entity
-        //                && z.WC_CODE == model.wc_code).SingleOrDefault();
+        public void UpdatePcs(DataEntrySearchView model)
+        {
+            using (var ctx = new ConXContext())
+            {
+                var ventity = model.entity;
+                var vreq_date = model.req_date;
+                var vwc_code = model.wc_code;
+                var vmc_code = model.mc_code;
+                var vuser_id = model.user_id;
+                var vspring_grp = model.spring_grp;
+                var vsize_code = model.size_code;
+                var vqty = model.qty;
+
+                string sqlc = "select count(*) from mps_det_in_process";
+                sqlc += " where entity = :p_entity";
+                sqlc += " and req_date=to_date(:p_req_date,'dd/mm/yyyy')";
+                sqlc += " and wc_code = :p_wc_code";
+                sqlc += " and mc_code = :p_mc_code";
+                sqlc += " and pdsize_code = :p_size_code";
+                sqlc += " and spring_grp = :p_spring_grp";
+                sqlc += " and mps_st='N'";
+
+                int cnt = ctx.Database.SqlQuery<int>(sqlc, new OracleParameter("p_entity", ventity),  new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp)).FirstOrDefault(); ;
 
 
-        //            updateObj.MPS_ST = "Y";
-        //            updateObj.FIN_BY = model.user_id;
-        //            updateObj.FIN_DATE = DateTime.Now;
-        //            updateObj.UPD_BY = model.user_id;
-        //            updateObj.UPD_DATE = DateTime.Now;
+                if(vqty > cnt)
+                {
+                    throw new Exception("บันทึกผลผลิตเกินจำนวน");
+                }
 
-        //            ctx.Configuration.AutoDetectChangesEnabled = true;
-        //            ctx.SaveChanges();
-        //            scope.Complete();
-        //        }
-        //    }
-        //}
+                
+
+
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+                    var dataConn = new OracleConnectionStringBuilder(strConn);
+                    OracleConnection conn = new OracleConnection(dataConn.ToString());
+
+                    conn.Open();
+
+                    OracleCommand oraCommand = conn.CreateCommand();
+                    OracleParameter[] param = new OracleParameter[]
+                    {
+                        new OracleParameter("p_entity", ventity),
+                        new OracleParameter("p_req_date", vreq_date),
+                        new OracleParameter("p_wc_code", vwc_code),
+                        new OracleParameter("p_mc_code", vmc_code),
+                        new OracleParameter("p_size_code", vsize_code),
+                        new OracleParameter("p_spring_grp", vspring_grp),
+                        new OracleParameter("p_user_id", vuser_id),   
+                        new OracleParameter("p_qty", vqty)
+                    };
+                    oraCommand.BindByName = true;
+                    oraCommand.Parameters.AddRange(param);
+                    oraCommand.CommandText = "update MPS_DET_IN_PROCESS set mps_st='Y' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and wc_code =:p_wc_code and mc_code = :p_mc_code and pdsize_code = :p_size_code and spring_grp = :p_spring_grp and mps_st='N' and rownum <= :p_qty ";
+
+                    //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
+                    oraCommand.ExecuteNonQuery();
+
+                    conn.Close();
+
+
+                    scope.Complete();
+                }
+            }
+
+
+        }
+
+        public void CancelPcs(DataEntrySearchView model)
+        {
+            using (var ctx = new ConXContext())
+            {
+                var ventity = model.entity;
+                var vreq_date = model.req_date;
+                var vwc_code = model.wc_code;
+                var vmc_code = model.mc_code;
+                var vuser_id = model.user_id;
+                var vspring_grp = model.spring_grp;
+                var vsize_code = model.size_code;
+                var vqty = model.qty;
+
+                string sqlc = "select count(*) from mps_det_in_process";
+                sqlc += " where entity = :p_entity";
+                sqlc += " and req_date=to_date(:p_req_date,'dd/mm/yyyy')";
+                sqlc += " and wc_code = :p_wc_code";
+                sqlc += " and mc_code = :p_mc_code";
+                sqlc += " and pdsize_code = :p_size_code";
+                sqlc += " and spring_grp = :p_spring_grp";
+                sqlc += " and mps_st='Y'";
+
+                int cnt = ctx.Database.SqlQuery<int>(sqlc, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp)).FirstOrDefault(); ;
+
+
+                if (vqty > cnt)
+                {
+                    throw new Exception("ยกเลิกเกินจำนวน");
+                }
+
+
+
+
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+                    var dataConn = new OracleConnectionStringBuilder(strConn);
+                    OracleConnection conn = new OracleConnection(dataConn.ToString());
+
+                    conn.Open();
+
+                    OracleCommand oraCommand = conn.CreateCommand();
+                    OracleParameter[] param = new OracleParameter[]
+                    {
+                        new OracleParameter("p_entity", ventity),
+                        new OracleParameter("p_req_date", vreq_date),
+                        new OracleParameter("p_wc_code", vwc_code),
+                        new OracleParameter("p_mc_code", vmc_code),
+                        new OracleParameter("p_size_code", vsize_code),
+                        new OracleParameter("p_spring_grp", vspring_grp),
+                        new OracleParameter("p_user_id", vuser_id),
+                        new OracleParameter("p_qty", vqty)
+                    };
+                    oraCommand.BindByName = true;
+                    oraCommand.Parameters.AddRange(param);
+                    oraCommand.CommandText = "update MPS_DET_IN_PROCESS set mps_st='N' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and wc_code =:p_wc_code and mc_code = :p_mc_code and pdsize_code = :p_size_code and spring_grp = :p_spring_grp and mps_st='Y' and rownum <= :p_qty ";
+
+                    //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
+                    oraCommand.ExecuteNonQuery();
+
+                    conn.Close();
+
+
+                    scope.Complete();
+                }
+            }
+        }
+
+
     }
 }

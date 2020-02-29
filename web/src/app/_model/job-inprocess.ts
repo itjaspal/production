@@ -40,4 +40,16 @@ export class JobInProcessScanView
     public prod_name : string = "";  
     public qty : number = 0;
 }
+
+export class DataEntrySearchView
+{
+    public entity : string = AppSetting.entity;  
+    public req_date : string = "";  
+    public wc_code : string = "";  
+    public mc_code : string = "";  
+    public user_id : string = "";  
+    public spring_grp : string = "";  
+    public size_code : string = "";  
+    public qty : number = 1;  
+}
    

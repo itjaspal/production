@@ -157,6 +157,10 @@ import { SendProdScanComponent } from './scan-send/send-prod-scan/send-prod-scan
 import { ViewSpceDrawingComponent } from './view-spec/view-spce-drawing/view-spce-drawing.component';
 import { BranchSearchAssignProductComponent } from './master-branch/branch-search-assignProduct/branch-search-assignProduct.component';
 import { RawmatSearchComponent } from './scan-tag/rawmat-search/rawmat-search.component';
+import { ProductionRecordEntryComponent } from './scan-inprocess/production-record-entry/production-record-entry.component';
+import { ProductionRecordCancelComponent } from './scan-inprocess/production-record-cancel/production-record-cancel.component';
+import { ProdRecordEntryComponent } from './scan-send/prod-record-entry/prod-record-entry.component';
+import { ProdRecordCancelComponent } from './scan-send/prod-record-cancel/prod-record-cancel.component';
 
 
 
@@ -339,6 +343,10 @@ import { RawmatSearchComponent } from './scan-tag/rawmat-search/rawmat-search.co
     SendProdScanComponent,
     ViewSpceDrawingComponent,
     RawmatSearchComponent,
+    ProductionRecordEntryComponent,
+    ProductionRecordCancelComponent,
+    ProdRecordEntryComponent,
+    ProdRecordCancelComponent,
 
   
   

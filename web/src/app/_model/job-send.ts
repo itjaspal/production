@@ -54,6 +54,8 @@ export class ScanSendFinSearchView
     public wc_code : string = "";  
     public req_date : string = "";  
     public user_id: string = "";  
+    public springtype_code: string = "";  
+    public pdsize_code: string = "";  
 }
 
 export class ScanSendFinView
@@ -91,5 +93,6 @@ export class ScanPcsSearchView
     public req_date : string = "";  
     public wc_code : string = "";  
     public pcs_barcode : string = "";  
+    public user_id : string = ""; 
     
 }

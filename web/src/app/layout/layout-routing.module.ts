@@ -51,6 +51,10 @@ import { ProductionScanComponent } from '../scan-inprocess/production-scan/produ
 import { SendProdCancelComponent } from '../scan-send/send-prod-cancel/send-prod-cancel.component';
 import { SendProdScanComponent } from '../scan-send/send-prod-scan/send-prod-scan.component';
 import { ViewSpceDrawingComponent } from '../view-spec/view-spce-drawing/view-spce-drawing.component';
+import { ProductionRecordEntryComponent } from '../scan-inprocess/production-record-entry/production-record-entry.component';
+import { ProductionRecordCancelComponent } from '../scan-inprocess/production-record-cancel/production-record-cancel.component';
+import { ProdRecordEntryComponent } from '../scan-send/prod-record-entry/prod-record-entry.component';
+import { ProdRecordCancelComponent } from '../scan-send/prod-record-cancel/prod-record-cancel.component';
 
 const routes: Routes = [
   {
@@ -126,15 +130,22 @@ const routes: Routes = [
        //Scan Inprocess
        { path: 'scaninproc', component: ScanInprocessComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
        { path: 'scaninproc/prodcanc/:req_date/:spring_grp/:size_code', component: ProductionCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" } },     
-       { path: 'scaninproc/prodscan/:req_date/:spring_grp/:size_code', component: ProductionScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },         
+       { path: 'scaninproc/prodscan/:req_date/:spring_grp/:size_code', component: ProductionScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },
+       { path: 'scaninproc/recentry/:req_date/:spring_grp/:size_code', component: ProductionRecordEntryComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  }, 
+       { path: 'scaninproc/reccanc/:req_date/:spring_grp/:size_code', component: ProductionRecordCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scaninproc" }  },          
  
   
  
        //Scan Send
        { path: 'scansend', component: ScanSendComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
        { path: 'scansend/sendprodcanc/:req_date/:spring_grp/:size_code', component: SendProdCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },     
-       { path: 'scansend/sendprodscan/:req_date/:spring_grp/:size_code', component: SendProdScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },              
-      { path: '**', redirectTo: 'home', pathMatch: 'full' },
+       { path: 'scansend/sendprodscan/:req_date/:spring_grp/:size_code', component: SendProdScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },    
+       { path: 'scansend/sendrecentry/:req_date/:spring_grp/:size_code', component: ProdRecordEntryComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  }, 
+       { path: 'scansend/sendreccanc/:req_date/:spring_grp/:size_code', component: ProdRecordCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },           
+       
+       
+       
+       { path: '**', redirectTo: 'home', pathMatch: 'full' },
     ]
   }
 ];
