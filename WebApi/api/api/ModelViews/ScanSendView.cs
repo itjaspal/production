@@ -60,7 +60,7 @@ namespace api.ModelViews
 
     public class ScanPcsView
     {
-        public string pcs_barcode {get ;set;}
+        public string pcs_barcode { get; set; }
         public string spring_grp { get; set; }
         public string size_desc { get; set; }
         public int qty { get; set; }
@@ -104,5 +104,10 @@ namespace api.ModelViews
         public string spring_grp { get; set; }
         public string size_code { get; set; }
         public string user_id { get; set; }
+    }
+
+    public class ScanPcsDataView
+    {
+        public string pcs_barcode { get; set; }
     }
 }

@@ -96,3 +96,14 @@ export class ScanPcsSearchView
     public user_id : string = ""; 
     
 }
+
+export class JobSendEntrySearchView {
+    public entity: string = AppSetting.entity;    
+    public wc_code: string = "";  
+    public mc_code: string = "";    
+    public req_date: string = "";   
+    public user_id : string = "";  
+    public spring_grp : string = "";  
+    public size_code : string = "";   
+    
+}

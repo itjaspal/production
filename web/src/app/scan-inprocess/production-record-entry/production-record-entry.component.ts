@@ -76,7 +76,7 @@ export class ProductionRecordEntryComponent implements OnInit {
 
   
 
-    // console.log(this.model);
+     console.log(this.model_scan);
 
   }
 

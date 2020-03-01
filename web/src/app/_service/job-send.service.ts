@@ -3,6 +3,7 @@ import { CommonSearchView } from '../_model/common-search-view';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JobSendSearchView, JobSendView, ScanPcsSearchView, ScanPcsView, ScanSendFinSearchView, ScanSendFinView, ScanSendProcView } from '../_model/job-send';
+import { DataEntrySearchView } from '../_model/job-inprocess';
 
 
 
@@ -35,13 +36,24 @@ export class JobSendService {
     return await this.http.post<ScanSendFinView>(environment.API_URL + 'scan-send/postSerachCanPcs', _model).toPromise();
   }
 
-  public async scanpcs(_model: ScanSendProcView) {
-    return await this.http.post(environment.API_URL + 'scan-send/postScanPcs', _model).toPromise();  
+  
+  // public async scanpcs(_model: ScanSendProcView) {
+  //   return await this.http.post(environment.API_URL + 'scan-send/postScanPcs', _model).toPromise();  
+  // }
+
+  // public async cancelpcs(_model: ScanSendProcView) {
+  //   return await this.http.post(environment.API_URL + 'scan-send/postCancelPcs', _model).toPromise();  
+  // }
+
+  public async updatepcs(_model: DataEntrySearchView) {
+    return await this.http.post(environment.API_URL + 'scan-send/postUpdatePcs', _model).toPromise();  
   }
 
-  public async cancelpcs(_model: ScanSendProcView) {
+  public async cancelpcs(_model: DataEntrySearchView) {
     return await this.http.post(environment.API_URL + 'scan-send/postCancelPcs', _model).toPromise();  
   }
+
+
 
 
 

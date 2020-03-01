@@ -140,8 +140,8 @@ const routes: Routes = [
        { path: 'scansend', component: ScanSendComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
        { path: 'scansend/sendprodcanc/:req_date/:spring_grp/:size_code', component: SendProdCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },     
        { path: 'scansend/sendprodscan/:req_date/:spring_grp/:size_code', component: SendProdScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },    
-       { path: 'scansend/sendrecentry/:req_date/:spring_grp/:size_code', component: ProdRecordEntryComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  }, 
-       { path: 'scansend/sendreccanc/:req_date/:spring_grp/:size_code', component: ProdRecordCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },           
+       { path: 'scansend/sendrecentry/:req_date/:spring_grp/:size_code/:qty', component: ProdRecordEntryComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  }, 
+       { path: 'scansend/sendreccanc/:req_date/:spring_grp/:size_code/:qty', component: ProdRecordCancelComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scansend" }  },           
        
        
        

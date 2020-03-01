@@ -89,7 +89,8 @@ D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.AI.DependencyCollecto
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.AI.ServerTelemetryChannel.xml
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.AI.WindowsServer.xml
 D:\Angular\Project\production\WebApi\api\api\bin\Microsoft.AI.Web.xml
-D:\Angular\Project\production\WebApi\api\api\obj\Release\api.csprojResolveAssemblyReference.cache
 D:\Angular\Project\production\WebApi\api\api\obj\Release\api.csproj.CoreCompileInputs.cache
 D:\Angular\Project\production\WebApi\api\api\obj\Release\api.dll
 D:\Angular\Project\production\WebApi\api\api\obj\Release\api.pdb
+D:\Angular\project\production\WebApi\api\api\obj\Release\api.csprojAssemblyReference.cache
+D:\Angular\project\production\WebApi\api\api\obj\Release\api.csproj.CopyComplete

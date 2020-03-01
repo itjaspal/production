@@ -115,36 +115,36 @@ export class SendProdScanComponent implements OnInit {
     window.history.back();
   }
 
-  async save() {
-    console.log(this.model);
-    console.log(this.searchModel.req_date);
+  // async save() {
+  //   console.log(this.model);
+  //   console.log(this.searchModel.req_date);
 
-    this.scanModel.wc_code = this.user.def_wc_code;;  
-    this.scanModel.req_date  = this.searchModel.req_date;  
-    this.scanModel.pcs_barcode  = this.model.pcs_barcode;  
-    this.scanModel.spring_grp  = this.model.spring_grp;  
-    this.scanModel.size_code  = this.model.size_desc;  
-    this.scanModel.user_id  = this.user.username;  
+  //   this.scanModel.wc_code = this.user.def_wc_code;;  
+  //   this.scanModel.req_date  = this.searchModel.req_date;  
+  //   this.scanModel.pcs_barcode  = this.model.pcs_barcode;  
+  //   this.scanModel.spring_grp  = this.model.spring_grp;  
+  //   this.scanModel.size_code  = this.model.size_desc;  
+  //   this.scanModel.user_id  = this.user.username;  
 
-    this.searchfinModel.wc_code = this.user.def_wc_code;
-    this.searchfinModel.user_id = this.user.username;
-    this.searchfinModel.req_date  = this.searchModel.req_date
+  //   this.searchfinModel.wc_code = this.user.def_wc_code;
+  //   this.searchfinModel.user_id = this.user.username;
+  //   this.searchfinModel.req_date  = this.searchModel.req_date
    
-    console.log(this.searchfinModel);
+  //   console.log(this.searchfinModel);
     
-    this.data = await this._jobSendSvc.scanpcs(this.scanModel);
+  //   //this.data = await this._jobSendSvc.scanpcs(this.scanModel);
     
-    this.model_scan = await this._jobSendSvc.searchfinpcs(this.searchfinModel);
+  //   this.model_scan = await this._jobSendSvc.searchfinpcs(this.searchfinModel);
 
-    this.qrElement.nativeElement.focus();
+  //   this.qrElement.nativeElement.focus();
 
-    this.model.spring_grp =  "";
-    this.model.size_desc= "";
-    this.model.qty= null;
+  //   this.model.spring_grp =  "";
+  //   this.model.size_desc= "";
+  //   this.model.qty= null;
 
-    console.log(this.model_scan);
+  //   console.log(this.model_scan);
 
-  }
+  // }
 
 
   
