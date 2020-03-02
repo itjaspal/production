@@ -103,8 +103,9 @@ export class ProductionScanComponent implements OnInit {
   }
 
   close() {
-    console.log(this.searchModel);
-    window.history.back();
+    // console.log(this.searchModel);
+    // window.history.back();
+    this._router.navigateByUrl('/app/scaninproc/inprocsearch/'+this._actRoute.snapshot.params.req_date);
   }
 
   // async save() {

@@ -82,7 +82,8 @@ export class ProductionRecordEntryComponent implements OnInit {
 
   close() {
     
-    window.history.back();
+    //window.history.back();
+    this._router.navigateByUrl('/app/scaninproc/inprocsearch/'+this._actRoute.snapshot.params.req_date);
   }
 
 }

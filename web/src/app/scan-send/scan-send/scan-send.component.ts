@@ -83,7 +83,7 @@ export class ScanSendComponent implements OnInit {
 
   close() {
     //window.history.back();
-    this._router.navigateByUrl('/app/home');
+    this._router.navigateByUrl('/app/mobile-navigator');
   }
 
   delete(row: JobSendView) {

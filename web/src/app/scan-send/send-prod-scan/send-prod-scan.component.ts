@@ -43,7 +43,8 @@ export class SendProdScanComponent implements OnInit {
   //public scan_data: any = {};
   public data: any = {};
   public model_scan: ScanSendFinView = new ScanSendFinView();
-  
+  public req_date : any= {}; 
+
   @ViewChild('qr') qrElement:ElementRef;
   ngAfterViewInit(){
     this.qrElement.nativeElement.focus();
@@ -52,8 +53,8 @@ export class SendProdScanComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     this.user = this._authSvc.getLoginUser();
-  
-    
+    // this.req_date = this._actRoute.snapshot.params.req_date;
+    // console.log(this.req_date);
     
   }
 
@@ -112,9 +113,16 @@ export class SendProdScanComponent implements OnInit {
   }
 
   close() {
-    window.history.back();
+    //window.history.back();
+    // console.log(this._actRoute.snapshot.params.req_date);
+    this._router.navigateByUrl('/app/scansend/sendsearch/'+this._actRoute.snapshot.params.req_date);
+    
   }
 
+  back()
+  {
+
+  }
   // async save() {
   //   console.log(this.model);
   //   console.log(this.searchModel.req_date);

@@ -118,7 +118,7 @@ export class PrintTagComponent implements OnInit {
     datas.forEach(product => {
 
         let newProd: RawMatitemView = new RawMatitemView();
-        newProd.process_tag_no = this.datas.process_tag_no;
+        newProd.process_tag_no = product.process_tag_no;
         newProd.doc_no = product.doc_no;
         newProd.prod_code = product.prod_code;
         newProd.prod_name = product.prod_name;
@@ -160,9 +160,8 @@ export class PrintTagComponent implements OnInit {
 
 
   close() {
-    //window.history.back();
-    console.log(this._actRoute.snapshot.params.req_date);
-    this._router.navigateByUrl('/app/scantag/search/'+this._actRoute.snapshot.params.req_date);
+    // window.history.back();
+    this._router.navigateByUrl('/app/scantag/tagsearch/'+this._actRoute.snapshot.params.req_date);
     
   }
 

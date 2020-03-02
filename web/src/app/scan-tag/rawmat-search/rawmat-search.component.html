@@ -13,13 +13,13 @@
         <div class="col-lg-2 col-sm-5 col-5">
           <mat-form-field class="full-width">
             <input matInput [matDatepicker]="picker" placeholder="วันที่รับ" [(ngModel)]="model.doc_date"
-              name="doc_date">
+              name="doc_date"  #doc_date>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
         </div>
         <div class="col-1 col-sm-1">
-          <button mat-raised-button color="primary" class="btn-w-md" type="button" (click)="search()">
+          <button mat-raised-button *ngIf="doc_date.value != ''" color="primary" class="btn-w-md" type="button" (click)="search()">
             <mat-icon class="material-icons">search</mat-icon> ค้นหา
           </button>
         </div>
@@ -50,11 +50,11 @@
           </dd>
           
         </div>
-        <div class="col-sm-2 col-5">
+        <div class="col-sm-2 col-4">
           <small>Doc NO.</small>
           <dd>{{x.doc_no}}</dd>
         </div>
-        <div class="col-sm-3 col-6">
+        <div class="col-sm-3 col-5">
           <small>Raw Code</small>
           <dd>{{x.prod_code}}</dd>
         </div>

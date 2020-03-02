@@ -1,7 +1,7 @@
 <div class="container-fluid no-breadcrumbs"> <!-- container-->
     <mat-card> <!-- mat-card 1 -->
         <mat-card-title>
-           <h6>Scan Tag PO and Print Tag In Process : ( Machine : {{this.user.user_mac.MC_CODE}} )</h6>
+           <h6>Print In Process Tag : ( Machine : {{this.user.user_mac.MC_CODE}} )</h6>
         </mat-card-title>
         <br />
         
@@ -17,7 +17,7 @@
                     <div class="col-lg-2 col-sm-5 col-5">
                     <form [formGroup]="validationForm">  
                       <mat-form-field class="full-width">
-                        <input #req_date  matInput [matDatepicker]="picker" placeholder="Req. Date" [(ngModel)]="modelByDate.req_date"
+                        <input #req_date  matInput [matDatepicker]="picker" placeholder="MPS Date" [(ngModel)]="modelByDate.req_date"
                         formControlName="req_date">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
@@ -57,7 +57,7 @@
                       <th style="width: 100px" class="text-center">Size</th>
                       <th style="width: 100px" class="text-center">Spring Grp</th>
                       <th style="width: 100px"  class="text-center">Plan QTY</th>
-                      <th style="width: 100px"  class="text-center">Act QTY</th>
+                      <th style="width: 100px"  class="text-center">Inact QTY</th>
                       <th style="width: 100px" class="text-center">Diff QTY</th>
                       <th style="width: 10px">&nbsp;</th>
                     </tr>

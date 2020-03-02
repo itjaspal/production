@@ -141,7 +141,8 @@ import { MenuSearchComponent } from './master-menu/menu-search/menu-search.compo
 import { MenuUpdateComponent } from './master-menu/menu-update/menu-update.component';
 import { MenuViewComponent } from './master-menu/menu-view/menu-view.component';
 import { MenuService } from './_service/menu.service';
-import { StockService } from './_service/stock.service';
+//import { StockService } from './_service/stock.service';
+import { DefaultPrinterService } from './_service/default-printer.service';
 import { DefaultPrinterComponent } from './default-printer/default-printer.component';
 import { ScanTagComponent } from './scan-tag/scan-tag/scan-tag.component';
 import { PrintTagComponent } from './scan-tag/print-tag/print-tag.component';
@@ -161,6 +162,14 @@ import { ProductionRecordEntryComponent } from './scan-inprocess/production-reco
 import { ProductionRecordCancelComponent } from './scan-inprocess/production-record-cancel/production-record-cancel.component';
 import { ProdRecordEntryComponent } from './scan-send/prod-record-entry/prod-record-entry.component';
 import { ProdRecordCancelComponent } from './scan-send/prod-record-cancel/prod-record-cancel.component';
+import { DisplayJobService } from './_service/displayJob.service';
+import { JobinprocessService } from './_service/job-inprocess.service';
+import { JobSendService } from './_service/job-send.service';
+import { PrintTagService } from './_service/print-tag.service';
+import { ViewSpecService } from './_service/view-spec.service';
+import { SendSearchComponent } from './scan-send/send-search/send-search.component';
+import { InprocessSearchComponent } from './scan-inprocess/inprocess-search/inprocess-search.component';
+import { TagSearchComponent } from './scan-tag/tag-search/tag-search.component';
 
 
 
@@ -240,7 +249,13 @@ import { ProdRecordCancelComponent } from './scan-send/prod-record-cancel/prod-r
    
     MenuGroupService,
     MenuService,
-    StockService
+    //StockService,
+    DefaultPrinterService,
+    DisplayJobService,
+    JobinprocessService,
+    JobSendService,
+    PrintTagService,
+    ViewSpecService,
 
   ],
   declarations: [
@@ -347,6 +362,9 @@ import { ProdRecordCancelComponent } from './scan-send/prod-record-cancel/prod-r
     ProductionRecordCancelComponent,
     ProdRecordEntryComponent,
     ProdRecordCancelComponent,
+    SendSearchComponent,
+    InprocessSearchComponent,
+    TagSearchComponent,
 
   
   

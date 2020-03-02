@@ -43,7 +43,7 @@ export class ScanTagComponent implements OnInit {
   async ngOnInit() {
       this.buildForm();
       this.user = this._authSvc.getLoginUser();
-     
+      //this.req_date.nativeElement.value = this.modelByDate.req_date;
       this.springSearch();
       console.log(this._actRoute.snapshot.params.req_date)
 
@@ -114,7 +114,7 @@ export class ScanTagComponent implements OnInit {
 close() {
   //window.history.back();
   //this._router.navigateByUrl('/app/scantag/'+this.req_date.nativeElement.value);
-  this._router.navigateByUrl('/app/home');
+  this._router.navigateByUrl('/app/mobile-navigator');
 }
 
 async save() {

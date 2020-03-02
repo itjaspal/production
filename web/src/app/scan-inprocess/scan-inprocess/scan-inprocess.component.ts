@@ -51,7 +51,7 @@ buildForm() {
 
 close() {
   //window.history.back();
-  this._router.navigateByUrl('/app/home');
+  this._router.navigateByUrl('/app/mobile-navigator');
 }
 
 async springSearch(event: PageEvent = null) {  

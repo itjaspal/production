@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { ReturnReason } from '../_model/return-reason';
+//import { ReturnReason } from '../_model/return-reason';
 
 @Injectable({
   providedIn: 'root'
@@ -46,16 +46,16 @@ export class CommonService {
     return this.http.post<AttachFileView[]>(environment.API_URL + 'attach/postDeleteAttachFile', _model).toPromise();
   }
 
-  public postCreateReturnReason(_model: ReturnReason) {
-    return this.http.post(environment.API_URL + 'common/postCreateReturnReason', _model).toPromise();
-  }
+  // public postCreateReturnReason(_model: ReturnReason) {
+  //   return this.http.post(environment.API_URL + 'common/postCreateReturnReason', _model).toPromise();
+  // }
 
-  public postUpdateReturnReason(_model: ReturnReason) {
-    return this.http.post(environment.API_URL + 'common/postUpdateReturnReason', _model).toPromise();
-  }
+  // public postUpdateReturnReason(_model: ReturnReason) {
+  //   return this.http.post(environment.API_URL + 'common/postUpdateReturnReason', _model).toPromise();
+  // }
 
-  public async getAllReturnReason() {
-    return await this.http.get<ReturnReason[]>(environment.API_URL + 'common/getAllReturnReason').toPromise();
-  }
+  // public async getAllReturnReason() {
+  //   return await this.http.get<ReturnReason[]>(environment.API_URL + 'common/getAllReturnReason').toPromise();
+  // }
 
 }

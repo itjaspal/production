@@ -95,6 +95,7 @@ export class ProdRecordEntryComponent implements OnInit {
 
 
   close() {
-    window.history.back();
+    //window.history.back();
+    this._router.navigateByUrl('/app/scansend/sendsearch/'+this._actRoute.snapshot.params.req_date);
   }
 }
