@@ -2,15 +2,15 @@
 
   <mat-card>
     <mat-card-title>
-      <h6>พิมพ์ Tag In Process</h6>
+      <h6>พิมพ์ Tag In Process : ( MC : {{datas.mc_code}} )</h6>
     </mat-card-title>
   
   <mat-card-content class="no-margin">
     <div class="row">
-      <div class="col-lg-2 col-sm-2">
+      <!-- <div class="col-lg-2 col-sm-2">
         <dt>Machine</dt>
         <dd>{{datas.mc_code}}</dd>
-      </div>
+      </div> -->
      <div class="col-lg-5 col-sm-5 col-6">
       <dt>Print</dt>
       <dd>{{datas.printer}}</dd>
@@ -83,7 +83,7 @@
          
           <mat-card-actions class="no-margin">
             <button mat-raised-button color="primary"  type="button" (click)="openSearchRawModal()">
-              <mat-icon class="material-icons">search</mat-icon> เลิอกวัตถุดิบ
+              <mat-icon class="material-icons">search</mat-icon> เลือกวัตถุดิบ
             </button>
           </mat-card-actions>
         </div>
@@ -168,15 +168,15 @@
             
             <!-- <ng-template #show_raw_mat> -->
               <!-- <div class="row"> -->
-                <div class="col-2 col-lg-1">
+                <div class="col-1 col-lg-1">
                   <small>ครั้ง</small>
                   <dd>{{x.process_tag_no}}</dd>
                 </div>
-                <div class="col-4 col-lg-2">
-                  <small>PO No.</small>
+                <div class="col-5 col-lg-2">
+                  <small>RC No.</small>
                   <dd>{{x.doc_no}}</dd>
                 </div>
-                <div class="col-6 col-lg-9">
+                <div class="col-5 col-lg-9">
                   <small>รายละเอียดวัตถุดิบ</small>  
                   <dd>{{x.prod_code}}-{{x.prod_name}}</dd>
                   

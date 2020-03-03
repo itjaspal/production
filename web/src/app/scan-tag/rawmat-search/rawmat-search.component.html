@@ -31,7 +31,7 @@
 
   <mat-card style="margin-top:40px;">
     <mat-card-subtitle class="no-margin">
-      <h6 class="no-margin">ผลการค้นหา</h6>
+      <h6 class="no-margin">ผลการค้นหา {{this.model.doc_date | date:'dd/MM/yyyy'  }}</h6>
     </mat-card-subtitle>
     <mat-card-content>
       <!-- <div class="row" *ngIf="datas.length == 0;else show_raw_mat">
