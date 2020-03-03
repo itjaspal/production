@@ -5,7 +5,7 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { MessageService } from '../../_service/message.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobinprocessService } from '../../_service/job-inprocess.service';
-import { JobInProcessView, JobInProcessSearchView, JobInProcessScanFinView } from '../../_model/job-inprocess';
+import { JobInProcessView, JobInProcessSearchView, JobInProcessScanFinView, JobInProcessScanView } from '../../_model/job-inprocess';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -30,12 +30,9 @@ export class ProductionCancelComponent implements OnInit {
   public user: any;
   public model: JobInProcessView = new JobInProcessView();
   searchModel: JobInProcessSearchView = new JobInProcessSearchView();
-  // searchfinModel: ScanSendFinSearchView = new ScanSendFinSearchView();
-  // scanModel : ScanSendProcView = new ScanSendProcView();
-  // finModel : ScanSendFinSearchView = new  ScanSendFinSearchView();
-  //public scan_data: any = {};
   public data: any = {};
   public model_scan: JobInProcessScanFinView = new JobInProcessScanFinView();
+  public datas: any = {};
   
   @ViewChild('qr') qrElement:ElementRef;
   ngAfterViewInit(){
@@ -80,22 +77,39 @@ export class ProductionCancelComponent implements OnInit {
     
     console.log(this.searchModel);
 
-    let pcs_barcode = await this._jobInprocessSvc.searchscancancelpcs(this.searchModel);
+    this.datas = await this._jobInprocessSvc.searchscancancelpcs(this.searchModel);
 
-    if(pcs_barcode == null)
-    {
-      this._msgSvc.warningPopup("ไม่พบ PCS Barcode " + _qr + " ในระบบ");
-    }
-
-    //this.model = await this._jobInprocessSvc.searchscancancelpcs(this.searchModel);
-    console.log(this.model);
-
-    this.model_scan = await this._jobInprocessSvc.searchcancelpcs(this.searchModel);
 
     this.qrElement.nativeElement.focus();
-
+    
+    this.add(this.datas);
    
     
+  }
+
+  add(datas: any) {
+
+    //const control = <FormArray>this.validationForm.controls['RawMatitemView'];
+    //this.model.datas = [];
+    //console.log(this.datas);
+
+    
+    //datas.forEach(product => {
+
+        let newProd: JobInProcessScanView = new JobInProcessScanView();
+        newProd.pcs_barcode = datas.pcs_barcode;
+        newProd.prod_code = datas.prod_code;
+     
+        
+        
+        this.model_scan.datas.push(newProd);
+        
+
+        console.log(this.datas);
+
+       
+      
+    //});
   }
 
   close() {

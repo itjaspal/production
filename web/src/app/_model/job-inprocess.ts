@@ -21,6 +21,7 @@ export class JobInProcessView {
     public pdsize_desc : string = "";  
     public springtype_code : string = "";  
     public qty : number ;
+    public prod_code : string = ""; 
    // public datas: JobInProcessScanView[] = [];
 }
 

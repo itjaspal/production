@@ -6,7 +6,7 @@ import { MessageService } from '../../_service/message.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { JobinprocessService } from '../../_service/job-inprocess.service';
-import { JobInProcessView, JobInProcessSearchView, JobInProcessScanFinView } from '../../_model/job-inprocess';
+import { JobInProcessView, JobInProcessSearchView, JobInProcessScanFinView, JobInProcessScanView } from '../../_model/job-inprocess';
 //import { ScanSendFinView } from '../../_model/job-send';
 
 @Component({
@@ -34,6 +34,8 @@ export class ProductionScanComponent implements OnInit {
 
   public data: any = {};
   public model_scan: JobInProcessScanFinView = new JobInProcessScanFinView();
+
+  public datas: any = {};
   
   @ViewChild('qr') qrElement:ElementRef;
   ngAfterViewInit(){
@@ -76,56 +78,48 @@ export class ProductionScanComponent implements OnInit {
     //this.searchfinModel.req_date = this._actRoute.snapshot.params.req_date;
     
     
-    console.log(this.searchModel);
+    //console.log(this.searchModel);
 
-    let pcs_barcode = await this._jobInprocessSvc.searchscanpcs(this.searchModel);
-
-    if(pcs_barcode == null)
-    {
-      this._msgSvc.warningPopup("ไม่พบ PCS Barcode " + _qr + " ในระบบ");
-    }
-
-    // this.model = await this._jobInprocessSvc.searchscanpcs(this.searchModel);
-    // console.log(this.model);
-
-    this.model_scan = await this._jobInprocessSvc.searchfinpcs(this.searchModel);
-
+    //let pcs_barcode = await this._jobInprocessSvc.searchscanpcs(this.searchModel);
+    this.datas = await this._jobInprocessSvc.searchscanpcs(this.searchModel);
+    
     this.qrElement.nativeElement.focus();
     
     
-    // if (pcs_barcode.length > 0) {
-    //   this.itemSelected(pcs_barcode[0]);
-    // } else {
-    //   this._msgSvc.warningPopup("ไม่พบสินค้าบาร์โค้ด " + _qr + " ในระบบ");
-
-    // }
+    this.add(this.datas);
     
+  }
+
+  add(datas: any) {
+
+    //const control = <FormArray>this.validationForm.controls['RawMatitemView'];
+    //this.model.datas = [];
+    console.log(this.datas);
+
+    
+    //datas.forEach(product => {
+
+        let newProd: JobInProcessScanView = new JobInProcessScanView();
+        newProd.pcs_barcode = datas.pcs_barcode;
+        newProd.prod_code = datas.prod_code;
+     
+        
+        
+        this.model_scan.datas.push(newProd);
+        
+
+        console.log(this.datas);
+
+       
+      
+    //});
   }
 
   close() {
-    // console.log(this.searchModel);
-    // window.history.back();
+  
     this._router.navigateByUrl('/app/scaninproc/inprocsearch/'+this._actRoute.snapshot.params.req_date);
   }
 
-  // async save() {
-  //   console.log(this.model);
-  //   console.log(this.searchModel);
-
-  //   this.searchModel.pcs_barcode = this.model.pcs_barcode;
-
-  //   this.data = await this._jobInprocessSvc.scanpcs(this.searchModel);
-    
-  //   this.model_scan = await this._jobInprocessSvc.searchfinpcs(this.searchModel);
-
-  //   this.qrElement.nativeElement.focus();
-
-  //   this.model.springtype_code =  "";
-  //   this.model.pdsize_desc= "";
-  //   this.model.qty= null;
-
-  //   console.log(this.model);
-
-  // }
+ 
 
 }

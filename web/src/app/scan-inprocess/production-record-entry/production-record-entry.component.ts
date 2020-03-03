@@ -5,7 +5,7 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { MessageService } from '../../_service/message.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobinprocessService } from '../../_service/job-inprocess.service';
-import { JobInProcessView, JobInProcessSearchView, JobInProcessScanFinView, DataEntrySearchView } from '../../_model/job-inprocess';
+import { JobInProcessView, JobInProcessSearchView, JobInProcessScanFinView, DataEntrySearchView, JobInProcessScanView } from '../../_model/job-inprocess';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -33,6 +33,8 @@ export class ProductionRecordEntryComponent implements OnInit {
 
   public data: any = {};
   public model_scan: JobInProcessScanFinView = new JobInProcessScanFinView();
+  public datas: any = {};
+
 
   ngOnInit() {
     this.buildForm();
@@ -70,14 +72,42 @@ export class ProductionRecordEntryComponent implements OnInit {
     this.searchModel.size_code = this.model.size_code ;
 
     //console.log(this.searchModel);
-     this.data = await this._jobInprocessSvc.updatepcs(this.model);
+    this.data = await this._jobInprocessSvc.updatepcs(this.model);
     
-     this.model_scan = await this._jobInprocessSvc.searchfinpcs(this.searchModel);
+     //this.model_scan = await this._jobInprocessSvc.searchfinpcs(this.searchModel);
 
-  
 
-     console.log(this.model_scan);
+     console.log(this.data.datas);
+     //this.add(this.data.datas);
+     this.add(this.data.datas);
 
+  }
+
+  add(datas: any) {
+
+    //const control = <FormArray>this.validationForm.controls['RawMatitemView'];
+    //this.model.datas = [];
+    console.log(datas);
+    
+    datas.forEach(product => {
+
+      console.log(datas);
+
+        let newProd: JobInProcessScanView = new JobInProcessScanView();
+        newProd.pcs_barcode = product.pcs_barcode;
+        newProd.prod_code = product.prod_code;
+     
+        
+        this.model_scan.datas.push(newProd);
+
+        console.log(this.model_scan.datas);
+        
+
+        //console.log(this.datas);
+
+       
+      
+    });
   }
 
   close() {

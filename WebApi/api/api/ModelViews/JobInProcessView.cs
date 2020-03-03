@@ -14,7 +14,8 @@ namespace api.ModelViews
         public string pdsize_desc { get; set; }
         public string springtype_code { get; set; }
         public int qty { get; set; }
-        public List<JobInProcessScanView> datas { get; set; }
+        public string prod_code { get; set; }
+        //public List<JobInProcessScanView> datas { get; set; }
 
 
     }

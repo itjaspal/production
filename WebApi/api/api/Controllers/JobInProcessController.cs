@@ -96,14 +96,29 @@ namespace api.Controllers
             }
         }
 
+        //[Route("job-inprocess/postUpdatePcs")]
+        //public HttpResponseMessage postScanPcs(DataEntrySearchView model)
+        //{
+        //    try
+        //    {
+        //        inprocSvc.UpdatePcs(model);
+
+        //        return Request.CreateResponse(HttpStatusCode.OK, "บันทึกข้อมูลสำเร็จ");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+        //    }
+        //}
+
         [Route("job-inprocess/postUpdatePcs")]
         public HttpResponseMessage postScanPcs(DataEntrySearchView model)
         {
             try
             {
-                inprocSvc.UpdatePcs(model);
+                var result = inprocSvc.UpdatePcs(model);
 
-                return Request.CreateResponse(HttpStatusCode.OK, "บันทึกข้อมูลสำเร็จ");
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {

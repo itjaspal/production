@@ -80,16 +80,17 @@
               <table style="width: 100%">
                 <tbody>
                   <tr>
-                    <th style="width: 50px" class="text-center">Pcs Barcode</th>
-                    <th style="width: 50px" class="text-center">Model</th>
-                    <th style="width: 50px"  class="text-center">Prod Code</th>
-                    <th style="width: 100px" class="text-center">Product Description</th>
+                    <th style="width: 100px" class="text-center">Pcs Barcode</th>
+                    <!-- <th style="width: 50px" class="text-center">Model</th> -->
+                    <th   class="text-center">Prod Code</th>
+                    <!-- <th style="width: 100px" class="text-center">Product Description</th> -->
                   </tr>
                   <tr *ngFor="let x of model_scan.datas">
+                  <!-- <tr *ngFor="let x of datas"></tr> -->
                     <td>{{x.pcs_barcode}}</td>
-                    <td>{{x.pdmodel_code}}</td>
+                    <!-- <td>{{x.pdmodel_code}}</td> -->
                     <td>{{x.prod_code}}</td>
-                    <td>{{x.prod_name}}</td>
+                    <!-- <td>{{x.prod_name}}</td> -->
                   </tr> 
                   
                   

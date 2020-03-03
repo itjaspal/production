@@ -34,8 +34,11 @@ export class JobinprocessService {
     return await this.http.post<JobInProcessScanFinView>(environment.API_URL + 'job-inprocess/postSerachCanPcs', _model).toPromise();
   }
 
+  // public async updatepcs(_model: DataEntrySearchView) {
+  //   return await this.http.post(environment.API_URL + 'job-inprocess/postUpdatePcs', _model).toPromise();  
+  // }
   public async updatepcs(_model: DataEntrySearchView) {
-    return await this.http.post(environment.API_URL + 'job-inprocess/postUpdatePcs', _model).toPromise();  
+    return await this.http.post<JobInProcessScanFinView>(environment.API_URL + 'job-inprocess/postUpdatePcs', _model).toPromise();
   }
 
   public async cancelpcs(_model: DataEntrySearchView) {
