@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { DisplayJobSearchView, SearchSpringByDateSearchView, SearchSpringHeaderView, SearchSpringDetailView } from '../../_model/displayJob';
-import { DisplayJobService } from '../../_service/displayJob.service';
 import { AuthenticationService } from '../../_service/authentication.service';
 import { PageEvent } from '@angular/material';
 import { DatePipe } from '@angular/common'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {AbstractControl} from '@angular/forms';
 import * as moment from 'moment';
+import { JobSendSearchView } from '../../_model/job-send';
+import { JobSendService } from '../../_service/job-send.service';
 
 
 @Component({
@@ -16,10 +16,9 @@ import * as moment from 'moment';
 })
 export class ViewSpecComponent implements OnInit {
 
-  public model: DisplayJobSearchView = new DisplayJobSearchView();
-  public modelByDate: SearchSpringByDateSearchView = new SearchSpringByDateSearchView();
-  public data: SearchSpringHeaderView<SearchSpringDetailView> = new SearchSpringHeaderView<SearchSpringDetailView>();
-  //public data: CommonSearchView<DisplayJobView> = new CommonSearchView<DisplayJobView>();
+  public model: JobSendSearchView = new JobSendSearchView();
+  public data: any = {};
+
   
   public user: any;
   public datePipe = new DatePipe('en-US');
@@ -28,7 +27,7 @@ export class ViewSpecComponent implements OnInit {
   @ViewChild('req_date') req_date: ElementRef;
 
   constructor(
-    private _displayJobMacSvc: DisplayJobService,
+    private _jobSendSvc: JobSendService,
     private _authSvc: AuthenticationService,
     private _formBuilder: FormBuilder,
   ) {
@@ -38,6 +37,8 @@ export class ViewSpecComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     this.user = this._authSvc.getLoginUser();
+    this.model.wc_code =  this.user.def_wc_code;
+    this.model.mc_code =  this.user.user_mac.MC_CODE;
     this.springSearch();
 } 
 
@@ -61,15 +62,16 @@ async springSearch(event: PageEvent = null) {
   //console.log("this.req_date.nativeElement.value : " + this.req_date.nativeElement.value)
   //console.log("this.validationForm.valid :  " + this.validationForm.valid)
 
-  if ((!this.validationForm.valid)&&(this.req_date.nativeElement.value == "")) {
-     console.log("searchSpring");
-     this.data =  await this._displayJobMacSvc.searchSpring(this.model);
+  if (this.req_date.nativeElement.value == "") {
+     console.log("viewSpceSearch");
+     this.model.req_date = "";
+     this.data =  await this._jobSendSvc.searchcspring(this.model);
 
-  } else if ((this.validationForm.valid)&&(this.req_date.nativeElement.value != "")) {
-     console.log("searchSpring By Date");
-     this.modelByDate.req_date = this.req_date.nativeElement.value;
-     this.data =  await this._displayJobMacSvc.searchSpringByDate(this.modelByDate);
-     this.req_date.nativeElement.value = this.modelByDate.req_date;
+  } else if (this.req_date.nativeElement.value != "") {
+     console.log("viewSpceSearch By Date");
+     this.model.req_date = this.req_date.nativeElement.value;
+     this.data =  await this._jobSendSvc.searchcspring(this.model);
+     this.req_date.nativeElement.value = this.model.req_date;
 
 
   }
@@ -94,7 +96,7 @@ export class YourValidator {
     if (AC && AC.value && !moment(AC.value, 'YYYY-MM-DD',true).isValid()) {
       return {'dateVaidator': true};
     }
-    return null; 
+    return null;  
   }
 }
 

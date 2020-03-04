@@ -58,6 +58,7 @@ import { ProdRecordCancelComponent } from '../scan-send/prod-record-cancel/prod-
 import { SendSearchComponent } from '../scan-send/send-search/send-search.component';
 import { InprocessSearchComponent } from '../scan-inprocess/inprocess-search/inprocess-search.component';
 import { TagSearchComponent } from '../scan-tag/tag-search/tag-search.component';
+import { ViewSpecPictComponent } from '../view-spec/view-spec-pict/view-spec-pict.component';
 
 const routes: Routes = [
   {
@@ -124,7 +125,9 @@ const routes: Routes = [
        { path: 'job', component: DispalyJobComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  },
        { path: 'spec', component: ViewSpecComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 
        { path: 'spec/viewspec/:sizeCode/:springCode/:reqDate', component: ViewSpceDrawingComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/spec" }  },    
- 
+       { path: 'spec/viewpict', component: ViewSpecPictComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/spec" }  },   
+       //ViewSpecPictComponent 
+
        //Scan Tag
        { path: 'scantag', component: ScanTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },
        { path: 'scantag/printtag/:req_date/:spring_grp/:size_code/:qty', component: PrintTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },     

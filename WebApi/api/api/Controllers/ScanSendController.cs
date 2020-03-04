@@ -34,16 +34,31 @@ namespace api.Controllers
             }
         }
 
+        //[Route("scan-send/postUpdatePcs")]
+        //public HttpResponseMessage postScanPcs(DataEntrySearchView model)
+        //{
+        //    try
+        //    {
+
+
+        //        sendSvc.UpdatePcs(model);
+
+        //        return Request.CreateResponse(HttpStatusCode.OK, "บันทึกข้อมูลสำเร็จ");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+        //    }
+        //}
+
         [Route("scan-send/postUpdatePcs")]
         public HttpResponseMessage postScanPcs(DataEntrySearchView model)
         {
             try
             {
-                
+                var result = sendSvc.UpdatePcs(model);
 
-                sendSvc.UpdatePcs(model);
-
-                return Request.CreateResponse(HttpStatusCode.OK, "บันทึกข้อมูลสำเร็จ");
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
@@ -56,9 +71,9 @@ namespace api.Controllers
         {
             try
             {
-                sendSvc.CancelPcs(model);
+                var result = sendSvc.CancelPcs(model);
 
-                return Request.CreateResponse(HttpStatusCode.OK, "ยกเลิกข้อมูลสำเร็จ");
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
@@ -66,7 +81,22 @@ namespace api.Controllers
             }
         }
 
-    
+        //[Route("scan-send/postCancelPcs")]
+        //public HttpResponseMessage postCancelPcs(DataEntrySearchView model)
+        //{
+        //    try
+        //    {
+        //        sendSvc.CancelPcs(model);
+
+        //        return Request.CreateResponse(HttpStatusCode.OK, "ยกเลิกข้อมูลสำเร็จ");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+        //    }
+        //}
+
+
         [Route("scan-send/postSearchScanPcs")]
         public HttpResponseMessage postSearchScanPcs(ScanPcsSearchView model)
         {

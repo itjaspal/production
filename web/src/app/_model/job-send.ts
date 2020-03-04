@@ -43,7 +43,7 @@ export class ScanPcsView
     public spring_grp : string = "";  
     public size_desc : string = "";  
     public qty : string = "";  
-  length: number;
+    public prod_code : string = "";
 }
 
 export class ScanSendFinSearchView

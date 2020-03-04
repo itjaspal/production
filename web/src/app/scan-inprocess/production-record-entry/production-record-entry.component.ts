@@ -34,7 +34,7 @@ export class ProductionRecordEntryComponent implements OnInit {
   public data: any = {};
   public model_scan: JobInProcessScanFinView = new JobInProcessScanFinView();
   public datas: any = {};
-
+  public count = 0;
 
   ngOnInit() {
     this.buildForm();
@@ -100,14 +100,10 @@ export class ProductionRecordEntryComponent implements OnInit {
         
         this.model_scan.datas.push(newProd);
 
-        console.log(this.model_scan.datas);
-        
-
-        //console.log(this.datas);
-
-       
-      
+        //console.log(this.model_scan.datas);
     });
+    
+    this.count = this.model_scan.datas.length;
   }
 
   close() {

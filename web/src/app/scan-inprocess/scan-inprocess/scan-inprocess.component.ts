@@ -64,7 +64,7 @@ async springSearch(event: PageEvent = null) {
   //console.log("this.req_date.nativeElement.value : " + this.req_date.nativeElement.value)
   //console.log("this.validationForm.valid :  " + this.validationForm.valid)
 
-  if ((!this.validationForm.valid)&&(this.req_date.nativeElement.value == "")) {
+  if (this.req_date.nativeElement.value == "") {
      console.log("searchSpring");
      this.model.mc_code = this.user.user_mac.MC_CODE;
      this.model.user_id = this.user.username;
@@ -73,7 +73,7 @@ async springSearch(event: PageEvent = null) {
 
      this.data =  await this._displayJobMacSvc.searchJobByMacCurrent(this.model);
 
-  } else if ((this.validationForm.valid)&&(this.req_date.nativeElement.value != "")) {
+    } else if (this.req_date.nativeElement.value != "") {
      console.log("searchSpring By Date");
     
      this.modelByDate.mc_code  = this.user.user_mac.MC_CODE;

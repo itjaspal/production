@@ -16,6 +16,7 @@ namespace api.Interfaces
         JobInProcessScanFinView SerachCancelPcs(JobInProcessSearchView model);
         //void UpdatePcs(DataEntrySearchView model);
         JobInProcessScanFinView UpdatePcs(DataEntrySearchView model);
-        void CancelPcs(DataEntrySearchView model);
+        //void CancelPcs(DataEntrySearchView model);
+        JobInProcessScanFinView CancelPcs(DataEntrySearchView model);
     }
 }

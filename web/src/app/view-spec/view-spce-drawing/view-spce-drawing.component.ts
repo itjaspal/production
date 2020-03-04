@@ -20,12 +20,14 @@ import { DatePipe } from '@angular/common'
 export class ViewSpceDrawingComponent implements OnInit {
 
   public model: ViewSpecSearchView = new ViewSpecSearchView();
+  //imageBase64
   public dataViewSpec: CommonViewSpecView<ViewSpecView> = new CommonViewSpecView<ViewSpecView>();
   
   public user: any;
   public imageSource: any;
   public datePipe = new DatePipe('en-US');
   public vSum: number;
+
 
   @ViewChild('scanPcs') input55: ElementRef;
         
@@ -70,8 +72,12 @@ export class ViewSpceDrawingComponent implements OnInit {
         this.model.itemPerPage = event.pageSize;
       } 
       this.dataViewSpec =  await this._viewSpecSvc.searchSpecDrawing(this.model);
+      //image = this.dataViewSpec.drawing_name;
+      sessionStorage.removeItem('session-image-base64');
+      sessionStorage.setItem('session-image-base64', this.dataViewSpec.drawing_name);
       this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.dataViewSpec.drawing_name}`);  
-    
+     
+      
   }
 
   async searchViewSpecByPcs(event: PageEvent = null) { 
@@ -80,13 +86,14 @@ export class ViewSpceDrawingComponent implements OnInit {
         this.model.itemPerPage = event.pageSize;
       } 
       //console.log("scan_pcs_barcode : " + this.scanPcsModel.scan_pcs_barcode);
-
+      sessionStorage.removeItem('session-image-base64');
+      sessionStorage.setItem('session-image-base64', this.dataViewSpec.drawing_name);
       this.dataViewSpec =  await this._viewSpecSvc.searchSpecDrawingByPcs(this.scanPcsModel.scan_pcs_barcode);
       this.imageSource  = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.dataViewSpec.drawing_name}`);
 
   }
 
-  close() {
+  close() { 
     window.history.back();
   }
 

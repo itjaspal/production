@@ -5,7 +5,7 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { MessageService } from '../../_service/message.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobSendService } from '../../_service/job-send.service';
-import { ScanPcsView, ScanPcsSearchView, ScanSendFinSearchView, ScanSendProcView, ScanSendFinView, JobSendEntrySearchView } from '../../_model/job-send';
+import { ScanPcsView, ScanPcsSearchView, ScanSendFinSearchView, ScanSendProcView, ScanSendFinView, JobSendEntrySearchView, ScanSendDataView } from '../../_model/job-send';
 import { DataEntrySearchView } from '../../_model/job-inprocess';
 import { DatePipe } from '@angular/common';
 
@@ -37,6 +37,8 @@ export class ProdRecordEntryComponent implements OnInit {
   //public scan_data: any = {};
   public data: any = {};
   public model_scan: ScanSendFinView = new ScanSendFinView();
+  public datas: any = {};
+  public count = 0;
   
   ngOnInit() {
     var datePipe = new DatePipe("en-US");
@@ -84,13 +86,28 @@ export class ProdRecordEntryComponent implements OnInit {
     this.searchModel.pdsize_code = this.model.size_code ;
 
     
-
-
     this.data = await this._jobSendSvc.updatepcs(this.model);
     
-    this.model_scan = await this._jobSendSvc.searchfinpcs(this.searchModel);
+    console.log(this.data);
+    //this.model_scan = await this._jobSendSvc.searchfinpcs(this.searchModel);
 
-    this.model.qty= null;
+    this.model.qty= 1;
+
+    this.add(this.data.datas);
+  }
+
+  add(datas: any) {
+
+    datas.forEach(product => {
+      let newProd: ScanSendDataView = new ScanSendDataView();
+      newProd.pcs_barcode = product.pcs_barcode;
+      newProd.prod_code = product.prod_code;
+
+      this.model_scan.datas.push(newProd);
+    });
+
+    this.count = this.model_scan.datas.length;
+
   }
 
 

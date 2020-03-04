@@ -36,6 +36,7 @@ export class ProductionScanComponent implements OnInit {
   public model_scan: JobInProcessScanFinView = new JobInProcessScanFinView();
 
   public datas: any = {};
+  public count = 0;
   
   @ViewChild('qr') qrElement:ElementRef;
   ngAfterViewInit(){
@@ -92,13 +93,6 @@ export class ProductionScanComponent implements OnInit {
 
   add(datas: any) {
 
-    //const control = <FormArray>this.validationForm.controls['RawMatitemView'];
-    //this.model.datas = [];
-    console.log(this.datas);
-
-    
-    //datas.forEach(product => {
-
         let newProd: JobInProcessScanView = new JobInProcessScanView();
         newProd.pcs_barcode = datas.pcs_barcode;
         newProd.prod_code = datas.prod_code;
@@ -107,12 +101,8 @@ export class ProductionScanComponent implements OnInit {
         
         this.model_scan.datas.push(newProd);
         
-
-        console.log(this.datas);
-
-       
-      
-    //});
+        this.count = this.model_scan.datas.length;
+  
   }
 
   close() {

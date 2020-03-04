@@ -7,7 +7,7 @@
   
       <mat-card-content class="no-margin">
         <div class="row">
-          <div class="col-lg-4 col-sm-2">
+          <div class="col-lg-4 col-sm-10">
             <dt>รายละเอียดข้อมูล Printer Default ปัจจุบัน</dt>
           </div>
         </div>
@@ -21,7 +21,7 @@
                     <dt>Machine</dt>
                     <dd>{{this.user.user_mac.MC_CODE}}</dd>
                 </div>
-                <div class="col-lg-5 col-sm-5 col-5">
+                <div class="col-lg-5 col-sm-10 col-10">
                     <dt>Printer</dt>
                     <dd>{{model.serial_no}} - {{model.prnt_point_name}}</dd>
                 </div>
@@ -69,12 +69,12 @@
             <br />
             <mat-card-actions class="no-margin">
               <div class="row">
-                <div class="col-3 col-sm-2">
+                <div class="col-4 col-sm-2">
                   <button (click)="close();" mat-raised-button color="primary">
                     <mat-icon class="material-icons">close</mat-icon> ปิด
                   </button>
                 </div>
-                <div class="col-2 col-sm-1">
+                <div class="col-2 col-sm-6">
                   <button mat-raised-button color="default" (click)="save()"
                   [disabled]="!validationForm.valid">
                     <mat-icon class="material-icons">save</mat-icon> บันทึกข้อมูล

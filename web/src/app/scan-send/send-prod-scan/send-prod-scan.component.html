@@ -73,42 +73,29 @@
           <mat-card >
           
           <mat-card-content>
+            <div class="row">
+              <div class="col-lg-2 col-sm-2">
+                <dt> ทั้งหมด : {{count}} รายการ</dt>
+              </div>
+            </div>
             
             <div class="row card-table-body">
-              <!-- Row 1-->
-              <!-- <div class="col-2 col-lg-1">
-                  <small>Machine</small>
-                  <dd>{{user.user_mac.MC_CODE}}</dd>
-              </div> -->
-              <!-- <div class="col-2 col-lg-1">
-                <small>Spring</small>  
-                <dd>{{scan_data.spring_grp}}</dd>
-              </div>
-              <div class="col-2 col-lg-2">
-                  <small>Size</small>  
-                  <dd>{{scan_data.size_desc}}"</dd>
-               </div>
-
-               <div class="col-2 col-lg-1">
-                <small>Qty</small>  
-               <dd>{{scan_data.qty}}</dd>
-             </div>
-              -->
+             
               <!-- Table -->
               <table style="width: 100%">
                 <tbody>
                  <!-- In Process Movement -->
                   <tr>
-                    <th style="width: 50px" class="text-center">Pcs Barcode</th>
-                    <th style="width: 50px" class="text-center">Model</th>
-                    <th style="width: 50px"  class="text-center">Prod Code</th>
-                    <th style="width: 100px" class="text-center">Product Description</th>
+                    <th style="width: 100px" class="text-center">Pcs Barcode</th>
+                    <!-- <th style="width: 50px" class="text-center">Model</th> -->
+                    <th class="text-center">Prod Code</th>
+                    <!-- <th style="width: 100px" class="text-center">Product Description</th> -->
                   </tr>
                   <tr *ngFor="let x of model_scan.datas">
                     <td>{{x.pcs_barcode}}</td>
-                    <td>{{x.model_desc}}</td>
+                    <!-- <td>{{x.model_desc}}</td> -->
                     <td>{{x.prod_code}}</td>
-                    <td>{{x.prod_name}}</td>
+                    <!-- <td>{{x.prod_name}}</td> -->
                   </tr> 
                   
                   

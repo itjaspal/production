@@ -6,7 +6,7 @@ import { MessageService } from '../../_service/message.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobSendService } from '../../_service/job-send.service';
 import { DataEntrySearchView } from '../../_model/job-inprocess';
-import { ScanSendFinSearchView, ScanSendFinView } from '../../_model/job-send';
+import { ScanSendFinSearchView, ScanSendFinView, ScanSendDataView } from '../../_model/job-send';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -37,6 +37,8 @@ export class ProdRecordCancelComponent implements OnInit {
   //public scan_data: any = {};
   public data: any = {};
   public model_scan: ScanSendFinView = new ScanSendFinView();
+  public datas: any = {};
+  public count = 0;
   
   ngOnInit() {
     var datePipe = new DatePipe("en-US");
@@ -76,23 +78,37 @@ export class ProdRecordCancelComponent implements OnInit {
 
      
 
-    this.searchModel.req_date = this.model.req_date;
-    this.searchModel.wc_code = this.user.def_wc_code;
-    //this.searchModel.mc_code = this.user.user_mac.MC_CODE;
-    this.searchModel.user_id = this.user.username;
-    this.searchModel.springtype_code = this.model.spring_grp;
-    this.searchModel.pdsize_code = this.model.size_code ;
+    // this.searchModel.req_date = this.model.req_date;
+    // this.searchModel.wc_code = this.user.def_wc_code;
+    // //this.searchModel.mc_code = this.user.user_mac.MC_CODE;
+    // this.searchModel.user_id = this.user.username;
+    // this.searchModel.springtype_code = this.model.spring_grp;
+    // this.searchModel.pdsize_code = this.model.size_code ;
 
     
 
 
     this.data = await this._jobSendSvc.cancelpcs(this.model);
     
-    this.model_scan = await this._jobSendSvc.searchcanpcs(this.searchModel);
+    //this.model_scan = await this._jobSendSvc.searchcanpcs(this.searchModel);
 
-    this.model.qty= null;
+    this.model.qty= 1;
+    this.add(this.data.datas);
   }
 
+  add(datas: any) {
+
+    datas.forEach(product => {
+      let newProd: ScanSendDataView = new ScanSendDataView();
+      newProd.pcs_barcode = product.pcs_barcode;
+      newProd.prod_code = product.prod_code;
+
+      this.model_scan.datas.push(newProd);
+    });
+
+    this.count = this.model_scan.datas.length;
+
+  }
 
   close() {
     //window.history.back();

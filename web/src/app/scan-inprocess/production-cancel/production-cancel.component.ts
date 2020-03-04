@@ -33,6 +33,7 @@ export class ProductionCancelComponent implements OnInit {
   public data: any = {};
   public model_scan: JobInProcessScanFinView = new JobInProcessScanFinView();
   public datas: any = {};
+  public count = 0;
   
   @ViewChild('qr') qrElement:ElementRef;
   ngAfterViewInit(){
@@ -104,7 +105,7 @@ export class ProductionCancelComponent implements OnInit {
         
         this.model_scan.datas.push(newProd);
         
-
+        this.count = this.model_scan.datas.length;
         console.log(this.datas);
 
        

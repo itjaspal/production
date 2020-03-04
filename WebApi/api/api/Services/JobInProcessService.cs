@@ -535,7 +535,75 @@ namespace api.Services
 
         }
 
-        public void CancelPcs(DataEntrySearchView model)
+        //public void CancelPcs(DataEntrySearchView model)
+        //{
+        //    using (var ctx = new ConXContext())
+        //    {
+        //        var ventity = model.entity;
+        //        var vreq_date = model.req_date;
+        //        var vwc_code = model.wc_code;
+        //        var vmc_code = model.mc_code;
+        //        var vuser_id = model.user_id;
+        //        var vspring_grp = model.spring_grp;
+        //        var vsize_code = model.size_code;
+        //        var vqty = model.qty;
+
+        //        string sqlc = "select count(*) from mps_det_in_process";
+        //        sqlc += " where entity = :p_entity";
+        //        sqlc += " and req_date=to_date(:p_req_date,'dd/mm/yyyy')";
+        //        sqlc += " and wc_code = :p_wc_code";
+        //        sqlc += " and mc_code = :p_mc_code";
+        //        sqlc += " and pdsize_code = :p_size_code";
+        //        sqlc += " and spring_grp = :p_spring_grp";
+        //        sqlc += " and mps_st='Y'";
+
+        //        int cnt = ctx.Database.SqlQuery<int>(sqlc, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp)).FirstOrDefault(); ;
+
+
+        //        if (vqty > cnt)
+        //        {
+        //            throw new Exception("ยกเลิกเกินจำนวน");
+        //        }
+
+
+
+
+        //        using (TransactionScope scope = new TransactionScope())
+        //        {
+        //            string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+        //            var dataConn = new OracleConnectionStringBuilder(strConn);
+        //            OracleConnection conn = new OracleConnection(dataConn.ToString());
+
+        //            conn.Open();
+
+        //            OracleCommand oraCommand = conn.CreateCommand();
+        //            OracleParameter[] param = new OracleParameter[]
+        //            {
+        //                new OracleParameter("p_entity", ventity),
+        //                new OracleParameter("p_req_date", vreq_date),
+        //                new OracleParameter("p_wc_code", vwc_code),
+        //                new OracleParameter("p_mc_code", vmc_code),
+        //                new OracleParameter("p_size_code", vsize_code),
+        //                new OracleParameter("p_spring_grp", vspring_grp),
+        //                new OracleParameter("p_user_id", vuser_id),
+        //                new OracleParameter("p_qty", vqty)
+        //            };
+        //            oraCommand.BindByName = true;
+        //            oraCommand.Parameters.AddRange(param);
+        //            oraCommand.CommandText = "update MPS_DET_IN_PROCESS set mps_st='N' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and wc_code =:p_wc_code and mc_code = :p_mc_code and pdsize_code = :p_size_code and spring_grp = :p_spring_grp and mps_st='Y' and rownum <= :p_qty ";
+
+        //            //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
+        //            oraCommand.ExecuteNonQuery();
+
+        //            conn.Close();
+
+
+        //            scope.Complete();
+        //        }
+        //    }
+        //}
+
+        public JobInProcessScanFinView CancelPcs(DataEntrySearchView model)
         {
             using (var ctx = new ConXContext())
             {
@@ -547,6 +615,16 @@ namespace api.Services
                 var vspring_grp = model.spring_grp;
                 var vsize_code = model.size_code;
                 var vqty = model.qty;
+
+                JobInProcessScanFinView view = new ModelViews.JobInProcessScanFinView()
+                {
+                    pageIndex = 0,
+                    itemPerPage = 10,
+                    totalItem = 0,
+
+
+                    datas = new List<ModelViews.JobInProcessScanView>()
+                };
 
                 string sqlc = "select count(*) from mps_det_in_process";
                 sqlc += " where entity = :p_entity";
@@ -565,6 +643,18 @@ namespace api.Services
                     throw new Exception("ยกเลิกเกินจำนวน");
                 }
 
+                string sqlp = "select pcs_barcode , spring_grp springtype_code , pdsize_desc ,prod_code";
+                sqlp += " from mps_det_in_process";
+                sqlp += " where spring_grp = :p_spring_grp";
+                sqlp += " and pdsize_code =  :p_size_code";
+                sqlp += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
+                sqlp += " and entity = :p_entity";
+                sqlp += " and wc_code =:p_wc_code";
+                sqlp += " and mc_code =:p_mc_code";
+                sqlp += " and mps_st =  'Y'";
+                sqlp += " and rownum <= :p_qty";
+
+                List<JobInProcessScanView> mps_in_process = ctx.Database.SqlQuery<JobInProcessScanView>(sqlp, new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code), new OracleParameter("p_qty", vqty)).ToList();
 
 
 
@@ -599,7 +689,23 @@ namespace api.Services
 
 
                     scope.Complete();
+
+                    foreach (var i in mps_in_process)
+                    {
+
+                        view.datas.Add(new ModelViews.JobInProcessScanView()
+                        {
+                            pcs_barcode = i.pcs_barcode,
+                            //pdmodel_code = i.pdmodel_code,
+                            prod_code = i.prod_code
+                            //prod_name = i.prod_name
+
+                        });
+                    }
                 }
+
+
+                return view;
             }
         }
 

@@ -46,7 +46,7 @@ namespace api.Services
                 string sqls = "select pdsize_tname from pdsize_mast where pdsize_code=:p_size_code";
                 string vsize_name = ctx.Database.SqlQuery<string>(sqls, new OracleParameter("p_size_code", vsize_desc)).FirstOrDefault();
 
-
+                
                 string sql = "select max(process_tag_no) process_tag_no , max(to_char(req_date,'dd/mm/yyyy')) req_date , max(mc_code) , max(to_char(fin_date,'dd/mm/yyyy')) fin_date";
                 sql += " from mps_det_in_process_tag";
                 sql += " where entity = :p_entity";
@@ -219,6 +219,9 @@ namespace api.Services
                 string sqlp = "select  a.prnt_point_name printer_name , filepath_data , filepath_txt  from whmobileprnt_ctl a , whmobileprnt_default b where a.series_no = b.series_no and b.mc_code= :p_mc_code";
                 PrinterDataView printer = ctx.Database.SqlQuery<PrinterDataView>(sqlp, new OracleParameter("p_mc_code", vmc_code)).SingleOrDefault();
 
+                string sqlf = "select form_no from doc_mast where systemid='PD' and doc_code='SP';";
+                string vform_no = ctx.Database.SqlQuery<string>(sqlf).FirstOrDefault();
+
                 //string sqlp = "select filepath_txt from whmobileprnt_ctl where series_no =:p_printer";
                 //string docPath = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_printer", vprinter)).SingleOrDefault();
                 //string docPath = "d:\\data\\trigger.txt";
@@ -250,7 +253,7 @@ namespace api.Services
                 }
 
                 string all_txt = "";
-                string txt = vspring_grp + "@" + vsize_desc + "@" + vsize_name + "@" + vdoc_no.Trim(',') + "@" + vprod_code.Trim(',') + "@" + model.req_date + "@" + vfin_date+"@"+vspring_grp + "|" + vsize_desc + "|" + "" + vsize_name + "|" + vdoc_no.Trim(',') + "|" + vprod_code.Trim(',') + "|" + model.req_date;
+                string txt = vspring_grp + "@" + vsize_desc + "@" + vsize_name + "@" + vdoc_no.Trim(',') + "@" + vprod_code.Trim(',') + "@" + model.req_date + "@" + vfin_date+"@"+vspring_grp + "|" + vsize_desc + "|" + "" + vsize_name + "|" + vdoc_no.Trim(',') + "|" + vprod_code.Trim(',') + "|" + model.req_date+'@'+vform_no;
 
 
                 for (int j = 0; j < vqty; j++)

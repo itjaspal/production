@@ -170,6 +170,7 @@ import { ViewSpecService } from './_service/view-spec.service';
 import { SendSearchComponent } from './scan-send/send-search/send-search.component';
 import { InprocessSearchComponent } from './scan-inprocess/inprocess-search/inprocess-search.component';
 import { TagSearchComponent } from './scan-tag/tag-search/tag-search.component';
+import { ViewSpecPictComponent } from './view-spec/view-spec-pict/view-spec-pict.component';
 
 
 
@@ -365,6 +366,7 @@ import { TagSearchComponent } from './scan-tag/tag-search/tag-search.component';
     SendSearchComponent,
     InprocessSearchComponent,
     TagSearchComponent,
+    ViewSpecPictComponent,
 
   
   

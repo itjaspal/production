@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthenticationService } from '../../_service/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JobSendService } from '../../_service/job-send.service';
@@ -21,6 +21,8 @@ export class ScanSendComponent implements OnInit {
     private _jobSendSvc: JobSendService,
     private _router: Router
   ) { }
+
+  @ViewChild('req_date') req_date: ElementRef;
   
   public user: any;
   public toppingList: any = [];
@@ -29,7 +31,7 @@ export class ScanSendComponent implements OnInit {
   public pageEvent: any;
   actions: any = {};
   public data: any = {};
-
+  public datePipe = new DatePipe("en-US");
 
   //public data: CommonSearchView<StockView> = new CommonSearchView<StockView>();
 
@@ -51,7 +53,12 @@ export class ScanSendComponent implements OnInit {
       this.model.pageIndex = event.pageIndex;
       this.model.itemPerPage = event.pageSize;
     }
+    //this.model.req_date  = this.datePipe.transform(this.model.req_date, 'dd/MM/yyyy').toString();
+    
     this.data = await this._jobSendSvc.searchcspring(this.model);
+    
+    console.log(this.model.req_date)
+    this.req_date.nativeElement.value = this.model.req_date;
  }  
 
  
@@ -72,13 +79,16 @@ export class ScanSendComponent implements OnInit {
     this.model.wc_code =  this.user.def_wc_code;
     this.model.mc_code =  this.user.user_mac.MC_CODE;
     
-    var datePipe = new DatePipe("en-US");
-    console.log(datePipe.transform(this.model.req_date, 'dd/MM/yyyy'));
+    //var datePipe = new DatePipe("en-US");
+    //console.log(datePipe.transform(this.model.req_date, 'dd/MM/yyyy')); 
+    console.log(this.model.req_date)
+    this.model.req_date  = this.req_date.nativeElement.value;
+    console.log(this.model.req_date)
 
-    this.model.req_date  = datePipe.transform(this.model.req_date, 'dd/MM/yyyy').toString();
     this.data = await this._jobSendSvc.searchcspring(this.model);
 
-    console.log(this.data)
+    this.req_date.nativeElement.value = this.model.req_date;
+    
   }
 
   close() {

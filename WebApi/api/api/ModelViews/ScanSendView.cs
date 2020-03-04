@@ -64,6 +64,7 @@ namespace api.ModelViews
         public string spring_grp { get; set; }
         public string size_desc { get; set; }
         public int qty { get; set; }
+        public string prod_code { get; set; }
     }
 
     public class ScanSendFinSearchView
@@ -109,5 +110,6 @@ namespace api.ModelViews
     public class ScanPcsDataView
     {
         public string pcs_barcode { get; set; }
+        public string prod_code { get; set; }
     }
 }

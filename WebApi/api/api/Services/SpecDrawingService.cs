@@ -57,10 +57,12 @@ namespace api.Services
 
                 string imagePath = @spring_path+spring_file;
                 //string imagePath = @"\\128.1.1.23\prog\Picture\Spring\" + spring_file;
-                string imgBase64String = GetBase64StringForImage(imagePath);
 
-                
-                
+                //string imgBase64String = GetBase64StringForImage(imagePath);
+                string imgBase64String = "";
+
+
+
 
                 //define model view
                 SpecDrawingView view = new ModelViews.SpecDrawingView()

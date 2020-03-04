@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthenticationService } from '../../_service/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JobSendService } from '../../_service/job-send.service';
@@ -21,6 +21,8 @@ export class SendSearchComponent implements OnInit {
     private _router: Router
   ) { }
   
+  @ViewChild('req_date') req_date: ElementRef;
+  
   public user: any;
   public toppingList: any = [];
   public model: JobSendSearchView = new JobSendSearchView();
@@ -38,9 +40,10 @@ export class SendSearchComponent implements OnInit {
     this.model.wc_code =  this.user.def_wc_code;
     this.model.mc_code =  this.user.user_mac.MC_CODE;
     this.model.req_date = this._actRoute.snapshot.params.req_date;
- 
-
+    
+    this.req_date.nativeElement.value = this.model.req_date;
     this.search();
+    
     
   }
 
@@ -72,12 +75,12 @@ export class SendSearchComponent implements OnInit {
     this.model.mc_code =  this.user.user_mac.MC_CODE;
     
     var datePipe = new DatePipe("en-US");
-    console.log(datePipe.transform(this.model.req_date, 'dd/MM/yyyy'));
-
-    this.model.req_date  = datePipe.transform(this.model.req_date, 'dd/MM/yyyy').toString();
+    this.model.req_date  = datePipe.transform(this._actRoute.snapshot.params.req_date, 'dd/MM/yyyy').toString();
+   
     this.data = await this._jobSendSvc.searchcspring(this.model);
-
-    console.log(this.data)
+    this.req_date.nativeElement.value = this.model.req_date;
+    
+    
   }
 
   close() {

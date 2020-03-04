@@ -73,7 +73,7 @@ namespace api.Services
                 sql += " and a.entity = :p_entity";
                 sql += " and a.req_date = trunc(:p_req_date)";
                 sql += " and a.wc_code = :p_wc_code";
-                sql += " and c.mps_st <> 'OCL'";
+                //sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " group by a.req_date , a.mc_code , a.spring_grp , a.pdsize_code , a.pdsize_desc)";
                 sql += " UNION ALL ";
@@ -85,7 +85,7 @@ namespace api.Services
                 sql += " and a.entity = :p_entity";
                 sql += " and a.req_date = trunc(:p_req_date)";
                 sql += " and a.wc_code = :p_wc_code";
-                sql += " and c.mps_st <> 'OCL'";
+                //sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " and a.mps_st = 'Y'";
                 sql += " group by a.req_date , a.mc_code , a.spring_grp , a.pdsize_code , a.pdsize_desc )";
@@ -158,6 +158,7 @@ namespace api.Services
                 string ventity = model.entity;
                 string vwc_code = model.wc_code;
                 string vmc_code = model.mc_code;
+                string vuser_id = model.user_id;
                 int vmps_back_day;
                 DateTime vreq_date;
 
@@ -201,7 +202,7 @@ namespace api.Services
                 sql += " and a.entity = :p_entity";
                 sql += " and a.req_date < trunc(:p_req_date)";
                 sql += " and a.wc_code = :p_wc_code";
-                sql += " and c.mps_st <> 'OCL'";
+                //sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " group by a.req_date , a.mc_code , a.spring_grp ,a.pdsize_code , a.pdsize_desc)";
                 sql += " UNION ALL ";
@@ -213,15 +214,15 @@ namespace api.Services
                 sql += " and a.entity = :p_entity";
                 sql += " and a.req_date between trunc(:p_req_date)-30 and trunc(:p_req_date)-1";
                 sql += " and a.wc_code = :p_wc_code";
-                sql += " and c.mps_st <> 'OCL'";
+                //sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " and a.mps_st = 'Y'";
-                sql += " group by a.REQ_DATE , a.mc_code , a.spring_grp , a.pdsize_code , a.pdsize_desc)";
-                sql += " ) Group by REQ_DATE , MC_CODE ,SPRING_GRP , PDSIZE_CODE ,PDSIZE_DESC ";
-                sql += " Order  by req_date , mc_code , spring_grp , PDSIZE_CODE ,PDSIZE_DESC ";
+                sql += " group by a.REQ_DATE , a.mc_code , a.spring_grp  , a.pdsize_code, a.pdsize_desc)";
+                sql += " ) Group by REQ_DATE , MC_CODE ,SPRING_GRP ,PDSIZE_CODE ,PDSIZE_DESC";
+                sql += " Order  by req_date , mc_code , spring_grp ,PDSIZE_CODE,PDSIZE_DESC ";
 
                 List<JobMachineReqView> jobcurrentView = ctx.Database.SqlQuery<JobMachineReqView>(sql, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code)).ToList();
-
+               
 
 
                 view.totalItem = jobcurrentView.Count;
@@ -232,18 +233,21 @@ namespace api.Services
                 ////prepare model to modelView
                 foreach (var i in jobcurrentView)
                 {
-
-                    view.datas.Add(new ModelViews.JobMachineReqView()
+                    if ((i.plan_qty - i.actual_qty) != 0)
                     {
-                        req_date = i.req_date,
-                        pdsize_code = i.pdsize_code,
-                        pdsize_desc = i.pdsize_desc,
-                        spring_grp = i.spring_grp,
-                        plan_qty = i.plan_qty,
-                        actual_qty = i.actual_qty,
-                        diff_qty = i.plan_qty - i.actual_qty,
-                        pcs_barcode = i.pcs_barcode
-                    });
+
+                        view.datas.Add(new ModelViews.JobMachineReqView()
+                        {
+                            req_date = i.req_date,
+                            pdsize_code = i.pdsize_code,
+                            pdsize_desc = i.pdsize_desc,
+                            spring_grp = i.spring_grp,
+                            plan_qty = i.plan_qty,
+                            actual_qty = i.actual_qty,
+                            diff_qty = i.plan_qty - i.actual_qty,
+                            pcs_barcode = i.pcs_barcode
+                        });
+                    }
                 }
 
                 //return data to contoller
@@ -312,7 +316,7 @@ namespace api.Services
                 sql += " and a.entity = :p_entity";
                 sql += " and a.req_date > trunc(:p_req_date)";
                 sql += " and a.wc_code = :p_wc_code";
-                sql += " and c.mps_st <> 'OCL'";
+                //sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " group by a.req_date , a.mc_code , a.spring_grp , a.pdsize_code , a.pdsize_desc)";
                 sql += " UNION ALL ";
@@ -323,7 +327,7 @@ namespace api.Services
                 sql += " and a.pcs_barcode = c.pcs_barcode";
                 sql += " and a.entity = :p_entity";
                 sql += " and a.req_date > trunc(:p_req_date)";
-                sql += " and a.wc_code = :p_wc_code";
+                //sql += " and a.wc_code = :p_wc_code";
                 sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " and a.mps_st = 'Y'";

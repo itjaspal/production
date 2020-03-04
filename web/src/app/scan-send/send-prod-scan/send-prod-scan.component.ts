@@ -6,7 +6,7 @@ import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { MessageService } from '../../_service/message.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobSendService } from '../../_service/job-send.service';
-import { ScanPcsView, ScanPcsSearchView, ScanSendFinSearchView, ScanSendProcView, ScanSendFinView } from '../../_model/job-send';
+import { ScanPcsView, ScanPcsSearchView, ScanSendFinSearchView, ScanSendProcView, ScanSendFinView, ScanSendDataView } from '../../_model/job-send';
 import { DatePipe } from '@angular/common';
 //import { qR } from '@angular/core/src/render3';
 
@@ -44,6 +44,8 @@ export class SendProdScanComponent implements OnInit {
   public data: any = {};
   public model_scan: ScanSendFinView = new ScanSendFinView();
   public req_date : any= {}; 
+  public datas: any = {};
+  public count = 0;
 
   @ViewChild('qr') qrElement:ElementRef;
   ngAfterViewInit(){
@@ -78,39 +80,47 @@ export class SendProdScanComponent implements OnInit {
     this.searchModel.req_date  = datePipe.transform(this.searchModel.req_date, 'dd/MM/yyyy');
     this.searchModel.user_id = this.user.username;
 
-    //this.searchfinModel.req_date = this._actRoute.snapshot.params.req_date;
-    
-    
-    
+    // let pcs_barcode = await this._jobSendSvc.searchscanpcs(this.searchModel);
+    this.datas = await this._jobSendSvc.searchscanpcs(this.searchModel);
 
-    let pcs_barcode = await this._jobSendSvc.searchscanpcs(this.searchModel);
+    console.log(this.datas)
 
-    if(pcs_barcode.length = 0)
-    {
-      this._msgSvc.warningPopup("ไม่พบ PCS Barcode " + _qr + " ในระบบ");
-    }
+    // if(pcs_barcode.length = 0)
+    // {
+    //   this._msgSvc.warningPopup("ไม่พบ PCS Barcode " + _qr + " ในระบบ");
+    // }
 
-    this.searchfinModel.wc_code = this.user.def_wc_code;
-    this.searchfinModel.user_id = this.user.username;
-    this.searchfinModel.req_date  = this.searchModel.req_date;
-    this.searchfinModel.springtype_code = this._actRoute.snapshot.params.spring_grp;
-    this.searchfinModel.pdsize_code = this._actRoute.snapshot.params.size_code;
+    // this.searchfinModel.wc_code = this.user.def_wc_code;
+    // this.searchfinModel.user_id = this.user.username;
+    // this.searchfinModel.req_date  = this.searchModel.req_date;
+    // this.searchfinModel.springtype_code = this._actRoute.snapshot.params.spring_grp;
+    // this.searchfinModel.pdsize_code = this._actRoute.snapshot.params.size_code;
    
-    console.log(this.searchfinModel);
+    // console.log(this.searchfinModel);
     
 
-    this.model_scan = await this._jobSendSvc.searchfinpcs(this.searchfinModel);
+    // this.model_scan = await this._jobSendSvc.searchfinpcs(this.searchfinModel);
 
     this.qrElement.nativeElement.focus();
     
-    // if (pcs_barcode.length > 0) {
-    //   this.itemSelected(pcs_barcode[0]);
-    // } else {
-    //   this._msgSvc.warningPopup("ไม่พบสินค้าบาร์โค้ด " + _qr + " ในระบบ");
-
-    // }
+    
+    this.add(this.datas);
     
   }
+
+  add(datas: any) {
+
+    let newProd: ScanSendDataView = new ScanSendDataView();
+    newProd.pcs_barcode = datas.pcs_barcode;
+    newProd.prod_code = datas.prod_code;
+ 
+    
+    
+    this.model_scan.datas.push(newProd);
+    
+    this.count = this.model_scan.datas.length;
+
+}
 
   close() {
     //window.history.back();
@@ -119,42 +129,7 @@ export class SendProdScanComponent implements OnInit {
     
   }
 
-  back()
-  {
-
-  }
-  // async save() {
-  //   console.log(this.model);
-  //   console.log(this.searchModel.req_date);
-
-  //   this.scanModel.wc_code = this.user.def_wc_code;;  
-  //   this.scanModel.req_date  = this.searchModel.req_date;  
-  //   this.scanModel.pcs_barcode  = this.model.pcs_barcode;  
-  //   this.scanModel.spring_grp  = this.model.spring_grp;  
-  //   this.scanModel.size_code  = this.model.size_desc;  
-  //   this.scanModel.user_id  = this.user.username;  
-
-  //   this.searchfinModel.wc_code = this.user.def_wc_code;
-  //   this.searchfinModel.user_id = this.user.username;
-  //   this.searchfinModel.req_date  = this.searchModel.req_date
-   
-  //   console.log(this.searchfinModel);
-    
-  //   //this.data = await this._jobSendSvc.scanpcs(this.scanModel);
-    
-  //   this.model_scan = await this._jobSendSvc.searchfinpcs(this.searchfinModel);
-
-  //   this.qrElement.nativeElement.focus();
-
-  //   this.model.spring_grp =  "";
-  //   this.model.size_desc= "";
-  //   this.model.qty= null;
-
-  //   console.log(this.model_scan);
-
-  // }
-
-
+ 
   
   
 

@@ -126,14 +126,29 @@ namespace api.Controllers
             }
         }
 
+        //[Route("job-inprocess/postCancelPcs")]
+        //public HttpResponseMessage postCancelPcs(DataEntrySearchView model)
+        //{
+        //    try
+        //    {
+        //        inprocSvc.CancelPcs(model);
+
+        //        return Request.CreateResponse(HttpStatusCode.OK, "ยกเลิกข้อมูลสำเร็จ");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message.ToString());
+        //    }
+        //}
+
         [Route("job-inprocess/postCancelPcs")]
         public HttpResponseMessage postCancelPcs(DataEntrySearchView model)
         {
             try
             {
-                inprocSvc.CancelPcs(model);
+                var result = inprocSvc.CancelPcs(model);
 
-                return Request.CreateResponse(HttpStatusCode.OK, "ยกเลิกข้อมูลสำเร็จ");
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {

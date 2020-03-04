@@ -11,7 +11,7 @@
                 <h1>เฉพาะรายการ Scan Quilt Panel แล้ว</h1>
              </mat-card-title >  -->
   
-             <div class="panel panel-default">
+             <div class="panel panel-default"> 
                 
                   <div class="row">
                     <div class="col-lg-2 col-sm-5 col-5">
@@ -23,7 +23,7 @@
                         <mat-datepicker #picker></mat-datepicker>
                       </mat-form-field>
                       
-                    </form> 
+                    </form>  
                     </div>
                     <div class="col-1 col-sm-1">
                       <mat-card-actions class="no-margin">
@@ -38,7 +38,7 @@
   
                   <!-- MPS Date 1"> -->
                   <div class="row">
-                      <div class="col-lg-2 col-sm-3 col-4">
+                      <div class="col-lg-5 col-sm-10 col-10">
                       <dt>Mps Date</dt>
                       <dd *ngIf="data.datas.length != 0;">
                         {{data.datas[0].req_date | date:'dd/MM/yyyy'}}
@@ -57,7 +57,7 @@
                       <th style="width: 100px" class="text-center">Size</th>
                       <th style="width: 100px" class="text-center">Spring Grp</th>
                       <th style="width: 100px"  class="text-center">Plan QTY</th>
-                      <th style="width: 100px"  class="text-center">Inact QTY</th>
+                      <th style="width: 100px"  class="text-center">InAct QTY</th>
                       <th style="width: 100px" class="text-center">Diff QTY</th>
                       <th style="width: 10px">&nbsp;</th>
                     </tr>
