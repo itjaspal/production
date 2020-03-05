@@ -41,6 +41,7 @@ export class ProductionScanComponent implements OnInit {
   @ViewChild('qr') qrElement:ElementRef;
   ngAfterViewInit(){
     this.qrElement.nativeElement.focus();
+    this.qrElement.nativeElement.dismissSoftInput();
   }
 
   ngOnInit() {

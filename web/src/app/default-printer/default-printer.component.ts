@@ -57,7 +57,7 @@ export class DefaultPrinterComponent implements OnInit {
 }
 
   close() {
-    window.history.back();
+    this._router.navigateByUrl('/app/mobile-navigator');
   }
 
   async save() {

@@ -129,5 +129,11 @@ namespace api.ModelViews
         public string filepath_data { get; set; }
         public string filepath_txt { get; set; }
     }
+
+    public class RawMatScanSerchView
+    {
+        public int process_tag_no { get; set; }
+        public string qr { get; set; }
+    }
     
 }

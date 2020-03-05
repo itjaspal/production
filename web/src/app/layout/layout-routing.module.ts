@@ -59,6 +59,7 @@ import { SendSearchComponent } from '../scan-send/send-search/send-search.compon
 import { InprocessSearchComponent } from '../scan-inprocess/inprocess-search/inprocess-search.component';
 import { TagSearchComponent } from '../scan-tag/tag-search/tag-search.component';
 import { ViewSpecPictComponent } from '../view-spec/view-spec-pict/view-spec-pict.component';
+import { PrintTagScanComponent } from '../scan-tag/print-tag-scan/print-tag-scan.component';
 
 const routes: Routes = [
   {
@@ -131,9 +132,11 @@ const routes: Routes = [
        //Scan Tag
        { path: 'scantag', component: ScanTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },
        { path: 'scantag/printtag/:req_date/:spring_grp/:size_code/:qty', component: PrintTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },     
- 
+       { path: 'scantag/printtagscan/:req_date/:spring_grp/:size_code/:qty', component: PrintTagScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },
+
        { path: 'scantag/tagsearch/:req_date', component: TagSearchComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },
        { path: 'scantag/tagsearch/:req_date/printtag/:req_date/:spring_grp/:size_code/:qty', component: PrintTagComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },     
+       { path: 'scantag/tagsearch/:req_date/printtagscan/:req_date/:spring_grp/:size_code/:qty', component: PrintTagScanComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app/scantag" }  },  
 
        //Scan Inprocess
        { path: 'scaninproc', component: ScanInprocessComponent, canActivate: [AuthenGuard], data: { parentUrl: "/app" }  }, 

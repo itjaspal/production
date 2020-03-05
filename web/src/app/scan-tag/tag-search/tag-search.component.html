@@ -75,6 +75,9 @@
                           <button mat-menu-item [routerLink]="['printtag/'+ x.req_date + '/' + x.spring_grp + '/' + x.pdsize_code + '/' + x.diff_qty]" action>
                           <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process</span>
                           </button>
+                          <button mat-menu-item [routerLink]="['printtagscan/'+ x.req_date + '/' + x.spring_grp + '/' + x.pdsize_code + '/' + x.diff_qty]" action>          
+                            <mat-icon class="material-icons">printer</mat-icon> <span>Print Tag In Process - Scan</span>
+                          </button>
                         </mat-menu>
                     </td>
                   </tr> 

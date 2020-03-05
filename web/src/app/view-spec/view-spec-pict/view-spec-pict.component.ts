@@ -12,7 +12,7 @@ export class ViewSpecPictComponent implements OnInit {
 
  
   constructor(
-    private sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer, 
   ) { }
 
   ngOnInit() {

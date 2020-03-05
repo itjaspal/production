@@ -134,3 +134,9 @@ export class ProcessTagNoSearch{
     public printer: string = ""; 
     public process_tag_no : number = 0;
 }
+
+export class RawMatScanSerchView{
+    public process_tag_no : number = 0;  
+    public qr : string = "";  
+}
+    

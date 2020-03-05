@@ -1,7 +1,7 @@
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RawProductSearchView, RawMatView, PrintTagSearchView, PrintTagView, PrintTagAddView, PrintTagProcView, ProcessTagSearchView, ProcessTagView, ProcessTagNoSearch } from '../_model/print-tag';
+import { RawProductSearchView, RawMatView, PrintTagSearchView, PrintTagView, PrintTagAddView, PrintTagProcView, ProcessTagSearchView, ProcessTagView, ProcessTagNoSearch, RawMatScanSerchView, RawProductView } from '../_model/print-tag';
 import { CommonSearchView } from '../_model/common-search-view';
 
 @Injectable({
@@ -38,6 +38,10 @@ import { CommonSearchView } from '../_model/common-search-view';
 
     public async searchtagno(_model: ProcessTagNoSearch) {
       return await this.http.post<PrintTagView[]>(environment.API_URL + 'print-tag/postSearchTagNo', _model).toPromise();
+    }
+
+    public async searchrawscan(_model: RawMatScanSerchView) {
+      return await this.http.post<RawProductView[]>(environment.API_URL + 'print-tag/postSearchRawScan', _model).toPromise();
     }
     
   }  

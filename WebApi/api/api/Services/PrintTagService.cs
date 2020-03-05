@@ -46,13 +46,13 @@ namespace api.Services
                 string sqls = "select pdsize_tname from pdsize_mast where pdsize_code=:p_size_code";
                 string vsize_name = ctx.Database.SqlQuery<string>(sqls, new OracleParameter("p_size_code", vsize_desc)).FirstOrDefault();
 
-                
+
                 string sql = "select max(process_tag_no) process_tag_no , max(to_char(req_date,'dd/mm/yyyy')) req_date , max(mc_code) , max(to_char(fin_date,'dd/mm/yyyy')) fin_date";
                 sql += " from mps_det_in_process_tag";
                 sql += " where entity = :p_entity";
                 sql += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sql += " and mc_code = :p_mc_code";
-               // sql += " and rownum = 1";
+                // sql += " and rownum = 1";
                 sql += " order by process_tag_no";
 
 
@@ -157,7 +157,7 @@ namespace api.Services
                 string sql = "select prod_code from mps_det_in_process_tag where entity=:p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and mc_code = :p_mc_code and process_tag_no = :p_process_tag_no and rownum = 1";
                 string chk_tag = ctx.Database.SqlQuery<string>(sql, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_process_tag_no", vprocess_tag_no)).SingleOrDefault();
 
-                if(chk_tag == null)
+                if (chk_tag == null)
                 {
                     using (TransactionScope scope = new TransactionScope())
                     {
@@ -167,7 +167,7 @@ namespace api.Services
                             && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date)
                             && z.MC_CODE == vmc_code && z.PROCESS_TAG_NO == vprocess_tag_no).SingleOrDefault();
 
-                
+
 
 
                         if (tag == null)
@@ -219,7 +219,7 @@ namespace api.Services
                 string sqlp = "select  a.prnt_point_name printer_name , filepath_data , filepath_txt  from whmobileprnt_ctl a , whmobileprnt_default b where a.series_no = b.series_no and b.mc_code= :p_mc_code";
                 PrinterDataView printer = ctx.Database.SqlQuery<PrinterDataView>(sqlp, new OracleParameter("p_mc_code", vmc_code)).SingleOrDefault();
 
-                string sqlf = "select form_no from doc_mast where systemid='PD' and doc_code='SP';";
+                string sqlf = "select form_no from doc_mast where systemid='PD' and doc_code='SP'";
                 string vform_no = ctx.Database.SqlQuery<string>(sqlf).FirstOrDefault();
 
                 //string sqlp = "select filepath_txt from whmobileprnt_ctl where series_no =:p_printer";
@@ -228,7 +228,7 @@ namespace api.Services
                 //string docPath = "L:\\PRINT_POINT7\\trigger.txt";
 
                 //Map Drive
-                System.Diagnostics.Process.Start("net.exe", @"use L: \\192.168.8.14\Data").WaitForExit(); 
+                System.Diagnostics.Process.Start("net.exe", @"use L: \\192.168.8.14\Data").WaitForExit();
 
                 //string txtPath = @"L:\PRINT_POINT7\trigger.txt";
                 //string dataPath = @"L:\PRINT_POINT7\barcfmic.txt";
@@ -253,7 +253,7 @@ namespace api.Services
                 }
 
                 string all_txt = "";
-                string txt = vspring_grp + "@" + vsize_desc + "@" + vsize_name + "@" + vdoc_no.Trim(',') + "@" + vprod_code.Trim(',') + "@" + model.req_date + "@" + vfin_date+"@"+vspring_grp + "|" + vsize_desc + "|" + "" + vsize_name + "|" + vdoc_no.Trim(',') + "|" + vprod_code.Trim(',') + "|" + model.req_date+'@'+vform_no;
+                string txt = vspring_grp + "@" + vsize_desc + "@" + vsize_name + "@" + vdoc_no.Trim(',') + "@" + vprod_code.Trim(',') + "@" + model.req_date + "@" + vfin_date + "@" + vspring_grp + "|" + vsize_desc + "|" + "" + vsize_name + "|" + vdoc_no.Trim(',') + "|" + vprod_code.Trim(',') + "|" + model.req_date + '@' + vform_no;
 
 
                 for (int j = 0; j < vqty; j++)
@@ -261,7 +261,7 @@ namespace api.Services
                     //tag_sticker[j] = txt;
                     if (j == 0)
                     {
-                        all_txt = txt + Environment.NewLine; ; 
+                        all_txt = txt + Environment.NewLine; ;
                     }
                     else
                     {
@@ -281,6 +281,7 @@ namespace api.Services
 
 
             }
+
         }
 
         public PrintTagView searchPrintData(PrintTagSearchView model)
@@ -462,7 +463,7 @@ namespace api.Services
                 {
                     //vprocess_tag_no = tag.process_tag_no;
 
-                    
+
 
                     view.entity = ventity;
                     view.process_tag_no = tag.process_tag_no;
@@ -507,7 +508,7 @@ namespace api.Services
             }
         }
 
-        public CommonSearchView<ProcessTagView>  searchProcessTagNoList(ProcessTagSearchView model)
+        public CommonSearchView<ProcessTagView> searchProcessTagNoList(ProcessTagSearchView model)
         {
             using (var ctx = new ConXContext())
             {
@@ -517,8 +518,6 @@ namespace api.Services
 
                 CommonSearchView<ProcessTagView> view = new ModelViews.CommonSearchView<ModelViews.ProcessTagView>()
                 {
-                    
-
 
                     datas = new List<ModelViews.ProcessTagView>()
                 };
@@ -529,7 +528,7 @@ namespace api.Services
                 sql += " where entity = :p_entity";
                 sql += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sql += " and mc_code = :p_mc_code";
-                
+
 
                 List<ProcessTagView> tag_no = ctx.Database.SqlQuery<ProcessTagView>(sql, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_mc_code", vmc_code)).ToList();
 
@@ -539,29 +538,12 @@ namespace api.Services
 
                     view.datas.Add(new ModelViews.ProcessTagView()
                     {
-
-                        //ic_entity = i.IC_ENTITY,
                         process_tag_no = i.process_tag_no,
-                        //wh_code = i.WH_CODE,
-                        //qty_oh = i.QTY_OH,
-                        //qty_all = i.QTY_ALL,
-                        //qty_ship = i.QTY_SHIP,
-                        //qty_build = i.QTY_BUILD_DISPLAY,
-                        //qty_avai = i.QTY_AVAI
 
                     });
                 }
 
-                //ProcessTagView view = new ModelViews.ProcessTagView();
-
-
-                //foreach (var i in tag_no)
-                //{
-                //    view.process_tag_no = i.process_tag_no;
-
-                //}
-
-
+               
                 //return data to contoller
                 return view;
             }
@@ -569,7 +551,7 @@ namespace api.Services
 
 
 
-       
+
 
         public RawMatView searchRawData(RawMatSearchView model)
         {
@@ -641,7 +623,41 @@ namespace api.Services
                 return view;
             }
         }
-    }
 
-       
-    }
+        public RawMatitemView searchRawScan(RawMatScanSerchView model)
+        {
+            using (var ctx = new ConXContext())
+            {
+                String[] strlist = model.qr.Split('|');
+                string vdoc_no = strlist[0];
+                string vprod_code = strlist[1];
+
+                
+
+
+                string sqlp = "select prod_tname from product where prod_code = :p_prod_code";
+
+                string vprod_name = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_prod_code", vprod_code))
+                            .FirstOrDefault();
+
+                if(vprod_name == null)
+                {
+                    throw new Exception("ข้อมูลไม่ถูกต้อง");
+                }
+
+                RawMatitemView view = new ModelViews.RawMatitemView()
+                {
+                    process_tag_no = model.process_tag_no,
+                    doc_no = vdoc_no,
+                    prod_code = vprod_code,
+                    prod_name = vprod_name
+                };
+
+                return view;
+
+            }
+            
+        }
+
+    }   
+}

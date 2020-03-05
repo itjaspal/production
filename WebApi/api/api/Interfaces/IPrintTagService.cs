@@ -16,5 +16,6 @@ namespace api.Interfaces
         void PringTag(PrintTagView model);
         CommonSearchView<ProcessTagView>  searchProcessTagNoList(ProcessTagSearchView model);
         PrintTagView searchProcessTagNo(ProcessTagNoSearch model);
+        RawMatitemView searchRawScan(RawMatScanSerchView model);
     }
 }

@@ -1,0 +1,217 @@
+<div class="container-fluid no-breadcrumbs">
+
+  <mat-card>
+    <mat-card-title>
+      <h6>พิมพ์ Tag In Process : ( MC : {{datas.mc_code}} )</h6>
+    </mat-card-title>
+  
+  <mat-card-content class="no-margin">
+    <div class="row">
+      <!-- <div class="col-lg-2 col-sm-2">
+        <dt>Machine</dt>
+        <dd>{{datas.mc_code}}</dd>
+      </div> -->
+     <div class="col-lg-5 col-sm-5 col-6">
+      <dt>Print</dt>
+      <dd>{{datas.printer}}</dd>
+      
+      </div>
+
+      <div class="col-lg-2 col-sm-2 col-2">
+        
+        <mat-form-field class="full-width">
+          <mat-select placeholder="ค้นหาครั้งที่พิมพ์" [(ngModel)]="model_tagsearch.process_tag_no"
+          name="process_tag_no">
+
+
+            <!-- <mat-option>ทั้งหมด</mat-option> -->
+            <mat-option *ngFor="let x of datas_tag.datas" [value]="x.process_tag_no">{{x.process_tag_no}}</mat-option>
+            </mat-select>
+
+          <!-- <mat-select placeholder="ค้นหาครั้งที่พิมพ์" formControlName="process_tag_no">
+            <mat-option [value]=1>1</mat-option>
+            <mat-option [value]=2>2</mat-option>
+          </mat-select> -->
+        </mat-form-field>
+      </div>
+      <div class="col-1 col-sm-1">
+        <mat-card-actions class="no-margin">
+          <button mat-raised-button color="primary"  type="button" (click)="search_tagno()">
+            <mat-icon class="material-icons">search</mat-icon> ค้นหา
+          </button>
+        </mat-card-actions>
+      </div>
+
+
+    </div>
+
+      <mat-card >
+      <mat-card-content>
+          
+        
+       
+        <div class="row card-table-body">
+          <div class="col-3 col-lg-1">
+            <small>ครั้งที่</small>
+            <dd>{{datas.process_tag_no}}</dd>
+        </div>
+
+        <div class="col-8 col-lg-9">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Raw Mat. Tag" formControlName="qr" name="qr" #qr
+              (keydown.enter)="onQrEntered(qr.value); qr.value = '' ">
+            <button mat-button *ngIf="qr.value != ''" matSuffix mat-icon-button aria-label="Clear" type="button"
+              (click)="qr.value = ''" >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+     
+        </div>
+        </div>
+
+        <div class="row card-table-body">
+        
+            <!-- Row 1-->
+            <div class="col-4 col-lg-2">
+                <small>Spring Type</small>
+                <dd>{{datas.spring_grp}}</dd>
+            </div>
+            <div class="col-5 col-lg-2">
+                <small>Spring Size</small>  
+                <dd>{{datas.size_desc}}</dd>
+           </div>
+           <div class="col-4 col-lg-2">
+                <small>JIT Date</small>  
+                <dd>{{datas.req_date }}</dd>
+           </div>
+           <div class="col-4 col-lg-2">
+                <small>FIN Date</small>  
+                <dd>{{datas.fin_date }}</dd>
+           </div>
+
+           <div class="col-3 col-lg-2">
+            <!-- <small>จำนวนพิมพ์</small>  
+            <dd>{{data.qty}}</dd> -->
+            <mat-form-field class="full-width">
+              <input matInput placeholder="จำนวนพิมพ์" name="qty" [(ngModel)]="model.qty">
+            </mat-form-field>
+            </div>
+       
+      
+        
+      </div>
+
+      <div class="row card-table-body">
+        <div class="col-4 col-lg-2">
+         
+          <mat-card-actions class="no-margin">
+            <button mat-raised-button color="primary"  type="button" (click)="add_tag()">
+              <mat-icon class="material-icons">add</mat-icon> เพิ่ม
+            </button>
+          </mat-card-actions>
+        </div>
+
+        <div class="col-4 col-lg-2">
+         
+          <mat-card-actions class="no-margin">
+            <button mat-raised-button color="primary"  type="button" (click)="del_tag()" >
+              <mat-icon class="material-icons">delete</mat-icon> ลบ
+            </button>
+          </mat-card-actions>
+        </div>
+
+       </div>
+
+      </mat-card-content>
+      </mat-card> 
+      </mat-card-content>
+      <br />
+   
+      <mat-card-content class="no-margin">
+        <div class="row">
+          <div class="col-lg-2 col-sm-2">
+            <dt>รายละเอียด</dt>
+          </div>
+        </div>
+    
+          <mat-card >
+          <mat-card-content>
+              
+            
+            <div class="row card-table-body" *ngFor="let x of model.datas">
+              <!-- <div class="row" *ngIf="data.datas.length == 0;else show_raw_mat">
+                <div class="col-12 text-center">
+                    <h4>ไม่พบรายการ</h4>
+                </div>
+              </div> -->
+            <!-- </div> -->
+            
+            <!-- <ng-template #show_raw_mat> -->
+              <!-- <div class="row"> -->
+                <div class="col-1 col-lg-1">
+                  <small>ครั้ง</small>
+                  <dd>{{x.process_tag_no}}</dd>
+                </div>
+                <div class="col-5 col-lg-2">
+                  <small>RC No.</small>
+                  <dd>{{x.doc_no}}</dd>
+                </div>
+                <div class="col-5 col-lg-9">
+                  <small>รายละเอียดวัตถุดิบ</small>  
+                  <dd>{{x.prod_code}}-{{x.prod_name}}</dd>
+                  
+                </div>
+            <!-- </div> -->
+            <!-- </ng-template>   -->
+    
+    
+    
+            </div> 
+    
+          </mat-card-content>
+          </mat-card> 
+          </mat-card-content> 
+
+          <mat-menu #appMenu1="matMenu">
+            <button mat-menu-item [routerLink]="['/pcsHistory']" action>
+              <mat-icon class="material-icons">search</mat-icon> <span>Print Tag In Prosess</span>
+            </button>
+          </mat-menu>
+
+          <br />
+          
+          <mat-card-actions class="no-margin">
+            <div class="row">
+              
+              <div class="col-2 col-sm-7">
+              
+              </div>
+              <div class="col-6 col-sm-3">
+                  <button  mat-raised-button color="default" (click)="setDefaultPrint()">
+                    <mat-icon class="material-icons" >schedule</mat-icon> กำหนดเครื่องพิมพ์
+                  </button>
+              </div>
+              <div class="col-4 col-sm-2" >
+                <button mat-raised-button color="default" (click)="print()">
+                  <mat-icon class="material-icons">print</mat-icon> Print
+                </button>
+              </div>
+            </div>
+            <br/>
+            <div class="row">
+              <div class="col-3 col-sm-2">
+                <button (click)="close();" mat-raised-button color="primary">
+                  <mat-icon class="material-icons">close</mat-icon> ปิด
+                </button>
+              </div>
+              <!-- <a routerLink="/app/scantag/{{datas.req_date | date:'dd-MM-yyyy'}}" routerLinkActive="active">INSERT</a> -->
+              
+              
+            </div>
+          </mat-card-actions> 
+
+
+  </mat-card>
+
+   
+</div>

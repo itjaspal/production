@@ -38,7 +38,7 @@ namespace api.Services
 
                 if (datas == null)
                 {
-                    throw new Exception("PSC Barcodeไม่ถูกต้อง");
+                    throw new Exception("ไม่พบข้อมูล");
                 }
 
 
@@ -160,7 +160,7 @@ namespace api.Services
 
                 if (datas == null)
                 {
-                    throw new Exception("PSC Barcodeไม่ถูกต้อง");
+                    throw new Exception("ไม่พบข้อมูล");
                 }
 
 

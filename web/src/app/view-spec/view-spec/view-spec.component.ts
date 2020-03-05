@@ -7,6 +7,7 @@ import {AbstractControl} from '@angular/forms';
 import * as moment from 'moment';
 import { JobSendSearchView } from '../../_model/job-send';
 import { JobSendService } from '../../_service/job-send.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -30,12 +31,17 @@ export class ViewSpecComponent implements OnInit {
     private _jobSendSvc: JobSendService,
     private _authSvc: AuthenticationService,
     private _formBuilder: FormBuilder,
+    private _router: Router,
   ) {
   } 
 
  
-  ngOnInit() {
+ngOnInit() {
     this.buildForm();
+
+    this.req_date.nativeElement.value = sessionStorage.getItem('spect-drawing-reqDate');
+    
+    
     this.user = this._authSvc.getLoginUser();
     this.model.wc_code =  this.user.def_wc_code;
     this.model.mc_code =  this.user.user_mac.MC_CODE;
@@ -49,7 +55,13 @@ buildForm() {
 }
 
 close() {
- window.history.back(); 
+  this._router.navigateByUrl('/app/mobile-navigator');  
+}
+
+ngOnDestroy() {
+  //console.log("Close Program ");
+  sessionStorage.removeItem('spect-drawing-reqDate');
+  sessionStorage.removeItem('spect-drawing-pcsBarcode');
 }
 
 async springSearch(event: PageEvent = null) {  
@@ -61,18 +73,18 @@ async springSearch(event: PageEvent = null) {
 
   //console.log("this.req_date.nativeElement.value : " + this.req_date.nativeElement.value)
   //console.log("this.validationForm.valid :  " + this.validationForm.valid)
-
+  sessionStorage.setItem('spect-drawing-reqDate', this.req_date.nativeElement.value);
   if (this.req_date.nativeElement.value == "") {
      console.log("viewSpceSearch");
+     
      this.model.req_date = "";
      this.data =  await this._jobSendSvc.searchcspring(this.model);
 
-  } else if (this.req_date.nativeElement.value != "") {
+  } else if (this.req_date.nativeElement.value != "") { 
      console.log("viewSpceSearch By Date");
      this.model.req_date = this.req_date.nativeElement.value;
      this.data =  await this._jobSendSvc.searchcspring(this.model);
      this.req_date.nativeElement.value = this.model.req_date;
-
 
   }
 

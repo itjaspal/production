@@ -5,7 +5,7 @@ import { CommonSearchView } from '../../_model/common-search-view';
 import { PageEvent } from '@angular/material';
 import { AuthenticationService } from '../../_service/authentication.service';
 import { DisplayJobSearchView, DisplayJobView } from '../../_model/displayJob';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common'
 
 
@@ -28,6 +28,7 @@ export class DispalyJobComponent implements OnInit {
     private _displayJobMacSvc: DisplayJobService,
     private _authSvc: AuthenticationService,
     private _activateRoute: ActivatedRoute,
+    private _router: Router,
   ) {
   }
 
@@ -40,7 +41,7 @@ export class DispalyJobComponent implements OnInit {
   }
 
   close() {
-    window.history.back(); 
+    this._router.navigateByUrl('/app/mobile-navigator');  
   }
 
   async searchJobMacCurrent(event: PageEvent = null) {   

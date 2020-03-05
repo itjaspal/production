@@ -43,7 +43,7 @@ export class ScanSendComponent implements OnInit {
     this.model.req_date = "";
     
 
-    this.searchSpringData();
+    this.searchSpringData(); 
     
   }
 

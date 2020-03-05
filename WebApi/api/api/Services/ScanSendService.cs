@@ -574,6 +574,8 @@ namespace api.Services
                 sql += " and c.wc_code = :p_wc_code";
                 sql += " group by  c.entity , c.req_date , b.spring_type,c.pdsize_code , c.pdsize_desc";
                 sql += " )T group by entity , req_date , springtype_code , pdsize_code , pdsize_desc";
+                sql += " order by entity , req_date , springtype_code , pdsize_code";
+                //sql += " )T group by entity , req_date , springtype_code , pdsize_code , pdsize_desc";
 
                 //string sql = "select  entity , req_date , springtype_code , pdsize_code , pdsize_desc , sum(plan_qty) as plan_qty , sum(inact_qty) as inact_qty ,sum(qp_qty) as qp_qty , sum(act_qty) as act_qty from (";
                 //sql += " select  mps_det_wc.entity, mps_det_wc.req_date, pdmodel_mast.spring_type as springtype_code, mps_det_wc.pdsize_code, mps_det_wc.pdsize_desc, sum(1) as plan_qty, 0 as inact_qty, 0 as qp_qty, 0 as act_qty";

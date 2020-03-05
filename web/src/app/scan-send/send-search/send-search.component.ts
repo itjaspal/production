@@ -75,8 +75,9 @@ export class SendSearchComponent implements OnInit {
     this.model.mc_code =  this.user.user_mac.MC_CODE;
     
     var datePipe = new DatePipe("en-US");
-    this.model.req_date  = datePipe.transform(this._actRoute.snapshot.params.req_date, 'dd/MM/yyyy').toString();
-   
+    //this.model.req_date  = datePipe.transform(this._actRoute.snapshot.params.req_date, 'dd/MM/yyyy').toString();
+    this.model.req_date  = datePipe.transform(this.model.req_date, 'dd/MM/yyyy').toString();
+    //this.model.req_date = this.req_date.nativeElement.value;
     this.data = await this._jobSendSvc.searchcspring(this.model);
     this.req_date.nativeElement.value = this.model.req_date;
     
