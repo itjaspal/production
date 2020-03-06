@@ -27,7 +27,7 @@ namespace api.Services
                 su_user user = ctx.user
                     .Include("departments")
                     .Include("user_mac")
-                    .Where(z => z.USER_ID == username)
+                    .Where(z => z.USER_ID == username.ToUpper())
                     .SingleOrDefault();
 
                 //su_user user = ctx.user.SqlQuery("Select a.USER_ID , a.USER_NAME , a.USER_PASSWORD , a.DEPT_CODE , a.ACTIVE , b.DEPT_NAMET , c.MC_CODE , c.STATUS from su_user a , department b , pd_mapp_user_mac c  where a.dept_code=b.dept_code and a.user_id=c.user_id and a.user_id = :param1", new OracleParameter("param1", username)).SingleOrDefault();

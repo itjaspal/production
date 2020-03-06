@@ -5,6 +5,7 @@
 @import url( 'https://fonts.googleapis.com/css?family=Kanit:400,700');
 @mixin web-fonts {
   font-family: 'Kanit' !important;
+  
 }
 
 .h1,
@@ -253,6 +254,7 @@ dd {
 .mat-form-field {
   line-height: 1.4 !important;
 }
+
 
 .red-snackbar {
   background: red !important;

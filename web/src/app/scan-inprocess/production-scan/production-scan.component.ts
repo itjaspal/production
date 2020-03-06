@@ -41,7 +41,7 @@ export class ProductionScanComponent implements OnInit {
   @ViewChild('qr') qrElement:ElementRef;
   ngAfterViewInit(){
     this.qrElement.nativeElement.focus();
-    this.qrElement.nativeElement.dismissSoftInput();
+    //this.qrElement.nativeElement.dismissSoftInput();
   }
 
   ngOnInit() {
@@ -111,6 +111,11 @@ export class ProductionScanComponent implements OnInit {
     this._router.navigateByUrl('/app/scaninproc/inprocsearch/'+this._actRoute.snapshot.params.req_date);
   }
 
- 
+  
 
 }
+
+
+  				
+  
+  
