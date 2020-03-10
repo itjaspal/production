@@ -41,3 +41,14 @@ export class ViewSpecView {
     public unit_qty: number = 0;
     public item_name: string = "";
 }
+
+export class ViewSpecDrawingParamView {
+    public pdsize_code: string = "";
+    public springtype_code: string = "";
+    public req_date: string = "";
+    public isEdit: boolean = false;
+    public hideSerialNo: boolean = false;
+    public isSaleBed: boolean = false;
+
+}
+

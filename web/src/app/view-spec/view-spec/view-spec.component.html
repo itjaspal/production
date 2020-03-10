@@ -15,7 +15,7 @@
                 
                   <div class="row">
                     <div class="col-lg-2 col-sm-5 col-5">
-                    <form [formGroup]="validationForm">  
+                    <form [formGroup]="validationForm">   
                       <mat-form-field class="full-width">
                         <input #req_date  matInput [matDatepicker]="picker" placeholder="Req. Date" [(ngModel)]="model.req_date"
                         formControlName="req_date">
@@ -74,7 +74,7 @@
                             <mat-icon class="material-icons">more_horiz</mat-icon> 
                           </button>
                           <mat-menu #appMenu1="matMenu">
-                             <button mat-menu-item [routerLink]="['viewspec/'+ x.pdsize_code + '/' + x.springtype_code + '/' + x.req_date]" action>
+                             <button mat-menu-item (click)="openViewSpecDrawingDialog(x.pdsize_code, x.springtype_code, x.req_date);" action>
                                 <mat-icon class="material-icons">search</mat-icon> <span>View Spec Drawing</span>
                              </button>
                           </mat-menu>

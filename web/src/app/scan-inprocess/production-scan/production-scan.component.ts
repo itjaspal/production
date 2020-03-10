@@ -115,6 +115,17 @@ export class ProductionScanComponent implements OnInit {
 
 }
 
+// $(document).ready(function() {
+//     $('qr').keypress(function(e) {
+//         var code = (e.keyCode ? e.keyCode : e.which);
+//         if ( (code==13) || (code==10))
+//             {
+//             $(this).blur();
+//             return false;
+//             }
+//     });
+// });
+
 
   				
   

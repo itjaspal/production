@@ -17,7 +17,7 @@
 
             <mat-form-field class="full-width">
               <input matInput placeholder="In Process Tag" formControlName="qr" name="qr" #qr
-                (keydown.enter)="onQrEntered(qr.value); qr.value = ''">
+                (keydown.enter)="onQrEntered(qr.value); qr.value = ''" type="none">
               <button mat-button *ngIf="qr.value != ''" matSuffix mat-icon-button aria-label="Clear" type="button"
                 (click)="qr.value = ''" >
                 <mat-icon>close</mat-icon>

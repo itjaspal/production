@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MatDialogRef } from '@angular/material';
+
+
 
 @Component({
   selector: 'app-view-spec-pict',
@@ -9,21 +12,25 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ViewSpecPictComponent implements OnInit {
 
   public imageSource: any;
+  public actionView : any = "True";
 
  
   constructor(
-    private sanitizer: DomSanitizer, 
+    private sanitizer: DomSanitizer,  
+    public dialogRef: MatDialogRef<any>,
   ) { }
 
   ngOnInit() {
 
-    //console.log("My base64 image : " + sessionStorage.getItem('session-image-base64'))
+    //console.log("My base64 image : " + sessionStorage.getItem('session-image-base64')) 
     this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${sessionStorage.getItem('session-image-base64')}`);
+    
 
   }
 
   close() { 
-    window.history.back();
+    //window.history.back();
+    this.dialogRef.close();
   }
 
 } 

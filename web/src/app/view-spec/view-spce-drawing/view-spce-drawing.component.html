@@ -15,7 +15,7 @@
           <div class="col-3 col-lg-3">
           <form [formGroup]="validationForm">  
              <mat-form-field class="full-width"> 
-              <input #scan_pcs_barcode matInput placeholder="PCS No. / In Process Tag" [(ngModel)]="scanPcsModel.scan_pcs_barcode" formControlName="scan_pcs_barcode"  (keyup.enter)="searchViewSpec()">
+              <input #scan_pcs_barcode   matInput placeholder="PCS No. / In Process Tag" [(ngModel)]="scanPcsModel.scan_pcs_barcode" formControlName="scan_pcs_barcode"  (keyup.enter)="searchViewSpec()">
             </mat-form-field>
           </form>  
           </div>
@@ -71,8 +71,8 @@
                 <table style="width: 100%" > 
                   <tbody>     
                           <div class="col-md-12" *ngIf="dataViewSpec.drawing_name != '';">
-                              <a [routerLink]="['/app/spec/viewpict']">
-                                <img style="-webkit-user-select: none;margin: auto;  max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; width: 80%;" [src]="imageSource" alt="Image Source">
+                              <a (click)="openViewSpecDrawingDialog();">
+                                <img style="-webkit-user-select: none;margin: auto;  cursor: zoom-in; max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; width: 80%;" [src]="imageSource" alt="Image Source">
                                 <!--<img style="-webkit-user-select: none;margin: auto; cursor: zoom-in; max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; width: 80%;" [src]="imageSource" alt="Image Source">-->
                               </a>
                           </div>
@@ -167,7 +167,6 @@
                   <mat-icon class="material-icons">close</mat-icon> ปิด
                 </button>
               </div>
-              
             </div>
           </mat-card-actions> 
 

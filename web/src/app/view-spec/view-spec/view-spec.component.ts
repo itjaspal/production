@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthenticationService } from '../../_service/authentication.service';
-import { PageEvent } from '@angular/material';
+import { PageEvent, MatDialog } from '@angular/material';
 import { DatePipe } from '@angular/common'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {AbstractControl} from '@angular/forms';
@@ -8,6 +8,8 @@ import * as moment from 'moment';
 import { JobSendSearchView } from '../../_model/job-send';
 import { JobSendService } from '../../_service/job-send.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ViewSpceDrawingComponent } from '../view-spce-drawing/view-spce-drawing.component';
+
 
 
 @Component({
@@ -32,6 +34,7 @@ export class ViewSpecComponent implements OnInit {
     private _authSvc: AuthenticationService,
     private _formBuilder: FormBuilder,
     private _router: Router,
+    private _dialog: MatDialog,
   ) {
   } 
 
@@ -45,7 +48,7 @@ ngOnInit() {
     this.user = this._authSvc.getLoginUser();
     this.model.wc_code =  this.user.def_wc_code;
     this.model.mc_code =  this.user.user_mac.MC_CODE;
-    this.springSearch();
+    //this.springSearch();
 } 
 
 buildForm() {
@@ -99,6 +102,32 @@ async save() {
 
  
 }
+
+
+openViewSpecDrawingDialog(p_pdsize_code: string, p_springtype_code: string, p_req_date: string, _isEdit: boolean = false, _index: number = -1) {
+  const dialogRef = this._dialog.open(ViewSpceDrawingComponent, {
+    maxWidth: '100vw',
+    maxHeight: '100vh', 
+    height: '100%',
+    width: '100%',
+    data: {
+      pdsize_code: p_pdsize_code,
+      springtype_code: p_springtype_code,
+      req_date: p_req_date,
+      isEdit: _isEdit,
+     // editItem: _editItem,
+      hideSerialNo: true,
+      isSaleBed: false
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => { 
+    if (result) {
+      
+    }
+  });
+}
+
 
 }
 
