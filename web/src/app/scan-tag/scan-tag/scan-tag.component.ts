@@ -51,7 +51,7 @@ export class ScanTagComponent implements OnInit {
 
       // if(this._actRoute.snapshot.params.req_date != null)
       // {
-      //     this.modelByDate.mc_code  = this.user.user_mac.MC_CODE;
+      //     this.modelByDate.mc_code  = this.user.mc_code;
       //    this.modelByDate.user_id  = this.user.username;
       //    this.modelByDate.wc_code  = this.user.def_wc_code;
       //    this.modelByDate.req_date = this._actRoute.snapshot.params.req_date;
@@ -87,7 +87,7 @@ export class ScanTagComponent implements OnInit {
       if (this.req_date.nativeElement.value == "") {  
          console.log("searchSpring");
 
-         this.model.mc_code = this.user.user_mac.MC_CODE;
+         this.model.mc_code = this.user.mc_code;
          this.model.user_id = this.user.username;
          this.model.wc_code = this.user.def_wc_code;
          this.data.datas  = [];
@@ -98,7 +98,7 @@ export class ScanTagComponent implements OnInit {
       } else if (this.req_date.nativeElement.value != "") {  
          console.log("searchSpring By Date");
 
-         this.modelByDate.mc_code  = this.user.user_mac.MC_CODE;
+         this.modelByDate.mc_code  = this.user.mc_code;
          this.modelByDate.user_id  = this.user.username;
          this.modelByDate.wc_code  = this.user.def_wc_code;
          this.modelByDate.req_date = this.req_date.nativeElement.value;

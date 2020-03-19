@@ -70,7 +70,7 @@ export class ProductionScanComponent implements OnInit {
     this.searchModel.wc_code = this.user.def_wc_code;
     this.searchModel.pcs_barcode = _qr;
     this.searchModel.req_date  = datePipe.transform(this.searchModel.req_date, 'dd/MM/yyyy');
-    this.searchModel.mc_code = this.user.user_mac.MC_CODE;
+    this.searchModel.mc_code = this.user.mc_code;
     this.searchModel.user_id = this.user.username;
     this.searchModel.spring_grp = this._actRoute.snapshot.params.spring_grp;
     this.searchModel.size_code = this._actRoute.snapshot.params.size_code;

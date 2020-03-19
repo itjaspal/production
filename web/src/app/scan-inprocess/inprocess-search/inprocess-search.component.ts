@@ -69,7 +69,7 @@ async springSearch(event: PageEvent = null) {
 
  
       
-      this.modelByDate.mc_code  = this.user.user_mac.MC_CODE;
+      this.modelByDate.mc_code  = this.user.mc_code;
       this.modelByDate.user_id  = this.user.username;
       this.modelByDate.wc_code  = this.user.def_wc_code;
       this.modelByDate.req_date = this._actRoute.snapshot.params.req_date;

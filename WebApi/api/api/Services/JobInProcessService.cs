@@ -64,19 +64,44 @@ namespace api.Services
                 // Udpate
                 using (TransactionScope scope = new TransactionScope())
                 {
-                    mps_det_in_process updateObj = ctx.mps_in_process
-                   .Where(z => z.PCS_BARCODE == mps_in_process.pcs_barcode
-                        && z.ENTITY == model.entity
-                        && z.WC_CODE == model.wc_code).SingleOrDefault();
+                    // mps_det_in_process updateObj = ctx.mps_in_process
+                    //.Where(z => z.PCS_BARCODE == mps_in_process.pcs_barcode
+                    //     && z.ENTITY == model.entity
+                    //     && z.WC_CODE == model.wc_code).SingleOrDefault();
 
 
-                    updateObj.MPS_ST = "N";
-                    updateObj.UPD_BY = model.user_id;
-                    updateObj.UPD_DATE = DateTime.Now;
-                    updateObj.PROCESS_TAG_QR = model.pcs_barcode;
+                    // updateObj.MPS_ST = "N";
+                    // updateObj.UPD_BY = model.user_id;
+                    // updateObj.UPD_DATE = DateTime.Now;
+                    // updateObj.PROCESS_TAG_QR = model.pcs_barcode;
 
-                    ctx.Configuration.AutoDetectChangesEnabled = true;
-                    ctx.SaveChanges();
+                    // ctx.Configuration.AutoDetectChangesEnabled = true;
+                    // ctx.SaveChanges();
+                    // scope.Complete();
+                    string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+                    var dataConn = new OracleConnectionStringBuilder(strConn);
+                    OracleConnection conn = new OracleConnection(dataConn.ToString());
+
+                    conn.Open();
+                    OracleCommand oraCommand = conn.CreateCommand();
+                    OracleParameter[] param = new OracleParameter[]
+                    {
+                            new OracleParameter("p_entity", model.entity),
+                            new OracleParameter("p_user_id", model.user_id),
+                            new OracleParameter("p_pcs_barcode", mps_in_process.pcs_barcode),
+                            new OracleParameter("p_process_tag_qr", model.pcs_barcode),
+                            new OracleParameter("p_wc_code",model.wc_code)
+                    };
+                    oraCommand.BindByName = true;
+                    oraCommand.Parameters.AddRange(param);
+                    oraCommand.CommandText = "update mps_det_in_process set mps_st='N' , process_tag_qr = :p_process_tag_qr ,  upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code =:p_wc_code";
+
+                    //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
+                    oraCommand.ExecuteNonQuery();
+
+                    conn.Close();
+
+
                     scope.Complete();
                 }
 
@@ -172,21 +197,47 @@ namespace api.Services
 
                 using (TransactionScope scope = new TransactionScope())
                 {
-                    mps_det_in_process updateObj = ctx.mps_in_process
-                   .Where(z => z.PCS_BARCODE == mps_in_process.pcs_barcode
-                        && z.ENTITY == model.entity
-                        && z.WC_CODE == model.wc_code).SingleOrDefault();
+                    // mps_det_in_process updateObj = ctx.mps_in_process
+                    //.Where(z => z.PCS_BARCODE == mps_in_process.pcs_barcode
+                    //     && z.ENTITY == model.entity
+                    //     && z.WC_CODE == model.wc_code).SingleOrDefault();
 
 
-                    updateObj.MPS_ST = "Y";
-                    updateObj.FIN_BY = model.user_id;
-                    updateObj.FIN_DATE = DateTime.Now;
-                    updateObj.UPD_BY = model.user_id;
-                    updateObj.UPD_DATE = DateTime.Now;
-                    updateObj.PROCESS_TAG_QR = model.pcs_barcode;
+                    // updateObj.MPS_ST = "Y";
+                    // updateObj.FIN_BY = model.user_id;
+                    // updateObj.FIN_DATE = DateTime.Now;
+                    // updateObj.UPD_BY = model.user_id;
+                    // updateObj.UPD_DATE = DateTime.Now;
+                    // updateObj.PROCESS_TAG_QR = model.pcs_barcode;
 
-                    ctx.Configuration.AutoDetectChangesEnabled = true;
-                    ctx.SaveChanges();
+                    // ctx.Configuration.AutoDetectChangesEnabled = true;
+                    // ctx.SaveChanges();
+                    // scope.Complete();
+
+                    string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+                    var dataConn = new OracleConnectionStringBuilder(strConn);
+                    OracleConnection conn = new OracleConnection(dataConn.ToString());
+
+                    conn.Open();
+                    OracleCommand oraCommand = conn.CreateCommand();
+                    OracleParameter[] param = new OracleParameter[]
+                    {
+                            new OracleParameter("p_entity", model.entity),
+                            new OracleParameter("p_user_id", model.user_id),
+                            new OracleParameter("p_fin_by", model.user_id),
+                            new OracleParameter("p_pcs_barcode", mps_in_process.pcs_barcode),
+                            new OracleParameter("p_process_tag_qr", model.pcs_barcode),
+                            new OracleParameter("p_wc_code",model.wc_code)
+                    };
+                    oraCommand.BindByName = true;
+                    oraCommand.Parameters.AddRange(param);
+                    oraCommand.CommandText = "update mps_det_in_process set mps_st='Y' , process_tag_qr = :p_process_tag_qr ,  fin_by =:p_fin_by , fin_date = SYSDATE ,  upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and pcs_barcode = :p_pcs_barcode and wc_code =:p_wc_code";
+
+                    //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
+                    oraCommand.ExecuteNonQuery();
+                    conn.Close();
+
+
                     scope.Complete();
                 }
 

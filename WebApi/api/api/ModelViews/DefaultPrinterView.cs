@@ -25,5 +25,15 @@ namespace api.ModelViews
         public string filepath_txt { get; set; }
     }
 
+    public class PrinterView
+    {
+        public string grp_type { get; set; }
+        public string serial_no { get; set; }
+        public string prnt_point_name { get; set; }
+        public string filepath_data { get; set; }
+        public string filepath_btw { get; set; }
+        public string filepath_txt { get; set; }
+    }
+
 
 }

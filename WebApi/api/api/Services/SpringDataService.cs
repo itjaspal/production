@@ -33,23 +33,25 @@ namespace api.Services
                 int vmps_back_day;
                 DateTime vreq_date;
 
-                pd_jit_schedule_ctl jit = ctx.jit_schedule_ctl.SqlQuery("select MAX(MPS_BACK_DAY) MPS_BACK_DAY  , max(PD_ENTITY) PD_ENTITY , max(SEQ_NO) SEQ_NO , max(PDGRP_CODE) PDGRP_CODE , max(WC_CODE) WC_CODE from PD_JIT_SCHEDULE_CTL where pd_entity = :param1 and wc_code = :param2", new OracleParameter("param1", ventity), new OracleParameter("param2", vwc_code)).SingleOrDefault();
+             
 
+                string sqlj = "select max(mps_back_day) from pd_jit_schedule_ctl where  pd_entity = :param1 and wc_code = :param2";
 
-                if (jit == null)
+                int jit = ctx.Database.SqlQuery<int>(sqlj, new OracleParameter("param1", ventity), new OracleParameter("param2", vwc_code)).SingleOrDefault();
+
+                if (jit == 0)
                 {
                     vmps_back_day = 0;
                 }
                 else
                 {
-                    vmps_back_day = jit.MPS_BACK_DAY;
+                    vmps_back_day = jit;
                 }
 
 
+                string sqlr = "select max(req_date) from mps_mast where entity = :param1 and req_date <= (SYSDATE + :p_mps_back_day)";
 
-
-
-                mps_mast mps = ctx.mps_mast.SqlQuery("select max(REQ_DATE) REQ_DATE , max(ENTITY) ENTITY , max(BUILD_NO) BUILD_NO from MPS_MAST where entity = :param1 and req_date <= (SYSDATE + :p_mps_back_day)", new OracleParameter("param1", ventity), new OracleParameter("p_mps_back_day", vmps_back_day)).SingleOrDefault();
+                DateTime mps = ctx.Database.SqlQuery<DateTime>(sqlr, new OracleParameter("param1", ventity), new OracleParameter("p_mps_back_day", vmps_back_day)).SingleOrDefault();
 
 
                 if (mps == null)
@@ -58,7 +60,7 @@ namespace api.Services
                 }
                 else
                 {
-                    vreq_date = mps.REQ_DATE;
+                    vreq_date = mps;
                 }
 
                 //DateTime vreq_date = DateTime.Now;

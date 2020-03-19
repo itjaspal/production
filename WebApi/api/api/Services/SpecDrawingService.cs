@@ -83,26 +83,42 @@ namespace api.Services
                     datas = new List<ModelViews.RawMatListView>()
                 };
 
-               
+                string sqlr = "select bom_seq , bom_sub , bom_name , rm_seq , rm_code , rm_name , short_name , uom_code , unit_qty , item_name from mps_mr_pcs where entity = :p_entity and pcs_barcode = :p_pcs_barcode and dept_bom = :p_wc_code order by bom_seq , rm_seq";
 
-                List<RawMatListView> rawmat = ctx.mr_pcs
-                .Where(z => z.ENTITY == datas.entity && z.PCS_BARCODE == datas.pcs_barcode && z.DEPT_BOM == datas.wc_code)
-                .OrderBy(z => z.BOM_SEQ).ThenBy(z => z.RM_SEQ)
-                .Select(x => new RawMatListView()
-                {
+                List<RawMatListView> rawmat = ctx.Database.SqlQuery<RawMatListView>(sqlr , new OracleParameter("p_entity", datas.entity), new OracleParameter("p_pcs_barcode", datas.pcs_barcode), new OracleParameter("p_wc_code", datas.wc_code))
+                                           .Select(x => new RawMatListView()
+                                           {
+                                               bom_seq = x.bom_seq,
+                                               bom_sub = x.bom_sub,
+                                               bom_name = x.bom_name,
+                                               rm_seq = x.rm_seq,
+                                               rm_code = x.rm_code,
+                                               rm_name = x.rm_name,
+                                               short_name = x.short_name,
+                                               uom_code = x.uom_code,
+                                               unit_qty = x.unit_qty,
+                                               item_name = x.item_name
+                                           })
+                                           .ToList();
 
-                    bom_seq = x.BOM_SEQ,
-                    bom_sub = x.BOM_SUB,
-                    bom_name = x.BOM_NAME,
-                    rm_seq = x.RM_SEQ,
-                    rm_code = x.RM_CODE,
-                    rm_name = x.RM_NAME,
-                    short_name = x.SHORT_NAME,
-                    uom_code = x.UOM_CODE,
-                    unit_qty = x.UNIT_QTY,
-                    item_name = x.ITEM_NAME
-                })
-                .ToList();
+                //List<RawMatListView> rawmat = ctx.mr_pcs
+                //.Where(z => z.ENTITY == datas.entity && z.PCS_BARCODE == datas.pcs_barcode && z.DEPT_BOM == datas.wc_code)
+                //.OrderBy(z => z.BOM_SEQ).ThenBy(z => z.RM_SEQ)
+                //.Select(x => new RawMatListView()
+                //{
+
+                //    bom_seq = x.BOM_SEQ,
+                //    bom_sub = x.BOM_SUB,
+                //    bom_name = x.BOM_NAME,
+                //    rm_seq = x.RM_SEQ,
+                //    rm_code = x.RM_CODE,
+                //    rm_name = x.RM_NAME,
+                //    short_name = x.SHORT_NAME,
+                //    uom_code = x.UOM_CODE,
+                //    unit_qty = x.UNIT_QTY,
+                //    item_name = x.ITEM_NAME
+                //})
+                //.ToList();
 
 
                 view.totalItem = rawmat.Count;
@@ -197,24 +213,42 @@ namespace api.Services
 
 
 
-                List<RawMatListView> rawmat = ctx.mr_pcs
-                .Where(z => z.ENTITY == datas.entity && z.PCS_BARCODE == datas.pcs_barcode && z.DEPT_BOM == datas.wc_code)
-                .OrderBy(z => z.BOM_SEQ).ThenBy(z => z.RM_SEQ)
-                .Select(x => new RawMatListView()
-                {
+                //List<RawMatListView> rawmat = ctx.mr_pcs
+                //.Where(z => z.ENTITY == datas.entity && z.PCS_BARCODE == datas.pcs_barcode && z.DEPT_BOM == datas.wc_code)
+                //.OrderBy(z => z.BOM_SEQ).ThenBy(z => z.RM_SEQ)
+                //.Select(x => new RawMatListView()
+                //{
 
-                    bom_seq = x.BOM_SEQ,
-                    bom_sub = x.BOM_SUB,
-                    bom_name = x.BOM_NAME,
-                    rm_seq = x.RM_SEQ,
-                    rm_code = x.RM_CODE,
-                    rm_name = x.RM_NAME,
-                    short_name = x.SHORT_NAME,
-                    uom_code = x.UOM_CODE,
-                    unit_qty = x.UNIT_QTY,
-                    item_name = x.ITEM_NAME
-                })
-                .ToList();
+                //    bom_seq = x.BOM_SEQ,
+                //    bom_sub = x.BOM_SUB,
+                //    bom_name = x.BOM_NAME,
+                //    rm_seq = x.RM_SEQ,
+                //    rm_code = x.RM_CODE,
+                //    rm_name = x.RM_NAME,
+                //    short_name = x.SHORT_NAME,
+                //    uom_code = x.UOM_CODE,
+                //    unit_qty = x.UNIT_QTY,
+                //    item_name = x.ITEM_NAME
+                //})
+                //.ToList();
+
+                string sqlr = "select bom_seq , bom_sub , bom_name , rm_seq , rm_code , rm_name , short_name , uom_code , unit_qty , item_name from mps_mr_pcs where entity = :p_entity and pcs_barcode = :p_pcs_barcode and dept_bom = :p_wc_code order by bom_seq , rm_seq";
+
+                List<RawMatListView> rawmat = ctx.Database.SqlQuery<RawMatListView>(sqlr, new OracleParameter("p_entity", datas.entity), new OracleParameter("p_pcs_barcode", datas.pcs_barcode), new OracleParameter("p_wc_code", datas.wc_code))
+                                           .Select(x => new RawMatListView()
+                                           {
+                                               bom_seq = x.bom_seq,
+                                               bom_sub = x.bom_sub,
+                                               bom_name = x.bom_name,
+                                               rm_seq = x.rm_seq,
+                                               rm_code = x.rm_code,
+                                               rm_name = x.rm_name,
+                                               short_name = x.short_name,
+                                               uom_code = x.uom_code,
+                                               unit_qty = x.unit_qty,
+                                               item_name = x.item_name
+                                           })
+                                           .ToList();
 
 
                 view.totalItem = rawmat.Count;

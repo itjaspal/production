@@ -50,7 +50,7 @@ export class DispalyJobComponent implements OnInit {
         this.model.pageIndex = event.pageIndex;
         this.model.itemPerPage = event.pageSize;
       }
-      this.model.mc_code = this.user.user_mac.MC_CODE;
+      this.model.mc_code = this.user.mc_code;
       this.model.user_id = this.user.username;
       this.model.wc_code = this.user.def_wc_code;
       this.dataCurrent.datas  = [];
@@ -66,7 +66,7 @@ export class DispalyJobComponent implements OnInit {
       this.model.itemPerPage = event.pageSize;
     } 
 
-    this.model.mc_code = this.user.user_mac.MC_CODE;
+    this.model.mc_code = this.user.mc_code;
     this.model.user_id = this.user.username;
     this.model.wc_code = this.user.def_wc_code;
     this.dataPending.datas  = [];
@@ -79,7 +79,7 @@ export class DispalyJobComponent implements OnInit {
       this.model.pageIndex = event.pageIndex;
       this.model.itemPerPage = event.pageSize;
     }
-    this.model.mc_code = this.user.user_mac.MC_CODE;
+    this.model.mc_code = this.user.mc_code;
     this.model.user_id = this.user.username;
     this.model.wc_code = this.user.def_wc_code;
     this.dataForward.datas  = [];

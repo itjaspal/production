@@ -24,19 +24,19 @@ namespace api.Services
         {
             using (var ctx = new ConXContext())
             {
-                su_user user = ctx.user
-                    .Include("departments")
-                    .Include("user_mac")
-                    .Where(z => z.USER_ID == username.ToUpper())
-                    .SingleOrDefault();
+                //su_user user = ctx.user
+                //    .Include("departments")
+                //    .Include("user_mac")
+                //    .Where(z => z.USER_ID == username.ToUpper())
+                //    .SingleOrDefault();
 
-                //su_user user = ctx.user.SqlQuery("Select a.USER_ID , a.USER_NAME , a.USER_PASSWORD , a.DEPT_CODE , a.ACTIVE , b.DEPT_NAMET , c.MC_CODE , c.STATUS from su_user a , department b , pd_mapp_user_mac c  where a.dept_code=b.dept_code and a.user_id=c.user_id and a.user_id = :param1", new OracleParameter("param1", username)).SingleOrDefault();
+                var vuser = username.ToUpper();
 
-                //department dept = ctx.departments.SqlQuery("select DEPT_CODE , DEPT_NAMET from department where dept_code = :param1", new OracleParameter("param1", user.DEPT_CODE)).SingleOrDefault();
+                string sql = "select a.user_id username , a.user_name name , a.user_password, a.dept_code , a.active statusId , b.dept_namet dept_name , c.mc_code  from su_user a , department b , pd_mapp_user_mac c where a.dept_code=b.dept_code and a.user_id = c.user_id and a.user_id = :p_user_id and c.status='A'";
 
-                //pd_mapp_user_mac user_mac = ctx.user_mac.SqlQuery("select USER_ID , MC_CODE , STATUS from pd_mapp_user_mac where user_id = :param1", new OracleParameter("param1", user.USER_ID)).SingleOrDefault();
+                AuthenticationData user = ctx.Database.SqlQuery<AuthenticationData>(sql, new OracleParameter("p_user_id", vuser)).FirstOrDefault();
 
-               
+
 
 
                 if (user == null)
@@ -49,29 +49,35 @@ namespace api.Services
                 //}
                 else
                 {
-                    if (!user.USER_PASSWORD.Equals(password))
+                    if (!user.user_password.Equals(password))
                     {
                         throw new Exception("รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
                     }
 
-                    if (!user.ACTIVE.Equals("Y"))
+                    if (!user.statusId.Equals("Y"))
                     {
                         throw new Exception("สถานะผู้ใช้งานนี้ถูกยกเลิก");
                     }
 
 
 
-                    if (!user.user_mac.STATUS.Equals("A"))
-                    {
-                        throw new Exception("ไม่มีการกำหนด Machine");
-                    }
+                    //if (!user.user_mac.STATUS.Equals("A"))
+                    //{
+                    //    throw new Exception("ไม่มีการกำหนด Machine");
+                    //}
                 }
 
-                whmobileprnt_default whmobileprnt = ctx.mobileprnt_def
-                  .Where(z => z.MC_CODE == user.user_mac.MC_CODE).SingleOrDefault();
+                //whmobileprnt_default whmobileprnt = ctx.mobileprnt_def
+                //  .Where(z => z.MC_CODE == user.user_mac.MC_CODE).SingleOrDefault();
 
-                auth_function auth = ctx.auth
-                   .Where(z => z.USER_ID == user.USER_ID && z.FUNCTION_ID == "PDOPTM_WEB").SingleOrDefault();
+                //auth_function auth = ctx.auth
+                //   .Where(z => z.USER_ID == user.USER_ID && z.FUNCTION_ID == "PDOPTM_WEB").SingleOrDefault();
+
+                string sqlp = "select series_no from whmobileprnt_default where mc_code = :p_mc_code ";
+                string printer = ctx.Database.SqlQuery<string>(sqlp, new OracleParameter("p_mc_code", user.mc_code)).FirstOrDefault();
+
+                string sqla = "select dept_code from auth_function where user_id = :p_user_id and function_id = 'PDOPTM_WEB'";
+                string auth = ctx.Database.SqlQuery<string>(sqla, new OracleParameter("p_user_id", vuser)).FirstOrDefault();
 
                 string def_printer = null;
                 string wc_code = null;
@@ -81,13 +87,13 @@ namespace api.Services
                     throw new Exception("ยังไมได้กำนหด หน่วยงาน");
                 }
 
-                if (whmobileprnt == null)
+                if (printer == null)
                 {
                     def_printer = "";
                 }
                 else
                 {
-                    def_printer = whmobileprnt.SERIES_NO;
+                    def_printer = printer;
                 }
 
                 if (auth == null)
@@ -96,28 +102,28 @@ namespace api.Services
                 }
                 else
                 {
-                    wc_code = auth.DEPT_CODE;
+                    wc_code = auth;
                 }
 
 
 
                 AuthenticationData data = new AuthenticationData()
                 {
-                    username = user.USER_ID,
-                    name = user.USER_NAME,
-                    dept_code = user.DEPT_CODE,
-                    department = user.departments,
-                    user_mac = user.user_mac,
+                    username = user.username,
+                    name = user.name,
+                    dept_code = user.dept_code,
+                    dept_name = user.dept_name,
+                    mc_code = user.mc_code,
                     def_printer = def_printer,
                     def_wc_code = wc_code,
-                    statusId = user.ACTIVE,
+                    statusId = user.statusId,
                     menuGroups = new List<ModelViews.menuFunctionGroupView>(),
                 };
 
 
 
                
-                    data.menuGroups = getUserRole((string)user.USER_ID);
+                    data.menuGroups = getUserRole((string)user.username);
                 
 
 
@@ -130,10 +136,13 @@ namespace api.Services
         {
             using (var ctx = new ConXContext())
             {
-                //List<su_user_role> user_role = ctx.user_role.SqlQuery("Select USER_ID , ROLE_ID ,ACTIVE  from su_user_role where user_id = :param1", new OracleParameter("param1", userId)).ToList();
-               List<su_menu> menu = ctx.menu.SqlQuery("select  LEVEL , MENU_ID, MENU_NAME , MENU_TYPE, LINK_NAME , MAIN_MENU , ICON_NAME from su_menu where EXISTS   (select MENU_ID  from su_role_menu  WHERE MENU_ID= SU_MENU.MENU_ID AND EXISTS (select role_id from su_user_role  WHERE ROLE_ID= SU_ROLE_MENU.ROLE_ID  and user_id = :param1)) CONNECT BY PRIOR MENU_ID = MAIN_MENU START WITH  menu_id ='MOB0000000' ORDER BY MENU_ID", new OracleParameter("param1", userId)).ToList();
-                
-               List<menuFunctionView> functionViews = new List<menuFunctionView>();
+
+                //List<su_menu> menu = ctx.menu.SqlQuery("select  LEVEL , MENU_ID, MENU_NAME , MENU_TYPE, LINK_NAME , MAIN_MENU , ICON_NAME from su_menu where EXISTS   (select MENU_ID  from su_role_menu  WHERE MENU_ID= SU_MENU.MENU_ID AND EXISTS (select role_id from su_user_role  WHERE ROLE_ID= SU_ROLE_MENU.ROLE_ID  and user_id = :param1)) CONNECT BY PRIOR MENU_ID = MAIN_MENU START WITH  menu_id ='MOB0000000' ORDER BY MENU_ID", new OracleParameter("param1", userId)).ToList();
+                string sql = "select  level , menu_id, menu_name , menu_type, main_menu , icon_name , link_name from su_menu where EXISTS   (select MENU_ID  from su_role_menu  WHERE MENU_ID= SU_MENU.MENU_ID AND EXISTS (select role_id from su_user_role  WHERE ROLE_ID= SU_ROLE_MENU.ROLE_ID  and user_id = :param1)) CONNECT BY PRIOR MENU_ID = MAIN_MENU START WITH  menu_id ='MOB0000000' ORDER BY MENU_ID";
+
+                List<menuView> menu = ctx.Database.SqlQuery<menuView>(sql, new OracleParameter("param1", userId)).ToList();
+
+                List<menuFunctionView> functionViews = new List<menuFunctionView>();
 
 
                 foreach (var x in menu)
@@ -141,11 +150,11 @@ namespace api.Services
                         
                             menuFunctionView view = new menuFunctionView()
                             {
-                                menuFunctionGroupId = x.MAIN_MENU,
-                                menuFunctionId = x.MENU_ID,
-                                menuFunctionName = x.MENU_NAME,
-                                iconName = x.ICON_NAME,
-                                menuURL = x.LINK_NAME,
+                                menuFunctionGroupId = x.main_menu,
+                                menuFunctionId = x.menu_id,
+                                menuFunctionName = x.menu_name,
+                                iconName = x.icon_name,
+                                menuURL = x.link_name,
                             };
 
 
@@ -161,16 +170,16 @@ namespace api.Services
                 {
                     menuFunctionGroupView view = new menuFunctionGroupView()
                     {
-                        menuFunctionGroupId = x.MENU_ID,
-                        menuFunctionGroupName = x.MENU_NAME,
-                        iconName = x.ICON_NAME,
+                        menuFunctionGroupId = x.menu_id,
+                        menuFunctionGroupName = x.menu_name,
+                        iconName = x.icon_name,
                         menuFunctionList = functionViews
-                                .Where(o => o.menuFunctionGroupId == x.MENU_ID)
+                                .Where(o => o.menuFunctionGroupId == x.menu_id)
                                 .ToList()
 
                     };
 
-                    if (x.MENU_TYPE == "M" && x.MENU_ID != "MOB0000000")
+                    if (x.menu_type == "M" && x.menu_id != "MOB0000000")
                     {
                         groupView.Add(view);
                     }

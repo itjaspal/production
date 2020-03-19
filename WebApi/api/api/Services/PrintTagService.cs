@@ -47,7 +47,7 @@ namespace api.Services
                 string vsize_name = ctx.Database.SqlQuery<string>(sqls, new OracleParameter("p_size_code", vsize_desc)).FirstOrDefault();
 
 
-                string sql = "select max(process_tag_no) process_tag_no , max(to_char(req_date,'dd/mm/yyyy')) req_date , max(mc_code) , max(to_char(fin_date,'dd/mm/yyyy')) fin_date";
+                string sql = "select nvl(max(process_tag_no) process_tag_no , max(to_char(req_date,'dd/mm/yyyy')) req_date , max(mc_code) , max(to_char(fin_date,'dd/mm/yyyy')) fin_date";
                 sql += " from mps_det_in_process_tag";
                 sql += " where entity = :p_entity";
                 sql += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
@@ -162,46 +162,86 @@ namespace api.Services
                     using (TransactionScope scope = new TransactionScope())
                     {
 
-                        mps_det_in_process_tag tag = ctx.mps_tag
-                        .Where(z => z.ENTITY == ventity
-                            && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date)
-                            && z.MC_CODE == vmc_code && z.PROCESS_TAG_NO == vprocess_tag_no).SingleOrDefault();
+                        //mps_det_in_process_tag tag = ctx.mps_tag
+                        //.Where(z => z.ENTITY == ventity
+                        //    && System.Data.Entity.DbFunctions.TruncateTime(z.REQ_DATE) == System.Data.Entity.DbFunctions.TruncateTime(vreq_date)
+                        //    && z.MC_CODE == vmc_code && z.PROCESS_TAG_NO == vprocess_tag_no).SingleOrDefault();
 
 
+                        string sqlt = "select prod_code from mps_det_in_process_tag where entity=:p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and mc_code = :p_mc_code and process_tag_no = :p_process_tag_no and rownum = 1";
+                        string tag = ctx.Database.SqlQuery<string>(sqlt, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_process_tag_no", vprocess_tag_no)).SingleOrDefault();
 
 
                         if (tag == null)
                         {
+                            string strConn = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+                            var dataConn = new OracleConnectionStringBuilder(strConn);
+                            OracleConnection conn = new OracleConnection(dataConn.ToString());
+
+                            conn.Open();
+
 
                             foreach (var i in model.datas)
                             {
+ 
                                 if (i.process_tag_no == vprocess_tag_no)
                                 {
-                                    mps_det_in_process_tag newObj = new mps_det_in_process_tag()
+                                    //mps_det_in_process_tag newObj = new mps_det_in_process_tag()
+                                    //{
+                                    //    ENTITY = ventity,
+                                    //    REQ_DATE = vreq_date,
+                                    //    FIN_DATE = DateTime.Now,
+                                    //    MC_CODE = vmc_code,
+                                    //    PROCESS_TAG_NO = vprocess_tag_no,
+                                    //    PROCESS_TAG_QR = "",
+                                    //    SEQ_NO = item,
+                                    //    REF_DOC_NO = i.doc_no,
+                                    //    PROD_CODE = i.prod_code,
+                                    //    PROD_TNAME = i.prod_name,
+                                    //    UPD_BY = vuser_id,
+                                    //    UPD_DATE = DateTime.Now
+
+                                    //};
+
+                                    //item++;
+
+                                    //ctx.mps_tag.Add(newObj);
+                                    //ctx.SaveChanges();
+                                    ////scope.Complete();
+                                    
+
+                                    OracleCommand oraCommand = conn.CreateCommand();
+                                    OracleParameter[] param = new OracleParameter[]
                                     {
-                                        ENTITY = ventity,
-                                        REQ_DATE = vreq_date,
-                                        FIN_DATE = DateTime.Now,
-                                        MC_CODE = vmc_code,
-                                        PROCESS_TAG_NO = vprocess_tag_no,
-                                        PROCESS_TAG_QR = "",
-                                        SEQ_NO = item,
-                                        REF_DOC_NO = i.doc_no,
-                                        PROD_CODE = i.prod_code,
-                                        PROD_TNAME = i.prod_name,
-                                        UPD_BY = vuser_id,
-                                        UPD_DATE = DateTime.Now
+                                        new OracleParameter("p_entity",ventity),
+                                        new OracleParameter("p_req_date",vreq_date),
+                                        new OracleParameter("p_fin_date",DateTime.Now),
+                                        new OracleParameter("p_mc_code",vmc_code),
+                                        new OracleParameter("p_process_tag_no", vprocess_tag_no),
+                                        new OracleParameter("p_process_tag_qr", ""),
+                                        new OracleParameter("p_seq_no",item),
+                                        new OracleParameter("p_doc_no",i.doc_no),
+                                        new OracleParameter("p_prod_code",i.prod_code),
+                                        new OracleParameter("p_prod_name",i.prod_name),
+                                        new OracleParameter("p_upd_by",vuser_id),
+                                        new OracleParameter("p_upd_date", DateTime.Now),
 
                                     };
+                                    oraCommand.BindByName = true;
+                                    oraCommand.Parameters.AddRange(param);
+                                    oraCommand.CommandText = "insert into mps_det_in_process_tag (entity , req_date , mc_code , seq_no , fin_date , process_tag_no , upd_by , upd_date) values (:p_mc_code , :p_series_no , :p_upd_by , :p_upd_date)";
 
+
+                                    oraCommand.ExecuteNonQuery();
+                                    
+                                   
                                     item++;
 
-                                    ctx.mps_tag.Add(newObj);
-                                    ctx.SaveChanges();
-                                    //scope.Complete();
-                                }
 
+                                }
+                                
                             }
+                            conn.Close();
                             scope.Complete();
 
                         }
@@ -610,7 +650,9 @@ namespace api.Services
                 {
 
                     view.datas.Add(new ModelViews.RawProductView()
+                    //view.datas.Add(new ModelViews.RawMatitemView()
                     {
+                        //process_tag_no = ,
                         doc_no = i.doc_no,
                         prod_code = i.prod_code,
                         prod_name = i.prod_name

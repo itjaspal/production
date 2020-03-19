@@ -63,7 +63,7 @@ export class DefaultPrinterComponent implements OnInit {
   async save() {
     var _valid = true;
     this.modelUpdate.user_id = this.user.username;
-    this.modelUpdate.mc_code = this.user.user_mac.MC_CODE;
+    this.modelUpdate.mc_code = this.user.mc_code;
 
     console.log("this.modelUpdate.user_id: " + this.modelUpdate.user_id);
     console.log("this.modelUpdate.mc_code: " + this.modelUpdate.mc_code);
@@ -79,7 +79,7 @@ export class DefaultPrinterComponent implements OnInit {
 
 
   async getDefaultPrinter() {
-    this.model = await this._defaultPrinterSvc.getDefaultPrinter(this.user.user_mac.MC_CODE);
+    this.model = await this._defaultPrinterSvc.getDefaultPrinter(this.user.mc_code);
     console.log(this.model);
   }
 

@@ -39,7 +39,7 @@ export class ScanSendComponent implements OnInit {
     this.actions = this._authSvc.getActionAuthorization(this._actRoute);
     this.user = this._authSvc.getLoginUser();
     this.model.wc_code =  this.user.def_wc_code;
-    this.model.mc_code =  this.user.user_mac.MC_CODE;
+    this.model.mc_code =  this.user.mc_code;
     this.model.req_date = "";
     
 
@@ -77,7 +77,7 @@ export class ScanSendComponent implements OnInit {
       this.model.itemPerPage = event.pageSize;
     }
     this.model.wc_code =  this.user.def_wc_code;
-    this.model.mc_code =  this.user.user_mac.MC_CODE;
+    this.model.mc_code =  this.user.mc_code;
     
     //var datePipe = new DatePipe("en-US");
     //console.log(datePipe.transform(this.model.req_date, 'dd/MM/yyyy')); 

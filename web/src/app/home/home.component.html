@@ -20,15 +20,15 @@
         </div> -->
         <div class="col-12" *ngIf="!user.branch">
           <dt>แผนก</dt>
-          <dd>{{user.department.DEPT_NAMET}}</dd>
+          <dd>{{user.dept_name}}</dd>
         </div>
         <div class="col-12" *ngIf="user.def_wc_code">
           <dt>หน่วยผลิต</dt>
           <dd>{{user.def_wc_code}}</dd>
         </div>
-        <div class="col-12" *ngIf="user.user_mac.MC_CODE">
+        <div class="col-12" *ngIf="user.mc_code">
           <dt>เครื่องจักร</dt>
-          <dd>{{user.user_mac.MC_CODE}}</dd>
+          <dd>{{user.mc_code}}</dd>
         </div>
       </div>
     </mat-card-content>

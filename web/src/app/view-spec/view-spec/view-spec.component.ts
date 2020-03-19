@@ -47,7 +47,7 @@ ngOnInit() {
     
     this.user = this._authSvc.getLoginUser();
     this.model.wc_code =  this.user.def_wc_code;
-    this.model.mc_code =  this.user.user_mac.MC_CODE;
+    this.model.mc_code =  this.user.mc_code;
     //this.springSearch();
 } 
 

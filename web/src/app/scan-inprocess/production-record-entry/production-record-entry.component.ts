@@ -46,7 +46,7 @@ export class ProductionRecordEntryComponent implements OnInit {
     this.model.req_date = this._actRoute.snapshot.params.req_date;
     this.model.req_date  = datePipe.transform(this.model.req_date, 'dd/MM/yyyy');
     this.model.wc_code = this.user.def_wc_code;
-    this.model.mc_code = this.user.user_mac.MC_CODE;
+    this.model.mc_code = this.user.mc_code;
     this.model.user_id = this.user.username;
     this.model.spring_grp =this._actRoute.snapshot.params.spring_grp; 
     this.model.size_code =this._actRoute.snapshot.params.size_code;
@@ -66,7 +66,7 @@ export class ProductionRecordEntryComponent implements OnInit {
     // this.searchModel.pcs_barcode = this.model.pcs_barcode;
     this.searchModel.req_date = this.model.req_date;
     this.searchModel.wc_code = this.user.def_wc_code;
-    this.searchModel.mc_code = this.user.user_mac.MC_CODE;
+    this.searchModel.mc_code = this.user.mc_code;
     this.searchModel.user_id = this.user.username;
     this.searchModel.spring_grp = this.model.spring_grp;
     this.searchModel.size_code = this.model.size_code ;

@@ -61,7 +61,7 @@ export class PrintTagComponent implements OnInit {
     this.model_search.size_desc = this._actRoute.snapshot.params.size_code;
     this.model_search.qty = this._actRoute.snapshot.params.qty;
     this.model_search.wc_code = this.user.def_wc_code;
-    this.model_search.mc_code = this.user.user_mac.MC_CODE;
+    this.model_search.mc_code = this.user.mc_code;
     this.model_search.printer = this.user.def_printer;
     this.model_search.user_id = this.user.username;
     this.model_search.req_date  = datePipe.transform(this.model_search.req_date, 'dd/MM/yyyy');
@@ -85,7 +85,7 @@ export class PrintTagComponent implements OnInit {
 
   async tagList() {  
     this.tagno_search.req_date = this.model_search.req_date;
-    this.tagno_search.mc_code = this.user.user_mac.MC_CODE;
+    this.tagno_search.mc_code = this.user.mc_code;
 
     this.datas_tag = await this._tagSvc.tagnoList(this.tagno_search);
 
@@ -100,7 +100,11 @@ export class PrintTagComponent implements OnInit {
       maxWidth: '100vw',
       maxHeight: '100vh',
       height: '100%',
-      width: '100%'
+      width: '100%',
+      data: {
+        process_tag_no: this.datas.process_tag_no
+      }
+
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -193,7 +197,7 @@ export class PrintTagComponent implements OnInit {
     this.model_search.size_desc = this._actRoute.snapshot.params.size_code;
     this.model_search.qty = this._actRoute.snapshot.params.qty;
     this.model_search.wc_code = this.user.def_wc_code;
-    this.model_search.mc_code = this.user.user_mac.MC_CODE;
+    this.model_search.mc_code = this.user.mc_code;
     this.model_search.printer = this.user.def_printer;
     this.model_search.req_date  = datePipe.transform(this.model_search.req_date, 'dd/MM/yyyy');
 
@@ -233,7 +237,7 @@ export class PrintTagComponent implements OnInit {
     this.model_tagsearch.size_desc = this._actRoute.snapshot.params.size_code;
     this.model_tagsearch.qty = this._actRoute.snapshot.params.qty;
     this.model_tagsearch.wc_code = this.user.def_wc_code;
-    this.model_tagsearch.mc_code = this.user.user_mac.MC_CODE;
+    this.model_tagsearch.mc_code = this.user.mc_code;
     this.model_tagsearch.printer = this.user.def_printer;
     this.model_tagsearch.req_date  = datePipe.transform(this.model_tagsearch.req_date, 'dd/MM/yyyy');
 
@@ -254,7 +258,7 @@ export class PrintTagComponent implements OnInit {
     this.model_search.size_desc = this._actRoute.snapshot.params.size_code;
     this.model_search.qty = this._actRoute.snapshot.params.qty;
     this.model_search.wc_code = this.user.def_wc_code;
-    this.model_search.mc_code = this.user.user_mac.MC_CODE;
+    this.model_search.mc_code = this.user.mc_code;
     this.model_search.printer = this.user.def_printer;
     this.model_search.req_date  = datePipe.transform(this.model_search.req_date, 'dd/MM/yyyy');
 

@@ -71,6 +71,7 @@ namespace api.ModelViews
 
     public class RawProductView
     {
+        //public string process_tag_no { get; set; } 
         public string doc_no { get; set; }
         public string prod_code { get; set; }
         public string prod_name { get; set; }

@@ -9,13 +9,8 @@ namespace api.Interfaces
 {
     interface IDropdownlistService
     {
-        List<Dropdownlist> GetDdlProductType();
-        List<Dropdownlist> GetDdlProductGroup();
-        List<Dropdownlist> GetDdlProductBrand();
+       
         List<Dropdownlist> GetDdlMobilePrnt();
-        List<Dropdownlist> GetDdlProductSize();
-        List<Dropdownlist> GetDdlProductModel();
-        List<Dropdownlist> GetDdlProductDesign();
-        List<Dropdownlist> GetDdlProductColor();
+        
     }
 }

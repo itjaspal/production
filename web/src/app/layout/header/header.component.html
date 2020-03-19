@@ -60,7 +60,7 @@
                 <h4 mat-line class="line-1">{{user.username}} <span
                     *ngIf="user.isPC">({{user.branch.branch.entityCode}})</span> </h4>
                 <p class="text-left" mat-line *ngIf="!user.isPC">
-                  <small>{{user.department.departmentName}}</small>
+                  <small>{{user.dept_name}}</small>
                 </p>
                 <p class="text-left" mat-line *ngIf="user.isPC" class="pc-branch-view">
                   <small>{{user.branch.branch.branchCode}}-{{user.branch.branch.branchNameThai}}</small>
