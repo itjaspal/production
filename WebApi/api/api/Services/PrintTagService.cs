@@ -47,7 +47,7 @@ namespace api.Services
                 string vsize_name = ctx.Database.SqlQuery<string>(sqls, new OracleParameter("p_size_code", vsize_desc)).FirstOrDefault();
 
 
-                string sql = "select nvl(max(process_tag_no) process_tag_no , max(to_char(req_date,'dd/mm/yyyy')) req_date , max(mc_code) , max(to_char(fin_date,'dd/mm/yyyy')) fin_date";
+                string sql = "select nvl(max(process_tag_no),0) process_tag_no , max(to_char(req_date,'dd/mm/yyyy')) req_date , max(mc_code) , max(to_char(fin_date,'dd/mm/yyyy')) fin_date";
                 sql += " from mps_det_in_process_tag";
                 sql += " where entity = :p_entity";
                 sql += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
@@ -57,9 +57,10 @@ namespace api.Services
 
 
                 PrintTagView tag = ctx.Database.SqlQuery<PrintTagView>(sql, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_mc_code", vmc_code)).SingleOrDefault();
+                
 
 
-                if (tag == null)
+                if (tag.process_tag_no == 0)
                 {
 
                     view.entity = ventity;
@@ -215,7 +216,7 @@ namespace api.Services
                                     {
                                         new OracleParameter("p_entity",ventity),
                                         new OracleParameter("p_req_date",vreq_date),
-                                        new OracleParameter("p_fin_date",DateTime.Now),
+                                        //new OracleParameter("p_fin_date",DateTime.Now),
                                         new OracleParameter("p_mc_code",vmc_code),
                                         new OracleParameter("p_process_tag_no", vprocess_tag_no),
                                         new OracleParameter("p_process_tag_qr", ""),
@@ -224,12 +225,12 @@ namespace api.Services
                                         new OracleParameter("p_prod_code",i.prod_code),
                                         new OracleParameter("p_prod_name",i.prod_name),
                                         new OracleParameter("p_upd_by",vuser_id),
-                                        new OracleParameter("p_upd_date", DateTime.Now),
+                                        //new OracleParameter("p_upd_date", DateTime.Now),
 
                                     };
                                     oraCommand.BindByName = true;
                                     oraCommand.Parameters.AddRange(param);
-                                    oraCommand.CommandText = "insert into mps_det_in_process_tag (entity , req_date , mc_code , seq_no , fin_date , process_tag_no , upd_by , upd_date) values (:p_mc_code , :p_series_no , :p_upd_by , :p_upd_date)";
+                                    oraCommand.CommandText = "insert into mps_det_in_process_tag (entity , req_date , mc_code , seq_no , fin_date , process_tag_no , process_tag_qr , ref_doc_no , prod_code ,prod_tname , upd_by , upd_date) values (:p_entity , :p_req_date , :p_mc_code , :p_seq_no , SYSDATE , :p_process_tag_no , :p_process_tag_qr , :p_doc_no , :p_prod_code , :p_prod_name , :p_upd_by , SYSDATE)";
 
 
                                     oraCommand.ExecuteNonQuery();

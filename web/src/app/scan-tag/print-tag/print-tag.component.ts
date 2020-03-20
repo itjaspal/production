@@ -109,9 +109,33 @@ export class PrintTagComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.length > 0) {
-        this.add(result);
+        this.add_raw(result);
       }
     })
+  }
+
+  add_raw(datas: any) {
+
+    //const control = <FormArray>this.validationForm.controls['RawMatitemView'];
+    //this.model.datas = [];
+    console.log(this.model.datas);
+    datas.forEach(product => {
+
+        let newProd: RawMatitemView = new RawMatitemView();
+        newProd.process_tag_no = this.datas.process_tag_no;
+        newProd.doc_no = product.doc_no;
+        newProd.prod_code = product.prod_code;
+        newProd.prod_name = product.prod_name;
+        
+        
+        this.model.datas.push(newProd);
+        
+
+        //console.log(this.model.raw_item);
+
+       
+      
+    });
   }
   
   add(datas: any) {
