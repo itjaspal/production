@@ -41,7 +41,7 @@ namespace api.Services
 
                 if (user == null)
                 {
-                    throw new Exception("รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง / ไมได้กำนหด Machine");
+                    throw new Exception("รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง / ไม่ได้กำหนด Machine");
                 }
                 //else if (auth == null)
                 //{
