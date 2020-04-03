@@ -132,6 +132,9 @@ namespace api.Services
 
         public void PringTag(PrintTagView model)
         {
+            System.Diagnostics.Process.Start("net.exe", @"use L: / delete");
+            System.Diagnostics.Process.Start("net.exe", @"use L: \\192.168.8.14\Data TOP@007* /USER:192.168.8.14\webadmin").WaitForExit();
+
             using (var ctx = new ConXContext())
             {
 
@@ -269,7 +272,7 @@ namespace api.Services
                 //string docPath = "L:\\PRINT_POINT7\\trigger.txt";
 
                 //Map Drive
-                System.Diagnostics.Process.Start("net.exe", @"use L: \\192.168.8.14\Data").WaitForExit();
+                //System.Diagnostics.Process.Start("net.exe", @"use L: \\192.168.8.14\Data").WaitForExit();
 
                 //string txtPath = @"L:\PRINT_POINT7\trigger.txt";
                 //string dataPath = @"L:\PRINT_POINT7\barcfmic.txt";

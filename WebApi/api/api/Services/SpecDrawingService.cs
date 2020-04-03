@@ -14,6 +14,9 @@ namespace api.Services
     {
         public SpecDrawingView GetInfo(SpecDrawingSearchView model)
         {
+            System.Diagnostics.Process.Start("net.exe", @"use Z: / delete");
+            System.Diagnostics.Process.Start("net.exe", @"use Z: \\128.1.1.23\prog TOP@007* /USER:128.1.1.23\webadmin").WaitForExit();
+
             using (var ctx = new ConXContext())
             {
                 var ventity = model.entity;
@@ -50,10 +53,11 @@ namespace api.Services
                     throw new Exception("ไม่มีการกำหนดรูปให้กับ Spring Type นี้");
                 }
 
-                //System.Diagnostics.Process.Start("net.exe", @"use Z: \\128.1.1.23\prog").WaitForExit();
 
+                
                 string sqlp = "select spring_path from bm_basic_mast";
                 string spring_path = ctx.Database.SqlQuery<string>(sqlp).SingleOrDefault();
+                //string spring_path = "\\\\128.1.1.23\\prog\\picture\\spring\\";
 
                 string imagePath = @spring_path+spring_file;
                 //string imagePath = @"\\128.1.1.23\prog\Picture\Spring\" + spring_file;
@@ -156,6 +160,9 @@ namespace api.Services
 
         public SpecDrawingView GetPcsInfo(SpecDrawingSearchPcsView model)
         {
+            System.Diagnostics.Process.Start("net.exe", @"use Z: / delete");
+            System.Diagnostics.Process.Start("net.exe", @"use Z: \\128.1.1.23\prog TOP@007* /USER:128.1.1.23\webadmin").WaitForExit();
+
             using (var ctx = new ConXContext())
             {
                 var vpcs_barcode = model.pcs_barcode;
@@ -186,6 +193,7 @@ namespace api.Services
 
                 string sqlp = "select spring_path from bm_basic_mast";
                 string spring_path = ctx.Database.SqlQuery<string>(sqlp).SingleOrDefault();
+                //string spring_path = "\\\\128.1.1.23\\prog\\picture\\spring\\";
 
                 string imagePath = @spring_path + spring_file;
                 string imgBase64String = GetBase64StringForImage(imagePath);
