@@ -73,7 +73,7 @@ export class ProdRecordEntryComponent implements OnInit {
     }
     
     if (this.model.qty > this._actRoute.snapshot.params.qty) {
-      this._msgSvc.warningPopup("บันทึกจำนวนเกินส่งสอบ Quit");
+      this._msgSvc.warningPopup("บันทึกจำนวนเกินส่งมอบ Quit");
     } 
 
      
