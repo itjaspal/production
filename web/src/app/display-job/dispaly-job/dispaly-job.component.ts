@@ -56,7 +56,7 @@ export class DispalyJobComponent implements OnInit {
       this.dataCurrent.datas  = [];
 
       this.dataCurrent =  await this._displayJobMacSvc.searchJobByMacCurrent(this.model);
-
+      console.log(this.dataCurrent);
       
    }  
 

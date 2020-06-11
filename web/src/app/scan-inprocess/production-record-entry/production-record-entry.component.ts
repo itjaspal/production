@@ -49,6 +49,7 @@ export class ProductionRecordEntryComponent implements OnInit {
     this.model.mc_code = this.user.mc_code;
     this.model.user_id = this.user.username;
     this.model.spring_grp =this._actRoute.snapshot.params.spring_grp; 
+    this.model.springtype_code =this._actRoute.snapshot.params.springtype_code; 
     this.model.size_code =this._actRoute.snapshot.params.size_code;
     this.model.qty  = 1;
   }
@@ -69,6 +70,7 @@ export class ProductionRecordEntryComponent implements OnInit {
     this.searchModel.mc_code = this.user.mc_code;
     this.searchModel.user_id = this.user.username;
     this.searchModel.spring_grp = this.model.spring_grp;
+    this.searchModel.springtype_code = this.model.springtype_code;
     this.searchModel.size_code = this.model.size_code ;
 
     //console.log(this.searchModel);

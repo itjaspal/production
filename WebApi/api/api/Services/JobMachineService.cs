@@ -66,8 +66,8 @@ namespace api.Services
                 //DateTime vreq_date = DateTime.Now;
 
                 //query data
-                string sql = "SELECT REQ_DATE , MC_CODE , SPRING_GRP  ,PDSIZE_CODE ,PDSIZE_DESC ,sum(PLAN_QTY) PLAN_QTY , sum(ACTUAL_QTY) ACTUAL_QTY FROM (";
-                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP , a.PDSIZE_CODE , a.PDSIZE_DESC , count(*) PLAN_QTY , 0 ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
+                string sql = "SELECT REQ_DATE , MC_CODE , SPRING_GRP , SPRINGTYPE_CODE ,PDSIZE_CODE ,PDSIZE_DESC ,sum(PLAN_QTY) PLAN_QTY , sum(ACTUAL_QTY) ACTUAL_QTY FROM (";
+                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP , a.SPRINGTYPE_CODE, a.PDSIZE_CODE , a.PDSIZE_DESC , count(*) PLAN_QTY , 0 ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
                 sql += " where a.entity = c.entity";
                 sql += " and a.req_date = c.req_date";
                 sql += " and a.wc_code = c.wc_code";
@@ -77,9 +77,9 @@ namespace api.Services
                 sql += " and a.wc_code = :p_wc_code";
                 //sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
-                sql += " group by a.req_date , a.mc_code , a.spring_grp , a.pdsize_code , a.pdsize_desc)";
+                sql += " group by a.req_date , a.mc_code , a.spring_grp , a.springtype_code , a.pdsize_code , a.pdsize_desc)";
                 sql += " UNION ALL ";
-                sql += " (select  a.REQ_DATE , a.MC_CODE , a.spring_grp   , a.PDSIZE_CODE , a.PDSIZE_DESC , 0 PLAN_QTY , count(*) ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
+                sql += " (select  a.REQ_DATE , a.MC_CODE , a.spring_grp  ,a.SPRINGTYPE_CODE , a.PDSIZE_CODE , a.PDSIZE_DESC , 0 PLAN_QTY , count(*) ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
                 sql += " where a.entity = c.entity";
                 sql += " and a.req_date = c.req_date";
                 sql += " and a.wc_code = c.wc_code";
@@ -90,9 +90,9 @@ namespace api.Services
                 //sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " and a.mps_st = 'Y'";
-                sql += " group by a.req_date , a.mc_code , a.spring_grp , a.pdsize_code , a.pdsize_desc )";
-                sql += " ) Group by REQ_DATE,  MC_CODE , SPRING_GRP , PDSIZE_CODE ,PDSIZE_DESC";
-                sql += " Order  by req_date , mc_code , spring_grp , PDSIZE_CODE ,PDSIZE_DESC  ";
+                sql += " group by a.req_date , a.mc_code , a.spring_grp ,a.SPRINGTYPE_CODE , a.pdsize_code , a.pdsize_desc )";
+                sql += " ) Group by REQ_DATE,  MC_CODE , SPRING_GRP , SPRINGTYPE_CODE , PDSIZE_CODE ,PDSIZE_DESC";
+                sql += " Order  by req_date , mc_code , spring_grp , SPRINGTYPE_CODE , PDSIZE_CODE ,PDSIZE_DESC  ";
 
                 List<JobMachineReqView> jobcurrentView = ctx.Database.SqlQuery<JobMachineReqView>(sql, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code)).ToList();
 
@@ -125,6 +125,7 @@ namespace api.Services
                         pdsize_code = i.pdsize_code,
                         pdsize_desc = i.pdsize_desc,
                         spring_grp = i.spring_grp,
+                        springtype_code = i.springtype_code,
                         plan_qty = i.plan_qty,
                         actual_qty = i.actual_qty,
                         diff_qty = i.plan_qty - i.actual_qty,
@@ -196,8 +197,8 @@ namespace api.Services
                 //DateTime vreq_date = DateTime.Now;
 
                 //query data
-                string sql = "SELECT REQ_DATE ,MC_CODE , SPRING_GRP ,PDSIZE_CODE ,PDSIZE_DESC ,sum(PLAN_QTY) PLAN_QTY , sum(ACTUAL_QTY) ACTUAL_QTY FROM (";
-                sql += " (select a.REQ_DATE , a.MC_CODE , a.SPRING_GRP   , a.PDSIZE_CODE , a.PDSIZE_DESC , count(*) PLAN_QTY , 0 ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
+                string sql = "SELECT REQ_DATE ,MC_CODE , SPRING_GRP , SPRINGTYPE_CODE ,PDSIZE_CODE ,PDSIZE_DESC ,sum(PLAN_QTY) PLAN_QTY , sum(ACTUAL_QTY) ACTUAL_QTY FROM (";
+                sql += " (select a.REQ_DATE , a.MC_CODE , a.SPRING_GRP ,a.SPRINGTYPE_CODE  , a.PDSIZE_CODE , a.PDSIZE_DESC , count(*) PLAN_QTY , 0 ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
                 sql += " where a.entity = c.entity";
                 sql += " and a.req_date = c.req_date";
                 sql += " and a.wc_code = c.wc_code";
@@ -207,9 +208,9 @@ namespace api.Services
                 sql += " and a.wc_code = :p_wc_code";
                 //sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
-                sql += " group by a.req_date , a.mc_code , a.spring_grp ,a.pdsize_code , a.pdsize_desc)";
+                sql += " group by a.req_date , a.mc_code , a.spring_grp ,a.SPRINGTYPE_CODE,a.pdsize_code , a.pdsize_desc)";
                 sql += " UNION ALL ";
-                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP  , a.PDSIZE_CODE  , a.PDSIZE_DESC , 0 PLAN_QTY , count(*) ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
+                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP ,a.SPRINGTYPE_CODE , a.PDSIZE_CODE  , a.PDSIZE_DESC , 0 PLAN_QTY , count(*) ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
                 sql += " where a.entity = c.entity";
                 sql += " and a.req_date = c.req_date";
                 sql += " and a.wc_code = c.wc_code";
@@ -220,9 +221,9 @@ namespace api.Services
                 //sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " and a.mps_st = 'Y'";
-                sql += " group by a.REQ_DATE , a.mc_code , a.spring_grp  , a.pdsize_code, a.pdsize_desc)";
-                sql += " ) Group by REQ_DATE , MC_CODE ,SPRING_GRP ,PDSIZE_CODE ,PDSIZE_DESC";
-                sql += " Order  by req_date , mc_code , spring_grp ,PDSIZE_CODE,PDSIZE_DESC ";
+                sql += " group by a.REQ_DATE , a.mc_code , a.spring_grp ,a.SPRINGTYPE_CODE , a.pdsize_code, a.pdsize_desc)";
+                sql += " ) Group by REQ_DATE , MC_CODE ,SPRING_GRP ,SPRINGTYPE_CODE ,PDSIZE_CODE ,PDSIZE_DESC";
+                sql += " Order  by req_date , mc_code , spring_grp , SPRINGTYPE_CODE ,PDSIZE_CODE,PDSIZE_DESC ";
 
                 List<JobMachineReqView> jobcurrentView = ctx.Database.SqlQuery<JobMachineReqView>(sql, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code)).ToList();
                
@@ -245,6 +246,7 @@ namespace api.Services
                             pdsize_code = i.pdsize_code,
                             pdsize_desc = i.pdsize_desc,
                             spring_grp = i.spring_grp,
+                            springtype_code = i.springtype_code,
                             plan_qty = i.plan_qty,
                             actual_qty = i.actual_qty,
                             diff_qty = i.plan_qty - i.actual_qty,
@@ -318,8 +320,8 @@ namespace api.Services
                 //DateTime vreq_date = DateTime.Now;
 
                 //query data
-                string sql = "SELECT  REQ_DATE ,MC_CODE , SPRING_GRP ,PDSIZE_CODE ,PDSIZE_DESC ,sum(PLAN_QTY) PLAN_QTY , sum(ACTUAL_QTY) ACTUAL_QTY FROM (";
-                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP  , a.PDSIZE_CODE , a.PDSIZE_DESC , count(*) PLAN_QTY , 0 ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
+                string sql = "SELECT  REQ_DATE ,MC_CODE , SPRING_GRP , SPRINGTYPE_CODE,PDSIZE_CODE ,PDSIZE_DESC ,sum(PLAN_QTY) PLAN_QTY , sum(ACTUAL_QTY) ACTUAL_QTY FROM (";
+                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP , SPRINGTYPE_CODE , a.PDSIZE_CODE , a.PDSIZE_DESC , count(*) PLAN_QTY , 0 ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
                 sql += " where a.entity = c.entity";
                 sql += " and a.req_date = c.req_date";
                 sql += " and a.wc_code = c.wc_code";
@@ -329,9 +331,9 @@ namespace api.Services
                 sql += " and a.wc_code = :p_wc_code";
                 //sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
-                sql += " group by a.req_date , a.mc_code , a.spring_grp , a.pdsize_code , a.pdsize_desc)";
+                sql += " group by a.req_date , a.mc_code , a.spring_grp , a.SPRINGTYPE_CODE, a.pdsize_code , a.pdsize_desc)";
                 sql += " UNION ALL ";
-                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP , a.PDSIZE_CODE , a.PDSIZE_DESC , 0 PLAN_QTY , count(*) ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
+                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP ,a.SPRINGTYPE_CODE , a.PDSIZE_CODE , a.PDSIZE_DESC , 0 PLAN_QTY , count(*) ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
                 sql += " where a.entity = c.entity";
                 sql += " and a.req_date = c.req_date";
                 sql += " and a.wc_code = c.wc_code";
@@ -342,9 +344,9 @@ namespace api.Services
                 sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " and a.mps_st = 'Y'";
-                sql += " group by a.REQ_DATE , a.mc_code , a.spring_grp  , a.pdsize_code, a.pdsize_desc)";
-                sql += " ) Group by REQ_DATE , MC_CODE ,SPRING_GRP ,PDSIZE_CODE ,PDSIZE_DESC";
-                sql += " Order  by req_date , mc_code , spring_grp ,PDSIZE_CODE,PDSIZE_DESC ";
+                sql += " group by a.REQ_DATE , a.mc_code , a.spring_grp ,a.SPRINGTYPE_CODE , a.pdsize_code, a.pdsize_desc)";
+                sql += " ) Group by REQ_DATE , MC_CODE ,SPRING_GRP , SPRINGTYPE_CODE ,PDSIZE_CODE ,PDSIZE_DESC";
+                sql += " Order  by req_date , mc_code , spring_grp ,SPRINGTYPE_CODE ,PDSIZE_CODE,PDSIZE_DESC ";
 
                 List<JobMachineReqView> jobcurrentView = ctx.Database.SqlQuery<JobMachineReqView>(sql, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code)).ToList();
 
@@ -365,6 +367,7 @@ namespace api.Services
                         pdsize_code = i.pdsize_code,
                         pdsize_desc = i.pdsize_desc,
                         spring_grp = i.spring_grp,
+                        springtype_code = i.springtype_code,
                         plan_qty = i.plan_qty,
                         actual_qty = i.actual_qty,
                         diff_qty = i.plan_qty - i.actual_qty,
@@ -430,8 +433,8 @@ namespace api.Services
                 //DateTime vreq_date = DateTime.Now;
 
                 //query data
-                string sql = "SELECT REQ_DATE , MC_CODE , SPRING_GRP ,PDSIZE_CODE ,PDSIZE_DESC ,sum(PLAN_QTY) PLAN_QTY , sum(ACTUAL_QTY) ACTUAL_QTY FROM (";
-                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP , a.PDSIZE_CODE , a.PDSIZE_DESC , count(*) PLAN_QTY , 0 ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
+                string sql = "SELECT REQ_DATE , MC_CODE , SPRING_GRP ,SPRINGTYPE_CODE,PDSIZE_CODE ,PDSIZE_DESC ,sum(PLAN_QTY) PLAN_QTY , sum(ACTUAL_QTY) ACTUAL_QTY FROM (";
+                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP , SPRINGTYPE_CODE , a.PDSIZE_CODE , a.PDSIZE_DESC , count(*) PLAN_QTY , 0 ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
                 sql += " where a.entity = c.entity";
                 sql += " and a.req_date = c.req_date";
                 sql += " and a.wc_code = c.wc_code";
@@ -441,9 +444,9 @@ namespace api.Services
                 sql += " and a.wc_code = :p_wc_code";
                 sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
-                sql += " group by a.req_date , a.mc_code , a.SPRING_GRP , a.pdsize_code , a.pdsize_desc)";
+                sql += " group by a.req_date , a.mc_code , a.SPRING_GRP , a.SPRINGTYPE_CODE , a.pdsize_code , a.pdsize_desc)";
                 sql += " UNION ALL ";
-                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP  , a.PDSIZE_CODE , a.PDSIZE_DESC , 0 PLAN_QTY , count(*) ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
+                sql += " (select  a.REQ_DATE , a.MC_CODE , a.SPRING_GRP , a.SPRINGTYPE_CODE , a.PDSIZE_CODE , a.PDSIZE_DESC , 0 PLAN_QTY , count(*) ACTUAL_QTY from MPS_DET_IN_PROCESS a , MPS_DET_WC c";
                 sql += " where a.entity = c.entity";
                 sql += " and a.req_date = c.req_date";
                 sql += " and a.wc_code = c.wc_code";
@@ -454,9 +457,9 @@ namespace api.Services
                 sql += " and c.mps_st <> 'OCL'";
                 sql += " and a.mc_code = :p_mc_code";
                 sql += " and a.mps_st = 'Y'";
-                sql += " group by a.req_date , a.mc_code , a.SPRING_GRP , a.pdsize_code , a.pdsize_desc )";
-                sql += " ) Group by REQ_DATE,  MC_CODE ,SPRING_GRP , PDSIZE_CODE ,PDSIZE_DESC";
-                sql += " Order  by req_date , mc_code , SPRING_GRP , PDSIZE_CODE ,PDSIZE_DESC  ";
+                sql += " group by a.req_date , a.mc_code , a.SPRING_GRP , a.SPRINGTYPE_CODE, a.pdsize_code , a.pdsize_desc )";
+                sql += " ) Group by REQ_DATE,  MC_CODE ,SPRING_GRP ,SPRINGTYPE_CODE, PDSIZE_CODE ,PDSIZE_DESC";
+                sql += " Order  by req_date , mc_code , SPRING_GRP ,SPRINGTYPE_CODE, PDSIZE_CODE ,PDSIZE_DESC  ";
 
                 List<JobMachineReqView> jobcurrentView = ctx.Database.SqlQuery<JobMachineReqView>(sql, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code)).ToList();
 
@@ -489,6 +492,7 @@ namespace api.Services
                         pdsize_code = i.pdsize_code,
                         pdsize_desc = i.pdsize_desc,
                         spring_grp = i.spring_grp,
+                        springtype_code = i.springtype_code,
                         plan_qty = i.plan_qty,
                         actual_qty = i.actual_qty,
                         diff_qty = i.plan_qty - i.actual_qty,

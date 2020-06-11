@@ -69,6 +69,7 @@ export class ProductionCancelComponent implements OnInit {
     this.searchModel.mc_code = this.user.mc_code;
     this.searchModel.user_id = this.user.username;
     this.searchModel.spring_grp = this._actRoute.snapshot.params.spring_grp;
+    this.searchModel.springtype_code = this._actRoute.snapshot.params.springtype_code;
     this.searchModel.size_code = this._actRoute.snapshot.params.size_code;
    
 

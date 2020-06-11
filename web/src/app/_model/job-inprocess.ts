@@ -10,6 +10,7 @@ export class JobInProcessSearchView {
     public mc_code : string = "";  
     public user_id : string = "";  
     public spring_grp : string = "";  
+    public springtype_code : string = "";  
     public size_code : string = "";  
 }
 
@@ -50,6 +51,7 @@ export class DataEntrySearchView
     public mc_code : string = "";  
     public user_id : string = "";  
     public spring_grp : string = "";  
+    public springtype_code : string = "";  
     public size_code : string = "";  
     public qty : number = 1;  
 }

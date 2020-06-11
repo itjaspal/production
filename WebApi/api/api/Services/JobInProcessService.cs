@@ -29,9 +29,9 @@ namespace api.Services
 
                 //DateTime vreq_date = Convert.ToDateTime(model.req_date);
 
-                string sqlp = "select pcs_barcode , spring_grp springtype_code , pdsize_desc ,prod_code";
+                string sqlp = "select pcs_barcode , springtype_code , pdsize_desc ,prod_code";
                 sqlp += " from mps_det_in_process";
-                sqlp += " where spring_grp = :p_spring_grp";
+                sqlp += " where springtype_code = :p_spring_grp";
                 sqlp += " and pdsize_code =  :p_size_code";
                 sqlp += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sqlp += " and entity = :p_entity";
@@ -162,9 +162,9 @@ namespace api.Services
                 string vspring_grp = strlist[0];
                 string vsize_code = strlist[1];
 
-                string sqlp = "select pcs_barcode , spring_grp springtype_code , pdsize_desc ,prod_code";
+                string sqlp = "select pcs_barcode , springtype_code , pdsize_desc ,prod_code";
                 sqlp += " from mps_det_in_process";
-                sqlp += " where spring_grp = :p_spring_grp";
+                sqlp += " where springtype_code = :p_spring_grp";
                 sqlp += " and pdsize_code =  :p_size_code";
                 sqlp += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sqlp += " and entity = :p_entity";
@@ -173,7 +173,7 @@ namespace api.Services
                 sqlp += " and mps_st =  'N'";
                 sqlp += " and rownum = 1";
 
-                JobInProcessView mps_in_process = ctx.Database.SqlQuery<JobInProcessView>(sqlp, new OracleParameter("p_spring_grp", vspring_grp) ,new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code)).FirstOrDefault();
+                JobInProcessView mps_in_process = ctx.Database.SqlQuery<JobInProcessView>(sqlp, new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code)).FirstOrDefault();
 
                 if (mps_in_process == null)
                 {
@@ -484,6 +484,7 @@ namespace api.Services
                 var vmc_code = model.mc_code;
                 var vuser_id = model.user_id;
                 var vspring_grp = model.spring_grp;
+                var vspringtype_code = model.springtype_code;
                 var vsize_code = model.size_code;
                 var vqty = model.qty;
 
@@ -504,9 +505,10 @@ namespace api.Services
                 sqlc += " and mc_code = :p_mc_code";
                 sqlc += " and pdsize_code = :p_size_code";
                 sqlc += " and spring_grp = :p_spring_grp";
+                sqlc += " and springtype_code = :p_springtype_code";
                 sqlc += " and mps_st='N'";
 
-                int cnt = ctx.Database.SqlQuery<int>(sqlc, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp)).FirstOrDefault(); ;
+                int cnt = ctx.Database.SqlQuery<int>(sqlc, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_springtype_code", vspringtype_code)).FirstOrDefault(); ;
 
 
                 if (vqty > cnt)
@@ -518,6 +520,7 @@ namespace api.Services
                 string sqlp = "select pcs_barcode , spring_grp springtype_code , pdsize_desc ,prod_code";
                 sqlp += " from mps_det_in_process";
                 sqlp += " where spring_grp = :p_spring_grp";
+                sqlp += " and springtype_code =  :p_springtype_code";
                 sqlp += " and pdsize_code =  :p_size_code";
                 sqlp += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sqlp += " and entity = :p_entity";
@@ -526,7 +529,7 @@ namespace api.Services
                 sqlp += " and mps_st =  'N'";
                 sqlp += " and rownum <= :p_qty";
 
-                List<JobInProcessScanView> mps_in_process = ctx.Database.SqlQuery<JobInProcessScanView>(sqlp, new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code), new OracleParameter("p_qty", vqty)).ToList() ;
+                List<JobInProcessScanView> mps_in_process = ctx.Database.SqlQuery<JobInProcessScanView>(sqlp, new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_springtype_code", vspringtype_code), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code), new OracleParameter("p_qty", vqty)).ToList() ;
 
 
                
@@ -549,12 +552,13 @@ namespace api.Services
                         new OracleParameter("p_mc_code", vmc_code),
                         new OracleParameter("p_size_code", vsize_code),
                         new OracleParameter("p_spring_grp", vspring_grp),
+                        new OracleParameter("p_springtype_code", vspringtype_code),
                         new OracleParameter("p_user_id", vuser_id),
                         new OracleParameter("p_qty", vqty)
                     };
                     oraCommand.BindByName = true;
                     oraCommand.Parameters.AddRange(param);
-                    oraCommand.CommandText = "update MPS_DET_IN_PROCESS set mps_st='Y' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and wc_code =:p_wc_code and mc_code = :p_mc_code and pdsize_code = :p_size_code and spring_grp = :p_spring_grp and mps_st='N' and rownum <= :p_qty ";
+                    oraCommand.CommandText = "update MPS_DET_IN_PROCESS set mps_st='Y' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and wc_code =:p_wc_code and mc_code = :p_mc_code and pdsize_code = :p_size_code and spring_grp = :p_spring_grp and springtype_code = :p_springtype_code and mps_st='N' and rownum <= :p_qty ";
 
                     //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
                     oraCommand.ExecuteNonQuery();
@@ -664,6 +668,7 @@ namespace api.Services
                 var vmc_code = model.mc_code;
                 var vuser_id = model.user_id;
                 var vspring_grp = model.spring_grp;
+                var vspringtype_code = model.springtype_code;
                 var vsize_code = model.size_code;
                 var vqty = model.qty;
 
@@ -684,9 +689,10 @@ namespace api.Services
                 sqlc += " and mc_code = :p_mc_code";
                 sqlc += " and pdsize_code = :p_size_code";
                 sqlc += " and spring_grp = :p_spring_grp";
+                sqlc += " and springtype_code = :p_springtype_code";
                 sqlc += " and mps_st='Y'";
 
-                int cnt = ctx.Database.SqlQuery<int>(sqlc, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp)).FirstOrDefault(); ;
+                int cnt = ctx.Database.SqlQuery<int>(sqlc, new OracleParameter("p_entity", ventity), new OracleParameter("p_req_date", vreq_date), new OracleParameter("p_wc_code", vwc_code), new OracleParameter("p_mc_code", vmc_code), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_springtype_code", vspringtype_code)).FirstOrDefault(); ;
 
 
                 if (vqty > cnt)
@@ -697,6 +703,7 @@ namespace api.Services
                 string sqlp = "select pcs_barcode , spring_grp springtype_code , pdsize_desc ,prod_code";
                 sqlp += " from mps_det_in_process";
                 sqlp += " where spring_grp = :p_spring_grp";
+                sqlp += " and springtype_code = :p_springtype_code";
                 sqlp += " and pdsize_code =  :p_size_code";
                 sqlp += " and req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sqlp += " and entity = :p_entity";
@@ -705,7 +712,7 @@ namespace api.Services
                 sqlp += " and mps_st =  'Y'";
                 sqlp += " and rownum <= :p_qty";
 
-                List<JobInProcessScanView> mps_in_process = ctx.Database.SqlQuery<JobInProcessScanView>(sqlp, new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code), new OracleParameter("p_qty", vqty)).ToList();
+                List<JobInProcessScanView> mps_in_process = ctx.Database.SqlQuery<JobInProcessScanView>(sqlp, new OracleParameter("p_spring_grp", vspring_grp), new OracleParameter("p_springtype_code", vspringtype_code), new OracleParameter("p_size_code", vsize_code), new OracleParameter("p_req_date", model.req_date), new OracleParameter("p_entity", model.entity), new OracleParameter("p_wc_code", model.wc_code), new OracleParameter("p_mc_code", model.mc_code), new OracleParameter("p_qty", vqty)).ToList();
 
 
 
@@ -726,12 +733,13 @@ namespace api.Services
                         new OracleParameter("p_mc_code", vmc_code),
                         new OracleParameter("p_size_code", vsize_code),
                         new OracleParameter("p_spring_grp", vspring_grp),
+                        new OracleParameter("p_springtype_code", vspringtype_code),
                         new OracleParameter("p_user_id", vuser_id),
                         new OracleParameter("p_qty", vqty)
                     };
                     oraCommand.BindByName = true;
                     oraCommand.Parameters.AddRange(param);
-                    oraCommand.CommandText = "update MPS_DET_IN_PROCESS set mps_st='N' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and wc_code =:p_wc_code and mc_code = :p_mc_code and pdsize_code = :p_size_code and spring_grp = :p_spring_grp and mps_st='Y' and rownum <= :p_qty ";
+                    oraCommand.CommandText = "update MPS_DET_IN_PROCESS set mps_st='N' , fin_by =:p_user_id , fin_date = SYSDATE , upd_by =:p_user_id , upd_date = SYSDATE where entity = :p_entity and req_date = to_date(:p_req_date,'dd/mm/yyyy') and wc_code =:p_wc_code and mc_code = :p_mc_code and pdsize_code = :p_size_code and spring_grp = :p_spring_grp  and springtype_code = :p_springtype_code and mps_st='Y' and rownum <= :p_qty ";
 
                     //oraCommand.ExecuteReader(CommandBehavior.SingleRow);
                     oraCommand.ExecuteNonQuery();

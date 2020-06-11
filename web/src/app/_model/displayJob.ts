@@ -17,6 +17,7 @@ export class DisplayJobView {
     public pdsize_code: string = "";
     public pdsize_desc: string = "";
     public spring_grp: string = "";
+    public springtype_code: string = "";
     public plan_qty: number;
     public actual_qty: number;
     public diff_qty: number; 
