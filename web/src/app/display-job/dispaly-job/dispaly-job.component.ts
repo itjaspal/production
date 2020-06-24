@@ -56,7 +56,7 @@ export class DispalyJobComponent implements OnInit {
       this.dataCurrent.datas  = [];
 
       this.dataCurrent =  await this._displayJobMacSvc.searchJobByMacCurrent(this.model);
-      console.log(this.dataCurrent);
+
       
    }  
 
@@ -96,7 +96,7 @@ export class DispalyJobComponent implements OnInit {
     
   }
 
-  getSumTotal(pViewData: string, pSumType: string, pReqDate: string, pSpringGrp: string) : number {
+  getSumTotal(pViewData: string, pSumType: string, pReqDate: string, pSpringGrp: string, pSpringType: string) : number {
      var  vReqDate = this.datePipe.transform(pReqDate, 'dd/MM/yyyy');
      var  vSumTotal : number = 0;
      //console.log(" vReqDate : " + vReqDate);
