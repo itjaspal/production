@@ -601,7 +601,7 @@ namespace api.Services
                 sql += " select c.ENTITY , c.REQ_DATE  , b.SPRING_TYPE as SPRINGTYPE_CODE, c.PDSIZE_CODE , c.PDSIZE_DESC  , sum(1) as PLAN_QTY , 0 as INACT_QTY , 0 as QP_QTY , 0 as ACT_QTY";
                 sql += " from PDMODEL_MAST b ,MPS_DET_WC c";
                 sql += " where c.entity =  :p_entity";
-                sql += " and trunc(c.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";
+                sql += " and c.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sql += " and c.wc_code =  :p_wc_code";
                 sql += " and c.pddsgn_code = b.pdmodel_code";
                 //sql += " and a.entity = c.entity";
@@ -612,7 +612,7 @@ namespace api.Services
                 sql += " UNION";
                 sql += " select c.ENTITY , c.REQ_DATE , b.SPRING_TYPE as SPRINGTYPE_CODE, c.PDSIZE_CODE , c.PDSIZE_DESC , 0 as PLAN_QTY , sum(1) as INACT_QTY ,0 as QP_QTY ,0 as ACT_QTY";
                 sql += " from PDMODEL_MAST b, MPS_DET_WC c";
-                sql += " where trunc(c.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";
+                sql += " where c.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sql += " and c.entity = :p_entity";
                 sql += " and c.wc_code =  :p_wc_code";
                 sql += " and c.pddsgn_code = b.pdmodel_code";
@@ -625,7 +625,7 @@ namespace api.Services
                 sql += " UNION";
                 sql += " select c.ENTITY , c.REQ_DATE , b.SPRING_TYPE as SPRINGTYPE_CODE , c.PDSIZE_CODE , c.PDSIZE_DESC ,0 as PLAN_QTY  ,0 as INACT_QTY  ,sum(1) as QP_QTY ,0 as ACT_QTY";
                 sql += " FROM PDMODEL_MAST b,MPS_DET_WC c";
-                sql += " where trunc(c.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";
+                sql += " where c.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sql += " and c.entity = :p_entity";
                 sql += " and c.pddsgn_code = b.pdmodel_code";
                 //sql += " and a.entity = c.entity";
@@ -637,7 +637,7 @@ namespace api.Services
                 sql += " UNION";
                 sql += " select c.ENTITY , c.REQ_DATE , b.SPRING_TYPE as SPRINGTYPE_CODE , c.PDSIZE_CODE , c.PDSIZE_DESC , 0 as PLAN_QTY  ,0 as INACT_QTY ,0 as QP_QTY ,sum(1) as  ACT_QTY";
                 sql += " from PDMODEL_MAST b,MPS_DET_WC c";
-                sql += " where trunc(c.req_date) = to_date(:p_req_date,'dd/mm/yyyy')";
+                sql += " where c.req_date = to_date(:p_req_date,'dd/mm/yyyy')";
                 sql += " and c.entity = :p_entity";
                 sql += " and c.pddsgn_code = b.pdmodel_code";
                 //sql += " and a.entity = c.entity";
