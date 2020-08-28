@@ -93,7 +93,7 @@ export class PrintTagComponent implements OnInit {
 
   }
   
-
+  
   openSearchRawModal()
   {
     const dialogRef = this._dialog.open(RawmatSearchComponent, {
@@ -102,6 +102,9 @@ export class PrintTagComponent implements OnInit {
       height: '100%',
       width: '100%',
       data: {
+
+
+        
         process_tag_no: this.datas.process_tag_no
       }
 
